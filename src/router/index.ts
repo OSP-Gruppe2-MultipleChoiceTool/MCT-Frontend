@@ -12,6 +12,16 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import("@/views/NotFoundView.vue"),
+    },
+    {
+      path: '/create-question',
+      name: '',
+      component: () => import("@/views/CreateQuestionView.vue"),
+    },
+    {
+      path: '/create-form',
+      name: '',
+      component: () => import("../components/ui/QuestionFormComponent.vue"),
     }
   ],
 })
