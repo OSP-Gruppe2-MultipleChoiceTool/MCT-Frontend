@@ -1,7 +1,7 @@
 <template>
-  <main>
+  <main class="w-full h-full">
     <h1 class="text-3xl font-bold underline">
-      Hello world!
+      Lellek
     </h1>
   </main>
 </template>
