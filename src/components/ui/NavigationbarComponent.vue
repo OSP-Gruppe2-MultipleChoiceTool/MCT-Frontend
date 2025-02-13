@@ -1,9 +1,9 @@
 <template>
   <header class="bg-[#1A2238] w-full h-full">
-    <div class="h-full flex items-center pl-5">
+    <div class="h-full flex items-center pl-1">
       <icon-quiz-maker />
 
-      <p id="logo-text" class="pl-2 text-gray-200">QuizMaker</p>
+      <p id="logo-text" class="pl-2 text-[#FF6A3D]">QuizMaker</p>
     </div>
   </header>
 </template>
