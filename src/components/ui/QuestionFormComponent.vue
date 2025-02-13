@@ -1,40 +1,38 @@
 <template>
-  <div class="container">
+  <div class="flex flex-col bg-blue-200 w-md absolute">
     <div class="item__question">
       <h2>Neue Frage hinzufügen</h2>
       <div class="select__question">
-        <label for="questionType">Fragetype</label>
-        <select id="questionType">
-          <option value="i">I</option>
-          <option value="like">Like</option>
-          <option value="to">To</option>
-          <option value="move">Move</option>
-          <option value="it">IT</option>
-        </select>
+        <dropdown-component class="w-full"/>
+
       </div>
       <label for="explanation">Erklärung</label>
-      <textarea id="explanation" rows="3"></textarea>
+      <searchbar-component class="w-full"  :is-text-area="true" />
     </div>
     <div class="button__bildHochladen">
       <icon-upload/>
       <input type="file" placeholder="Bild hochladen">
       <button>Bild hochladen</button>
-
     </div>
     <div id="options">
       <div class="option">
-        <input type="radio" name="answer">
-        <input type="text" placeholder="Option 1">
+        <input type="checkbox" name="answer" class="accent-[#FF6A3D]">
+        <searchbar-component class="w-5/6" />
         <span class="delete" >🗑</span>
       </div>
       <div class="option">
-        <input type="radio" name="answer">
-        <input type="text" placeholder="Option 2">
+        <input type="checkbox" name="answer" class="accent-[#FF6A3D] p-20">
+        <searchbar-component class="w-5/6" />
         <span class="delete" >🗑</span>
       </div>
       <div class="option">
-        <input type="radio" name="answer">
-        <input type="text" placeholder="Option 3">
+        <input type="checkbox" name="answer" class="accent-[#FF6A3D]">
+        <searchbar-component class="w-5/6" />
+        <span class="delete" >🗑</span>
+      </div>
+      <div class="option">
+        <input type="checkbox" name="answer" class="accent-[#FF6A3D]">
+        <searchbar-component class="w-5/6" />
         <span class="delete" >🗑</span>
       </div>
     </div>
@@ -55,22 +53,18 @@
     </div>
   </div>
 </template>
+
+
 <script setup lang="ts">
 import IconShuffle from '@/components/icons/IconShuffle.vue';
 import IconUpload from '@/components/icons/IconUpload.vue'
+import DropdownComponent from '@/components/ui/DropdownComponent.vue'
+import SearchbarComponent from '@/components/ui/SearchbarComponent.vue'
+
 </script>
 
 <style scoped>
-.container {
-  min-width: 768px;
-  min-height: 988px;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  color: black;
-}
+
 
 .container h2 {
   font-size: 1.475rem;
@@ -78,10 +72,6 @@ import IconUpload from '@/components/icons/IconUpload.vue'
   padding-bottom: 20px;
 }
 
-.item__question {
-  display: flex;
-  flex-direction: column;
-}
 .option {
   display: flex;
   align-items: center;
@@ -92,10 +82,6 @@ import IconUpload from '@/components/icons/IconUpload.vue'
   background-color: #1A2238;
   color: #FF6A3D;
 
-}
-
-textarea {
-  background-color: #e7e7e7;
 }
 
 .button__bildHochladen {
@@ -109,12 +95,21 @@ textarea {
   margin-left: 10px;
 }
 
+.option p {
+  padding-right: 20px;
+}
+
+
 .select__question label {
   display: block;
 }
 
 select {
   width: 100%;
+}
+
+.options input {
+  padding-right: 20px;
 }
 
 .buttons {
@@ -142,9 +137,13 @@ button span svg {
 .button__shuffle {
   display: flex;
 }
+
+.buttons {
+  height: 45%;
+  align-items: flex-end;
+}
 .delete {
   color: red;
   cursor: pointer;
 }
-
 </style>
