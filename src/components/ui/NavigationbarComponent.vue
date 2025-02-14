@@ -3,7 +3,7 @@
     <div class="h-full flex items-center pl-1">
       <icon-quiz-maker />
 
-      <p id="logo-text" class="pl-2 text-[#FF6A3D]">QuizMaker</p>
+      <p id="logo-text" class="pl-2 text-main-orange">QuizMaker</p>
     </div>
   </header>
 </template>

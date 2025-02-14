@@ -8,32 +8,28 @@
       <div class="w-full flex justify-between">
         <div class="flex gap-x-2">
           <button-component
-            background-color="bg-gray-300 hover:bg-[#1A2238]"
-            text-color="hover:text-gray-300"
-          >
+            background-color="bg-gray-300 hover:bg-gray-500"
+            text-color="hover:text-gray-300">
             <icon-edit-square />
             Import CSV
           </button-component>
           <button-component
-            background-color="bg-gray-300 hover:bg-[#1A2238]"
-            text-color="hover:text-gray-300"
-          >
+            background-color="bg-gray-300 hover:bg-gray-500"
+            text-color="hover:text-gray-300">
             <icon-edit-square />
             Export
           </button-component>
           <button-component
-            background-color="bg-gray-300 hover:bg-[#1A2238]"
-            text-color="hover:text-gray-300"
-          >
+            background-color="bg-gray-300 hover:bg-gray-500"
+            text-color="hover:text-gray-300">
             <icon-edit-square />
             Share
           </button-component>
         </div>
         <div class="flex gap-x-2 ml-auto">
           <button-component
-            background-color="bg-[#1A2238] hover:bg-[#FF6A3D]"
-            text-color="text-gray-300 hover:text-[#1A2238]"
-          >
+            background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
+            text-color="text-gray-300 hover:text-main-blue">
             <icon-plus />
             Neue Frage
           </button-component>

@@ -1,2 +1,6 @@
-@import './base.css';
 @import "tailwindcss";
+
+@theme {
+    --color-main-blue: #1A2238;
+    --color-main-orange: #FF6A3D;
+}

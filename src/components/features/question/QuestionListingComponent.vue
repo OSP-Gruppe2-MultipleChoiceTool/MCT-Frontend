@@ -1,11 +1,11 @@
 <template>
-  <article class="w-full bg-gray-100 rounded px-3 py-1 flex flex-col justify-around relative">
+  <article class="w-full bg-gray-100 dark:bg-gray-300 rounded px-3 py-1 flex flex-col justify-around relative">
     <div class="absolute bg-gray-500/50 rounded-full -top-2 -left-2 text-lg p-0.5">
-      <icon-check class="text-gray-500 hover:text-[#FF6A3D]" />
+      <icon-check class="text-gray-500 hover:text-main-orange" />
     </div>
     <div class="absolute top-2 right-2 flex">
-      <icon-edit-square class="hover:text-[#FF6A3D] cursor-pointer" />
-      <icon-trash-bin class="hover:text-[#FF6A3D] cursor-pointer" />
+      <icon-edit-square class="hover:text-main-orange cursor-pointer" />
+      <icon-trash-bin class="hover:text-main-orange cursor-pointer" />
     </div>
     <div class="flex gap-2 items-center text-xs">
       <p class="bg-gray-200 px-3 py-1 rounded-full">Programmierung</p>
