@@ -5,7 +5,10 @@
     </div>
     <div class="absolute top-2 right-2 flex">
       <icon-edit-square class="hover:text-main-orange cursor-pointer" />
-      <icon-trash-bin class="hover:text-main-orange cursor-pointer" />
+      <icon-trash-bin
+        class="hover:text-main-orange cursor-pointer"
+        @click="showDeleteModal = !showDeleteModal"
+      />
     </div>
     <div class="flex gap-2 items-center text-xs">
       <p class="bg-gray-200 px-3 py-1 rounded-full">{{ props.type }}</p>
@@ -18,6 +21,12 @@
       <p class="pr-2">Optionen: {{ props.options.length }}</p>
       <p>Erstellt: {{ props.created.toLocaleDateString('de-DE') }}</p>
     </div>
+
+    <modal-delete-confirmation-component
+      v-show="showDeleteModal"
+      @close="showDeleteModal = false"
+      @submit="handleDeleteSubmit()"
+    />
   </article>
 </template>
 
@@ -26,7 +35,9 @@ import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 import { type Option } from '@/stores/question.ts'
-import type { PropType } from 'vue'
+import { type PropType, ref } from 'vue'
+import ModalDeleteConfirmationComponent
+  from '@/components/ui/modal/ModalDeleteConfirmationComponent.vue'
 
 const props = defineProps({
   id: {
@@ -50,6 +61,14 @@ const props = defineProps({
     type: Date
   }
 });
+
+const showDeleteModal = ref<Boolean>(false);
+const showEditModal = ref<boolean>(false);
+
+const handleDeleteSubmit = (): void => {
+  showDeleteModal.value = false;
+  // TODO: Handle delete
+}
 </script>
 
 <style scoped>

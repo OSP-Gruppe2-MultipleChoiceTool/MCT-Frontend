@@ -39,7 +39,7 @@
 
     <div>
       <question-list-item-component
-        class="max-h-[1/6] my-2"
+        class="my-2"
         v-for="question in questionStore.getQuestions()"
         :id="question.id" :type="typeStore.getTypeById(question.id).name"
         :description="question.description" :options="question.options"
