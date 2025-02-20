@@ -1,3 +1,6 @@
+/**
+ * URLs based on Swagger API
+ */
 export abstract class ApiEndpoints {
     public static readonly QUESTIONAIRES = '/api/questionaires';  // Liste aller Fragebögen
     public static readonly QUESTIONAIRE_BY_ID = '/api/questionaires/{questionaireId}';
