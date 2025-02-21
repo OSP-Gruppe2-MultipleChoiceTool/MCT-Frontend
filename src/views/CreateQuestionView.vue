@@ -1,12 +1,12 @@
 <script setup lang="ts">
-
+import QuestionFormComponent from '@/components/ui/QuestionFormComponent.vue';
 </script>
 
 <template>
-  <create-question-form></create-question-form>
+  <question-form-component></question-form-component>
 </template>
 
 <style scoped>
-import CreateQuestionForm from "./components/CreateQuestionForm";
+
 
 </style>

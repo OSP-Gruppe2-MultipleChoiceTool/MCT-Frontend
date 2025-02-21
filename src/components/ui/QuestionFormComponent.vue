@@ -1,13 +1,17 @@
 <template>
-  <div class="flex flex-col bg-blue-200 w-md absolute">
+  <div class="card">
     <div class="item__question">
       <h2>Neue Frage hinzufügen</h2>
       <div class="select__question">
-        <dropdown-component class="w-full"/>
-
+        <span>Question Type:</span>
+        <dropdown-component class=""/>
+      </div>
+      <div class="question">
+        <span>Frage</span>
+        <searchbar-component class="" />
       </div>
       <label for="explanation">Erklärung</label>
-      <searchbar-component class="w-full"  :is-text-area="true" />
+      <searchbar-component class=""  :is-text-area="true" />
     </div>
     <div class="button__bildHochladen">
       <icon-upload/>
@@ -17,22 +21,22 @@
     <div id="options">
       <div class="option">
         <input type="checkbox" name="answer" class="accent-[#FF6A3D]">
-        <searchbar-component class="w-5/6" />
+        <searchbar-component class="" />
         <span class="delete" >🗑</span>
       </div>
       <div class="option">
         <input type="checkbox" name="answer" class="accent-[#FF6A3D] p-20">
-        <searchbar-component class="w-5/6" />
+        <searchbar-component class="" />
         <span class="delete" >🗑</span>
       </div>
       <div class="option">
         <input type="checkbox" name="answer" class="accent-[#FF6A3D]">
-        <searchbar-component class="w-5/6" />
+        <searchbar-component class="" />
         <span class="delete" >🗑</span>
       </div>
       <div class="option">
         <input type="checkbox" name="answer" class="accent-[#FF6A3D]">
-        <searchbar-component class="w-5/6" />
+        <searchbar-component class="" />
         <span class="delete" >🗑</span>
       </div>
     </div>
@@ -72,10 +76,17 @@ import SearchbarComponent from '@/components/ui/SearchbarComponent.vue'
   padding-bottom: 20px;
 }
 
+.item__question h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding: 2rem 0;
+}
+
 .option {
   display: flex;
   align-items: center;
   margin-top: 10px;
+  gap: 10px;
 }
 
 .buttons button{
@@ -87,7 +98,9 @@ import SearchbarComponent from '@/components/ui/SearchbarComponent.vue'
 .button__bildHochladen {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+  padding: 1rem 0;
+
 }
 .option input[type="text"] {
   flex: 1;
@@ -99,6 +112,10 @@ import SearchbarComponent from '@/components/ui/SearchbarComponent.vue'
   padding-right: 20px;
 }
 
+
+.select__question {
+  padding-bottom: 10px;
+}
 
 .select__question label {
   display: block;
@@ -114,7 +131,8 @@ select {
 
 .buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 30px;
   margin-top: 20px;
 }
 button {
@@ -139,11 +157,15 @@ button span svg {
 }
 
 .buttons {
-  height: 45%;
-  align-items: flex-end;
+  align-self: flex-end;
 }
 .delete {
   color: red;
   cursor: pointer;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
 }
 </style>
