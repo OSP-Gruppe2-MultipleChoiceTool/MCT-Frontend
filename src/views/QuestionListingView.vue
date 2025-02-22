@@ -2,7 +2,7 @@
   <main class="w-full py-4 overflow-y-auto">
     <div class="flex flex-col gap-y-3 pb-3">
       <div class="w-full flex items-center pb-5 pt-2 gap-x-5 max-h-10">
-        <searchbar-component class="w-5/6" />
+        <input-text-field-component class="w-5/6" />
         <dropdown-component
           class="w-1/6"
           :elements="typeStore.getTypes().map(type => type.name)"
@@ -64,7 +64,7 @@
 import { ref } from 'vue'
 import QuestionListItemComponent from '@/components/features/question/QuestionListItemComponent.vue'
 import ModalCreateQuestionComponent from '@/components/ui/modal/ModalCreateQuestionComponent.vue'
-import SearchbarComponent from '@/components/ui/SearchbarComponent.vue'
+import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import DropdownComponent from '@/components/ui/DropdownComponent.vue'
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'

@@ -5,12 +5,12 @@
       <icon-check :class="{ 'hidden': !isChecked }" />
     </span>
   </label>
-  <searchbar-component />
+  <input-text-field-component />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import SearchbarComponent from '@/components/ui/SearchbarComponent.vue'
+import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 
 const isChecked = ref<boolean>(false);
