@@ -1,7 +1,7 @@
 <template>
   <modal-wrapper>
     <div
-      class="w-[250px] flex flex-col p-4 relative items-center justify-center bg-main-blue border border-gray-800 shadow-lg rounded-2xl"
+      class="w-full h-full flex flex-col p-4 items-center justify-center bg-gray-200 dark:bg-main-blue border border-gray-800 shadow-lg rounded-2xl text-main-blue"
     >
       <div class="flex flex-col">
         <div class="text-center p-3 flex-auto justify-center">
@@ -17,12 +17,12 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-          <h2 class="text-xl font-bold py-4 text-gray-200">Bist du dir sicher?</h2>
-          <p class="text-sm text-gray-400 px-2">
+          <h2 class="text-xl font-bold py-4">Bist du dir sicher?</h2>
+          <p class="text-sm px-2">
             Die Aktion kann nicht rückgängig gemacht werden
           </p>
         </div>
-        <div class="p-2 mt-2 text-center flex gap-x-2">
+        <div class="flex justify-around p-2 mt-2 text-center gap-x-2">
           <button
             @click="emits('close')"
             class="mb-2 md:mb-0 bg-gray-700 px-5 py-2 text-sm shadow-sm font-medium tracking-widest border-2 border-gray-600 hover:border-gray-700 text-gray-300 rounded-full hover:shadow-lg hover:bg-gray-800 transition ease-in duration-300"

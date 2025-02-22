@@ -21,13 +21,13 @@
       <p class="pr-2">Optionen: {{ props.options.length }}</p>
       <p>Erstellt: {{ props.created.toLocaleDateString('de-DE') }}</p>
     </div>
-
-    <modal-delete-confirmation-component
-      v-show="showDeleteModal"
-      @close="showDeleteModal = false"
-      @submit="handleDeleteSubmit()"
-    />
   </article>
+
+  <modal-delete-confirmation-component
+    v-show="showDeleteModal"
+    @close="showDeleteModal = false"
+    @submit="handleDeleteSubmit()"
+  />
 </template>
 
 <script setup lang="ts">
