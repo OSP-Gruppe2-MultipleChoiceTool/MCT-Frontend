@@ -1,6 +1,6 @@
 <template>
   <modal-wrapper>
-    <div class="relative w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-16 overflow-y-auto text-gray-300">
+    <div class="w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-16 overflow-y-auto dark:text-gray-300 text-main-blue">
       <div class="flex flex-col gap-y-2">
         <p class="text-xl font-bold pb-2 pt-3">Neue Frage hinzufügen</p>
         <div class="flex flex-col gap-y-2">
@@ -18,7 +18,7 @@
         <searchbar-component class="h-50" :is-text-area="true" />
       </div>
       <div class="flex justify-between items-center gap-x-2">
-        <icon-upload class="text-gray-300" />
+        <icon-upload />
         <input type="file" id="fileInput" class="hidden" @change="handleFileInputChange">
         <label for="fileInput" class="w-full cursor-pointer inline-flex items-center bg-gray-300 text-slate-900 py-2 px-4 rounded-lg">
           {{ fileName ?? 'Bild hochladen...'}}
@@ -41,9 +41,27 @@
           Mischen
         </button>
       </div>
-      <div class="absolute right-0 bottom-0 p-5 flex gap-x-4">
-        <button class="p-2 bg-gray-300 text-main-blue dark:bg-gray-900 dark:text-gray-300 rounded-lg" @click="emits('close')">Abbrechen</button>
-        <button class="p-2 bg-main-blue dark:bg-gray-300 dark:text-main-blue rounded-lg">Frage speichern</button>
+      <div class="pt-10 -mr-10 flex justify-end gap-x-4">
+        <button
+          class="
+            p-2 rounded-lg
+            bg-gray-300 hover:bg-main-orange text-main-blue
+            dark:bg-gray-900 dark:text-gray-300
+            cursor-pointer
+          "
+          @click="emits('close')">
+          Abbrechen
+        </button>
+        <button
+          class="
+            p-2 rounded-lg
+            bg-main-blue hover:bg-main-orange text-gray-300
+            dark:bg-gray-300 dark:text-main-blue dark:text-main-blue
+            cursor-pointer
+          "
+          @click="">
+          Frage speichern
+        </button>
       </div>
     </div>
   </modal-wrapper>
