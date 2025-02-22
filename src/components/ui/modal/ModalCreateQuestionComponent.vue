@@ -1,6 +1,6 @@
 <template>
   <modal-wrapper>
-    <div class="w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-16 overflow-y-auto dark:text-gray-300 text-main-blue">
+    <div class="w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-8 sm:px-16 overflow-y-auto dark:text-gray-300 text-main-blue">
       <div class="flex flex-col gap-y-2">
         <p class="text-xl font-bold pb-2 pt-3">Neue Frage hinzufügen</p>
         <div class="flex flex-col gap-y-2">
@@ -12,10 +12,10 @@
         </div>
         <div class="flex flex-col gap-y-2">
           <span>Frage</span>
-          <searchbar-component class="" />
+          <input-text-field-component class="" />
         </div>
         <label for="explanation">Erklärung</label>
-        <searchbar-component class="h-50" :is-text-area="true" />
+        <input-text-field-component class="h-50" :is-text-area="true" />
       </div>
       <div class="flex justify-between items-center gap-x-2">
         <icon-upload />
@@ -27,7 +27,7 @@
       </div>
       <div class="flex flex-col gap-y-1">
         <div v-for="n in 3" :key="n" class="flex items-center gap-x-2">
-          <input-checkbox-test-component />
+          <input-checkbox-text-component />
           <icon-trash-bin class="hover:text-main-orange cursor-pointer" />
         </div>
       </div>
@@ -41,7 +41,7 @@
           Mischen
         </button>
       </div>
-      <div class="pt-10 -mr-10 flex justify-end gap-x-4">
+      <div class="mt-auto sm:-mr-10 flex justify-end gap-x-4">
         <button
           class="
             p-2 rounded-lg
@@ -72,11 +72,11 @@
 import { ref } from 'vue'
 import IconUpload from '@/components/icons/IconUpload.vue'
 import DropdownComponent from '@/components/ui/DropdownComponent.vue'
-import SearchbarComponent from '@/components/ui/SearchbarComponent.vue'
+import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import IconShuffle from '@/components/icons/IconShuffle.vue'
-import InputCheckboxTestComponent from '@/components/ui/input/InputCheckboxTestComponent.vue'
+import InputCheckboxTextComponent from '@/components/ui/input/InputCheckboxTextComponent.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import { useTypeStore } from '@/stores/type.ts'
 const typeStore = useTypeStore();
