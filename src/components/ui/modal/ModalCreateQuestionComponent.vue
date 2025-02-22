@@ -12,10 +12,10 @@
         </div>
         <div class="flex flex-col gap-y-2">
           <span>Frage</span>
-          <input-text-field-component class="" />
+          <input-text-field-component placeholder="Frage..." />
         </div>
         <label for="explanation">Erklärung</label>
-        <input-text-field-component class="h-50" :is-text-area="true" />
+        <input-text-field-component class="h-50" :is-text-area="true" placeholder="Erklärung..." />
       </div>
       <div class="flex justify-between items-center gap-x-2">
         <icon-upload />
@@ -27,7 +27,7 @@
       </div>
       <div class="flex flex-col gap-y-1">
         <div v-for="n in 3" :key="n" class="flex items-center gap-x-2">
-          <input-checkbox-text-component />
+          <input-checkbox-text-component :placeholder="'Antwort '+ n" />
           <icon-trash-bin class="hover:text-main-orange cursor-pointer" />
         </div>
       </div>

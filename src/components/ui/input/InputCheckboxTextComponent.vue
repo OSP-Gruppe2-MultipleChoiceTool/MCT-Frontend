@@ -5,13 +5,20 @@
       <icon-check :class="{ 'hidden': !isChecked }" />
     </span>
   </label>
-  <input-text-field-component />
+  <input-text-field-component :placeholder="props.placeholder" />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
+
+const props = defineProps({
+  placeholder: {
+    type: String,
+    required: true
+  }
+});
 
 const isChecked = ref<boolean>(false);
 </script>

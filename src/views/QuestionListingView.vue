@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="flex flex-col gap-y-2 pb-5">
       <question-list-item-component
         class="my-2"
         v-for="question in questionStore.getQuestions()"
