@@ -1,9 +1,12 @@
 <template>
-  <main class="w-full py-4 overflow-y-scroll">
+  <main class="w-full py-4 overflow-y-auto">
     <div class="flex flex-col gap-y-3 pb-3">
       <div class="w-full flex items-center pb-5 pt-2 gap-x-5 max-h-10">
         <searchbar-component class="w-5/6" />
-        <dropdown-component class="w-1/6" :elements="typeStore.getTypes().map(type => type.name)" />
+        <dropdown-component
+          class="w-1/6"
+          :elements="typeStore.getTypes().map(type => type.name)"
+        />
       </div>
       <div class="w-full flex justify-between">
         <div class="flex gap-x-2">
@@ -29,7 +32,8 @@
         <div class="flex gap-x-2 ml-auto">
           <button-component
             background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-            text-color="text-gray-300 hover:text-main-blue">
+            text-color="text-gray-300 hover:text-main-blue"
+            @click="showCreateModal = true">
             <icon-plus />
             Neue Frage
           </button-component>
@@ -47,22 +51,33 @@
       />
     </div>
 
-    <pagination-component :max-per-page="6" :item-count="questionStore.getQuestions().length" />>
+    <pagination-component :max-per-page="6" :item-count="questionStore.getQuestions().length" />
+
+    <modal-create-question-component
+      v-show="showCreateModal"
+      @close="showCreateModal = false"
+    />
   </main>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import QuestionListItemComponent from '@/components/features/question/QuestionListItemComponent.vue'
+import ModalCreateQuestionComponent from '@/components/ui/modal/ModalCreateQuestionComponent.vue'
 import SearchbarComponent from '@/components/ui/SearchbarComponent.vue'
 import DropdownComponent from '@/components/ui/DropdownComponent.vue'
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import PaginationComponent from '@/components/ui/PaginationComponent.vue'
-
 import { useQuestionStore } from '@/stores/question.ts'
-const questionStore = useQuestionStore();
-
 import { useTypeStore } from '@/stores/type.ts'
+
+const questionStore = useQuestionStore();
 const typeStore = useTypeStore();
+
+const showCreateModal = ref<boolean>(false);
+
+const currentTextFilter = ref<string|null>(null);
+const currentTypeFilter = ref<number|null>(null);
 </script>

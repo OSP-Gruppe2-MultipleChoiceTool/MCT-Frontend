@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
-
 const emits = defineEmits(['close', 'submit']);
 </script>
 

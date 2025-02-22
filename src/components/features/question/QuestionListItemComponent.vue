@@ -62,7 +62,7 @@ const props = defineProps({
   }
 });
 
-const showDeleteModal = ref<Boolean>(false);
+const showDeleteModal = ref<boolean>(false);
 const showEditModal = ref<boolean>(false);
 
 const handleDeleteSubmit = (): void => {

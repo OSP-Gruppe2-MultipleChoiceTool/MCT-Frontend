@@ -5,7 +5,7 @@
       <icon-check :class="{ 'hidden': !isChecked }" />
     </span>
   </label>
-  <searchbar-component class="" />
+  <searchbar-component />
 </template>
 
 <script setup lang="ts">
