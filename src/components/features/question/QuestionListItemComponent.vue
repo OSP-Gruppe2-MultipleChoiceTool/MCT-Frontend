@@ -3,7 +3,7 @@
     <div class="absolute bg-gray-500/50 rounded-full -top-2 -left-2 text-lg p-0.5">
       <icon-check class="text-gray-500 hover:text-main-orange" />
     </div>
-    <div class="absolute top-2 right-2 flex">
+    <div class="absolute top-2 right-2 flex text-3xl">
       <icon-edit-square class="hover:text-main-orange cursor-pointer" />
       <icon-trash-bin
         class="hover:text-main-orange cursor-pointer"

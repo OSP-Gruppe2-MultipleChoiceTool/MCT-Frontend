@@ -1,41 +1,45 @@
 <template>
   <main class="w-full py-4 overflow-y-auto">
     <div class="flex flex-col gap-y-3 pb-3">
-      <div class="w-full flex items-center pb-5 pt-2 gap-x-5 max-h-10">
-        <input-text-field-component class="w-5/6" />
+      <div class="w-full flex items-center pb-5 pt-2 gap-x-2 max-h-10">
+        <input-text-field-component class="w-1/2 sm:w-4/6" />
         <dropdown-component
-          class="w-1/6"
+          class="w-1/2 text-sm sm:w-2/6 sm:text-base"
           :elements="typeStore.getTypes().map(type => type.name)"
         />
       </div>
-      <div class="w-full flex justify-between">
-        <div class="flex gap-x-2">
+      <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">
+        <div>
           <button-component
             background-color="bg-gray-300 hover:bg-gray-500"
             text-color="hover:text-gray-300">
             <icon-edit-square />
-            Import CSV
-          </button-component>
-          <button-component
-            background-color="bg-gray-300 hover:bg-gray-500"
-            text-color="hover:text-gray-300">
-            <icon-edit-square />
-            Export
-          </button-component>
-          <button-component
-            background-color="bg-gray-300 hover:bg-gray-500"
-            text-color="hover:text-gray-300">
-            <icon-edit-square />
-            Share
+            <span class="hidden sm:inline">Import CSV</span>
           </button-component>
         </div>
-        <div class="flex gap-x-2 ml-auto">
+        <div>
+          <button-component
+            background-color="bg-gray-300 hover:bg-gray-500"
+            text-color="hover:text-gray-300">
+            <icon-edit-square />
+            <span class="hidden sm:inline">Export</span>
+          </button-component>
+        </div>
+        <div>
+          <button-component
+            background-color="bg-gray-300 hover:bg-gray-500"
+            text-color="hover:text-gray-300">
+            <icon-edit-square />
+            <span class="hidden sm:inline">Share</span>
+          </button-component>
+        </div>
+        <div class="ml-auto">
           <button-component
             background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
             text-color="text-gray-300 hover:text-main-blue"
             @click="showCreateModal = true">
             <icon-plus />
-            Neue Frage
+            <span class="hidden sm:inline">Neue Frage</span>
           </button-component>
         </div>
       </div>

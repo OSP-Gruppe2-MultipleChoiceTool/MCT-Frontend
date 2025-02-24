@@ -1,5 +1,5 @@
 <template>
-  <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="1em" height="1em" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0 4C0 1.79086 1.79086 0 4 0H26C28.2091 0 30 1.79086 30 4V28C30 30.2091 28.2091 32 26 32H4C1.79086 32 0 30.2091 0 28V4Z" stroke="none"/>
     <g clip-path="url(#clip0_2_695)">
       <g clip-path="url(#clip1_2_695)">
