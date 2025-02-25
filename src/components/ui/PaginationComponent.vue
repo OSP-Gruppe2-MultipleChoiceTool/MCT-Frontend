@@ -5,13 +5,15 @@
       <button-component
         v-if="hasPreviousPage"
         background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-        text-color="text-gray-300 hover:text-main-blue">
+        text-color="text-gray-300 hover:text-main-blue"
+        @click="currentPageNumber = 1">
         Anfang
       </button-component>
       <button-component
         v-if="hasPreviousPage"
         background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-        text-color="text-gray-300 hover:text-main-blue">
+        text-color="text-gray-300 hover:text-main-blue"
+        @click="currentPageNumber--">
         {{ currentPageNumber - 1 }}
       </button-component>
       <button-component
@@ -22,13 +24,15 @@
       <button-component
         v-if="hasNextPage"
         background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-        text-color="text-gray-300 hover:text-main-blue">
+        text-color="text-gray-300 hover:text-main-blue"
+        @click="currentPageNumber++">
         {{ currentPageNumber + 1 }}
       </button-component>
       <button-component
         v-if="hasNextPage"
         background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-        text-color="text-gray-300 hover:text-main-blue">
+        text-color="text-gray-300 hover:text-main-blue"
+        @click="getLastPage()">
         Ende
       </button-component>
     </div>
@@ -45,6 +49,14 @@ const props = defineProps({
     type: Number
   },
   itemCount: {
+    required: true,
+    type: Number
+  },
+  startIndex: {
+    required: true,
+    type: Number
+  },
+  endIndex: {
     required: true,
     type: Number
   }
@@ -64,11 +76,23 @@ const calculatePageCount = (): number => {
   return props.itemCount / props.maxPerPage;
 }
 
+const getStartIndex = (): number => {
+  return (currentPageNumber.value - 1) * props.maxPerPage;
+}
+
+const getEndIndex = (): number => {
+  return Math.min(getStartIndex() + props.maxPerPage, props.itemCount);
+}
+
 const getVisibleDataCount = (): string => {
-  const startIndex = (currentPageNumber.value - 1) * props.maxPerPage;
-  const endIndex = Math.min(startIndex + props.maxPerPage, props.itemCount);
+  const startIndex = getStartIndex();
+  const endIndex = getEndIndex();
 
   return startIndex + 1 + '-' + endIndex;
+}
+
+const getLastPage = (): string => {
+  alert('to be implemented');
 }
 </script>
 

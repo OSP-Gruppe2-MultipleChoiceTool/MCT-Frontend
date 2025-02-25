@@ -48,14 +48,18 @@
     <div class="flex flex-col gap-y-2 pb-5">
       <question-list-item-component
         class="my-2"
-        v-for="question in questionStore.getQuestions()"
+        v-for="question in questionStore.getQuestions().slice(startIndex, endIndex)"
         :id="question.id" :type="typeStore.getTypeById(question.id).name"
         :description="question.description" :options="question.options"
         :created="question.created"
       />
     </div>
 
-    <pagination-component :max-per-page="6" :item-count="questionStore.getQuestions().length" />
+    <pagination-component
+      :max-per-page="6"
+      :item-count="questionStore.getQuestions().length"
+      :start-index="startIndex" :end-index="endIndex"
+    />
 
     <modal-create-question-component
       v-show="showCreateModal"
@@ -84,4 +88,7 @@ const showCreateModal = ref<boolean>(false);
 
 const currentTextFilter = ref<string|null>(null);
 const currentTypeFilter = ref<number|null>(null);
+
+const startIndex = ref<number>(0);
+const endIndex = ref<number>(6);
 </script>
