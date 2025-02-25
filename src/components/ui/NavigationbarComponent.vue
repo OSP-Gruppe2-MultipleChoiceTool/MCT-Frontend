@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-[#1A2238] w-full h-full">
+  <header class="bg-[#1A2238] w-full h-15">
     <div class="h-full flex items-center pl-1">
       <icon-quiz-maker />
 

@@ -10,10 +10,6 @@
             :elements="typeStore.getTypes().map(type => type.name)"
           />
         </div>
-        <div class="flex flex-col gap-y-2">
-          <span>Frage</span>
-          <input-text-field-component placeholder="Frage..." />
-        </div>
         <label for="explanation">Erklärung</label>
         <input-text-field-component class="h-50" :is-text-area="true" placeholder="Erklärung..." />
       </div>

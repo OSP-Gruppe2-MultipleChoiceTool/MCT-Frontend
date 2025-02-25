@@ -42,7 +42,7 @@ export const useQuestionStore = defineStore('question', () => {
   }
 
   const fillQuestions = async (): Promise<void> => {
-    // This method will fill the list of types.
+    // This method will fill the list of questions.
   };
 
   return { getQuestions, fillQuestions };
