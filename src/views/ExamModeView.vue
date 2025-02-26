@@ -1,11 +1,15 @@
 <template>
   <main class="w-full overflow-y-auto">
     <div id="top-button-row" class="pb-5 flex justify-between">
-      <button-component custom-class="px-5" background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
-      <button-component custom-class="px-5 py-3" background-color="bg-main-orange dark:bg-gray-300 hover:bg-gray-300 text-main-blue dark:text-main-orange">Abgeben</button-component>
-    </div>
+      <div class="h-8">
+        <button-component custom-class="px-5" background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
+      </div>
+      <div class="h-11">
+        <button-component custom-class="px-5 py-3" background-color="bg-main-orange dark:bg-gray-300 hover:bg-gray-300 text-main-blue dark:text-main-orange">Abgeben</button-component>
+      </div>
+      </div>
     <div class="flex flex-col gap-y-5">
-      <article id="" class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded" v-for="questions in questionStore">
+      <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded" v-for="y in 3" :key="y">
         <div id="left" class="flex flex-col justify-between basis-3/5">
           <div id="options">
             <div v-for="n in 3" :key="n" class="flex gap-x-5 py-2">
@@ -47,9 +51,6 @@
 <script setup lang="ts">
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
-import { useQuestionStore } from '@/stores/question.ts'
-
-const questionStore = useQuestionStore();
 </script>
 
 <style scoped>
