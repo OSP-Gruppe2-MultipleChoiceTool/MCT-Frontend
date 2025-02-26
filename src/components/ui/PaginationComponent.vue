@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between dark:text-gray-200">
-    <p>Zeige {{ getVisibleDataCount() }} von {{ props.itemCount }} Aufgaben</p>
+    <p>Zeige {{ getVisibleDataCount() }} von {{ props.itemCount }} Elemente</p>
     <div class="flex gap-x-2 ml-auto">
       <button-component
         v-if="hasPreviousPage"
@@ -41,7 +41,9 @@
 
 <script setup lang="ts">
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
+
+const emits = defineEmits(['update:startIndex', 'update:endIndex']);
 
 const props = defineProps({
   maxPerPage: {
@@ -63,6 +65,10 @@ const props = defineProps({
 });
 
 const currentPageNumber = ref<number>(1);
+watch(currentPageNumber, () => {
+  emits('update:startIndex', getStartIndex());
+  emits('update:endIndex', getEndIndex());
+});
 
 const hasPreviousPage = computed((): boolean => {
   return currentPageNumber.value > 1;
@@ -91,8 +97,8 @@ const getVisibleDataCount = (): string => {
   return startIndex + 1 + '-' + endIndex;
 }
 
-const getLastPage = (): string => {
-  alert('to be implemented');
+const getLastPage = (): void => {
+  alert('to be implemented'); // TODO
 }
 </script>
 

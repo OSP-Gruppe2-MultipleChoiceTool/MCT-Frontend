@@ -46,7 +46,7 @@
     </div>
 
     <div class="flex flex-col gap-y-2 pb-5">
-      <question-list-item-component
+      <questionnaire-list-item-component
         class="my-2"
         v-for="question in questionStore.getQuestions().slice(startIndex, endIndex)"
         :id="question.id" :type="typeStore.getTypeById(question.id).name"
@@ -61,7 +61,7 @@
       :start-index="startIndex" :end-index="endIndex"
     />
 
-    <modal-create-question-component
+    <modal-create-questionnaire-component
       v-show="showCreateModal"
       @close="showCreateModal = false"
     />
@@ -69,16 +69,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import QuestionListItemComponent from '@/components/features/question/QuestionListItemComponent.vue'
-import ModalCreateQuestionComponent from '@/components/ui/modal/ModalCreateQuestionComponent.vue'
+import { onMounted, ref } from 'vue'
+import QuestionnaireListItemComponent from '@/components/ui/list/QuestionnaireListItemComponent.vue'
+import ModalCreateQuestionnaireComponent from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import DropdownComponent from '@/components/ui/DropdownComponent.vue'
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import PaginationComponent from '@/components/ui/PaginationComponent.vue'
-import { useQuestionStore } from '@/stores/question.ts'
+import { useQuestionStore } from '@/stores/statements.ts'
 import { useTypeStore } from '@/stores/type.ts'
 
 const questionStore = useQuestionStore();
@@ -91,4 +91,8 @@ const currentTypeFilter = ref<number|null>(null);
 
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(6);
+
+onMounted(() => {
+  questionStore.fillQuestions();
+})
 </script>
