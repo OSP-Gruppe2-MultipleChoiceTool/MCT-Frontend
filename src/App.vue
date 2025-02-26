@@ -11,4 +11,5 @@ import NavigationbarComponent from "@/components/ui/NavigationbarComponent.vue";
 </script>
 
 <style scoped>
+
 </style>
