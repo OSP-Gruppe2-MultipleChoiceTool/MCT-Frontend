@@ -1,9 +1,8 @@
 <template>
   <main class="w-full overflow-y-auto">
-    <div id="top-button-row" class="pb-5">
-      <div class="w-fit">
-        <button-component background-color="px-5 bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
-      </div>
+    <div id="top-button-row" class="pb-5 flex justify-between">
+      <button-component custom-class="px-5" background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
+      <button-component custom-class="px-5 py-3" background-color="bg-main-orange dark:bg-gray-300 hover:bg-gray-300 text-main-blue dark:text-main-orange">Abgeben</button-component>
     </div>
     <div class="flex flex-col gap-y-5">
       <article id="" class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded" v-for="questions in questionStore">
