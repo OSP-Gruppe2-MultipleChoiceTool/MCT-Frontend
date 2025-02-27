@@ -46,6 +46,7 @@
         class="my-2"
         v-for="question in questionStore.getQuestionnaires().slice(startIndex, endIndex)"
         :id="question.id" :title="question.title" :statement-sets="question.statementSets"
+        @delete="handleDelete"
       />
     </div>
 
@@ -78,6 +79,8 @@ import ModalCreateQuestionnaireComponent
 
 import router from '@/router'
 
+
+
 const questionStore = useQuestionnairesStores();
 
 const showCreateModal = ref<boolean>(false);
@@ -92,6 +95,10 @@ const handleCreate = () => {
   questionStore.createQuestionnaire
   router.push({ name: 'home'})
 }
+
+const handleDelete = async (id: number) => {
+  await questionStore.deleteQuestionnaire(id);
+};
 
 onMounted(() => {
   questionStore.fillQuestionnaires();
