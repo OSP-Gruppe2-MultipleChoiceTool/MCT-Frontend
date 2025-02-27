@@ -64,9 +64,9 @@
     </div>
 
     <pagination-component
-      :max-per-page="6"
+      :max-per-page="elementsPerPage"
       :item-count="statementStore.getStatementSets().length"
-      :start-index="startIndex" :end-index="endIndex"
+      v-model:start-index="startIndex" v-model:end-index="endIndex"
     />
 
     <modal-create-statement-set-component
@@ -100,8 +100,9 @@ const showCreateModal = ref<boolean>(false);
 const currentTextFilter = ref<string>('');
 const currentTypeFilter = ref<number|null>(null);
 
+const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
-const endIndex = ref<number>(6);
+const endIndex = ref<number>(elementsPerPage.value);
 
 onMounted(async () => {
   statementStore.isLoading = true;
