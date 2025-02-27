@@ -13,7 +13,7 @@
     <div class="flex gap-2 items-center text-xs">
       <p>ID: {{ props.id }}</p>
     </div>
-    <p class="my-2">
+    <p class="my-2 cursor-pointer" @click="router.push({ name: 'statement-listing', params: { id: props.id } })">
       {{ props.title }}
     </p>
     <div class="flex gap-2 text-xs divide-x">
@@ -35,6 +35,7 @@ import IconCheck from '@/components/icons/IconCheck.vue'
 import { type PropType, ref } from 'vue'
 import ModalDeleteConfirmationComponent from '@/components/ui/modal/ModalDeleteConfirmationComponent.vue'
 import type { StatementSet } from '@/types/Questionnaire.ts'
+import router from '@/router'
 
 const props = defineProps({
   id: {

@@ -18,7 +18,7 @@ export const useQuestionnairesStores = defineStore('questionnaires', () => {
       data
     );
     if (!response.data) {
-      console.log('error: ' + response.error);
+      console.error('error: ', response.error);
       return;
     }
   }
@@ -28,9 +28,9 @@ export const useQuestionnairesStores = defineStore('questionnaires', () => {
 
     questionnaires.value = [];
 
-    const response = await apiService.get<{ type: Questionnaire[] }>(apiRoutes.questionaires);
+    const response = await apiService.get<Questionnaire[]>(apiRoutes.questionaires);
     if (!response.data) {
-      console.log('error: ' + response.error)
+      console.error('error: ', response.error)
       return;
     }
 

@@ -13,7 +13,7 @@ export const apiRoutes = {
   userAccess: '/api/statements',
 };
 
-export const constructUrl = (route: string, params: Record<string, string | number>): string => {
+export const buildApiUrl = (route: string, params: Record<string, string | number>): string => {
   let url = route;
 
   for (const key in params) {

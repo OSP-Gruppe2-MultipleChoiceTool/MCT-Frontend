@@ -2,7 +2,7 @@
   <main class="w-full py-4 overflow-y-auto">
     <div class="flex flex-col gap-y-3 pb-3">
       <div class="w-full flex items-center pb-5 pt-2 gap-x-2 max-h-10">
-        <input-text-field-component class="w-1/2 sm:w-4/6" />
+        <input-text-field-component class="w-1/2 sm:w-4/6" v-model:value="currentTextFilter" />
         <dropdown-component
           class="w-1/2 text-sm sm:w-2/6 sm:text-base"
           :elements="typeStore.getTypes().map(type => type.name)"
@@ -45,23 +45,28 @@
       </div>
     </div>
 
-    <div class="flex flex-col gap-y-2 pb-5">
-      <questionnaire-list-item-component
+    <div class="flex flex-col gap-y-2 pb-5" v-if="!statementStore.isLoading && statementStore.getStatementSets().length > 0">
+      <statement-set-list-item-component
         class="my-2"
-        v-for="question in questionStore.getQuestions().slice(startIndex, endIndex)"
-        :id="question.id" :type="typeStore.getTypeById(question.id).name"
-        :description="question.description" :options="question.options"
-        :created="question.created"
+        v-for="statementSet in statementStore.getStatementSets().slice(startIndex, endIndex)"
+        :type="statementSet.statementTypeId"
+        :description="statementSet.explanation"
       />
+    </div>
+    <div v-else-if="!statementStore.isLoading && statementStore.getStatementSets().length === 0">
+      <p>No Statements found</p>
+    </div>
+    <div v-else>
+      <p>Loading...</p>
     </div>
 
     <pagination-component
       :max-per-page="6"
-      :item-count="questionStore.getQuestions().length"
+      :item-count="statementStore.getStatementSets().length"
       :start-index="startIndex" :end-index="endIndex"
     />
 
-    <modal-create-questionnaire-component
+    <modal-create-statement-set-component
       v-show="showCreateModal"
       @close="showCreateModal = false"
     />
@@ -70,29 +75,38 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import QuestionnaireListItemComponent from '@/components/ui/list/QuestionnaireListItemComponent.vue'
-import ModalCreateQuestionnaireComponent from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import DropdownComponent from '@/components/ui/DropdownComponent.vue'
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import PaginationComponent from '@/components/ui/PaginationComponent.vue'
-import { useQuestionStore } from '@/stores/statements.ts'
+import { useStatementStore } from '@/stores/statements.ts'
 import { useTypeStore } from '@/stores/type.ts'
+import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
+import { useRoute } from 'vue-router'
+import ModalCreateStatementSetComponent
+  from '@/components/ui/modal/ModalCreateStatementSetComponent.vue'
 
-const questionStore = useQuestionStore();
+const route = useRoute();
+
+const statementStore = useStatementStore();
 const typeStore = useTypeStore();
 
 const showCreateModal = ref<boolean>(false);
 
-const currentTextFilter = ref<string|null>(null);
+const currentTextFilter = ref<string>('');
 const currentTypeFilter = ref<number|null>(null);
 
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(6);
 
-onMounted(() => {
-  questionStore.fillQuestions();
+onMounted(async () => {
+  statementStore.isLoading = true;
+
+  await typeStore.fillTypes();
+
+  await statementStore.setActiveQuestionnaireById(<string>route.params.id);
+  await statementStore.fillStatementSets();
 })
 </script>
