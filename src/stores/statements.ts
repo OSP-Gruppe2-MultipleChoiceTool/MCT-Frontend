@@ -4,7 +4,6 @@ import { apiService } from '@/services/apiService.ts'
 import { apiRoutes, buildApiUrl } from '@/config/apiRoutes.ts'
 import type {
   Questionnaire,
-  StatementSet,
   StatementSetResponse,
   UpdateStatement,
   UpdateStatementSet,
@@ -62,6 +61,28 @@ export const useStatementStore = defineStore('statement', () => {
     }
   }
 
+  const deleteStatementSet = async (id: string): Promise<void> => {
+    if (!questionnaire.value || !questionnaire.value.id) {
+      console.error('Cant save statements without questionnaire id');
+      return;
+    }
+
+    isLoading.value = true;
+
+    const deleteRoute = buildApiUrl(apiRoutes.statementSetById, {
+      questionaireId: questionnaire.value.id,
+      statementSetId: id
+    });
+    const deleteResponse = await apiService.delete(deleteRoute);
+
+    if (!deleteResponse.data) {
+      console.error('error: ', deleteResponse.error)
+      return;
+    }
+
+    isLoading.value = false;
+  }
+
   const fillStatementSets = async (): Promise<void> => {
     isLoading.value = true;
 
@@ -86,5 +107,5 @@ export const useStatementStore = defineStore('statement', () => {
     isLoading.value = false;
   };
 
-  return { isLoading, questionnaire, statementSets, setActiveQuestionnaireById, getStatementSets, createStatementSet, fillStatementSets };
+  return { isLoading, questionnaire, statementSets, setActiveQuestionnaireById, getStatementSets, createStatementSet, deleteStatementSet, fillStatementSets };
 })

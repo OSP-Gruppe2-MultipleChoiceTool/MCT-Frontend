@@ -49,6 +49,7 @@
       <statement-set-list-item-component
         class="my-2"
         v-for="statementSet in statementStore.getStatementSets().slice(startIndex, endIndex)"
+        @on-delete="statementStore.deleteStatementSet(statementSet.id)"
         :id="statementSet.id"
         :type="statementSet.statementType?.title ?? ''"
         :description="statementSet.explaination"
