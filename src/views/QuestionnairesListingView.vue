@@ -91,7 +91,6 @@ const endIndex = ref<number>(elementsPerPage.value);
 const handleCreate = () => {
   questionStore.createQuestionnaire
   router.push({ name: 'home'})
-  console.log("Heili");
 }
 
 onMounted(() => {
