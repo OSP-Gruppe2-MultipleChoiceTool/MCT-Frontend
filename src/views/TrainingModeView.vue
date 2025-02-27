@@ -6,12 +6,13 @@
                     background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
             </div>
         </div>
-        <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded">
+        <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded"
+        >
             <div id="left" class="flex flex-col justify-between basis-3/5">
                 <div id="options">
                     <div v-for="n in 3" :key="n" class="flex gap-x-5 py-2">
                         <p>{{ n }}</p>
-                        <p>VueJS is a JavaScript Framework</p>
+                        <p>Vuejs ist ein Javascript framework</p>
                     </div>
                 </div>
             </div>
@@ -38,7 +39,7 @@
                 </div>
             </div>
         </article>
-        <ExplinationComponent border-color="border-4 border-green-500"/>
+        <explination-component border-color="border-4 border-green-500"/>
         <div class="mt-20">
             <PaginationComponent
             :max-per-page="6"
@@ -59,6 +60,5 @@ const questionStore = useQuestionStore();
 
 const startIndex = ref<number>(6);
 const endIndex = ref<number>(0);
-
 
 </script>
