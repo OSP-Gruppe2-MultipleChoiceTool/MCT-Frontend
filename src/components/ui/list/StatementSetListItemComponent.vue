@@ -12,14 +12,12 @@
     </div>
     <div class="flex gap-2 items-center text-xs">
       <p class="bg-gray-200 px-3 py-1 rounded-full">{{ props.type }}</p>
-      <p>ID: {{ props.id }}</p>
     </div>
     <p class="my-2">
       {{ props.description }}
     </p>
     <div class="flex gap-2 text-xs divide-x">
-      <p class="pr-2">Optionen: {{ props.options.length }}</p>
-      <p>Erstellt: {{ props.created.toLocaleDateString('de-DE') }}</p>
+      <p class="pr-2">Optionen: Optionen</p>
     </div>
   </article>
 
@@ -34,31 +32,19 @@
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
-import { type Option } from '@/stores/question.ts'
 import { type PropType, ref } from 'vue'
 import ModalDeleteConfirmationComponent
   from '@/components/ui/modal/ModalDeleteConfirmationComponent.vue'
 
 const props = defineProps({
-  id: {
-    required: true,
-    type: Number
-  },
   type: {
     required: true,
     type: String
   },
   description: {
-    required: true,
-    type: String
-  },
-  options: {
-    required: true,
-    type: Array as PropType<Option[]>
-  },
-  created: {
-    required: true,
-    type: Date
+    required: false,
+    type: String,
+    default: ''
   }
 });
 

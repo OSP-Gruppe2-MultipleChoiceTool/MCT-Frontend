@@ -6,7 +6,12 @@ const router = createRouter({
     {
       path: '/',
       name: '',
-      component: () => import("@/views/QuestionListingView.vue"),
+      component: () => import("@/views/QuestionnairesListingView.vue"),
+    },
+    {
+      path: '/question/:id',
+      name: 'statement-listing',
+      component: () => import("@/views/StatementListingView.vue"),
     },
     {
       path: '/dev',
