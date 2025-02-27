@@ -14,11 +14,6 @@ const router = createRouter({
       component: () => import("@/views/TrainingModeView.vue"),
     },
     {
-      path: '/dev2',
-      name: 'dev2',
-      component: () => import("@/views/ExamModeView.vue"),
-    },
-    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import("@/views/NotFoundView.vue"),

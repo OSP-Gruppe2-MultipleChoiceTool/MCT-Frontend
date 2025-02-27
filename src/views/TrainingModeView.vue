@@ -1,5 +1,5 @@
 <template>
-    <main class="w-full overflow-y-auto">
+    <main class="w-full overflow-y-auto pb-10">
         <div class="btns pb-5 flex justify-between">
             <div class="h-8">
                 <button-component custom-class="px-5"
@@ -38,23 +38,27 @@
                 </div>
             </div>
         </article>
-        <div id="information" class="my-20 bg-white border-green-100 border-4 border-green-500">
-            <p class="p-20">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores sit facilis voluptates ducimus,
-                aperiam exercitationem doloribus rem ullam adipisci mollitia cum maiores a debitis nesciunt, quod autem
-                explicabo inventore sint.
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores sit facilis voluptates ducimus,
-                aperiam exercitationem doloribus rem ullam adipisci mollitia cum maiores a debitis nesciunt, quod autem
-            </p>
-        </div>
-        <div id="pagination">
-            <PaginationComponent/>
+        <ExplinationComponent border-color="border-4 border-green-500"/>
+        <div class="mt-20">
+            <PaginationComponent
+            :max-per-page="6"
+            :item-count="questionStore.getQuestions().length"
+            :start-index="startIndex" :end-index="endIndex"/>
         </div>
     </main>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
+import { useQuestionStore } from '@/stores/question';
+import ExplinationComponent from '@/components/partial/ExplanationComponent.vue';
+
+const questionStore = useQuestionStore();
+
+const startIndex = ref<number>(6);
+const endIndex = ref<number>(0);
+
 
 </script>
