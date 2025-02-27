@@ -58,7 +58,8 @@
     <modal-create-questionnaire-component
       v-show="showCreateModal"
       @close="showCreateModal = false"
-      @create="questionStore.createQuestionnaire"
+      @create="handleCreate"
+      
     />
   </main>
 </template>
@@ -75,6 +76,8 @@ import { useQuestionnairesStores } from '@/stores/questionnaires.ts'
 import ModalCreateQuestionnaireComponent
   from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
 
+import router from '@/router'
+
 const questionStore = useQuestionnairesStores();
 
 const showCreateModal = ref<boolean>(false);
@@ -85,7 +88,15 @@ const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(elementsPerPage.value);
 
+const handleCreate = () => {
+  questionStore.createQuestionnaire
+  router.push({ name: 'home'})
+  console.log("Heili");
+}
+
 onMounted(() => {
   questionStore.fillQuestionnaires();
 })
+
+
 </script>

@@ -24,7 +24,7 @@
             dark:bg-gray-300 dark:text-main-blue
             cursor-pointer
           "
-          @click="emits('create', createQuestionnaireData)">
+          @click="emits('create', createQuestionnaireData), emits('close')">
           Fragebogen erstellen
         </button>
       </div>

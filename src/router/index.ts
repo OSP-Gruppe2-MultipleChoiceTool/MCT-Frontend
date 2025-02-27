@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: '',
+      name: 'home',
       component: () => import("@/views/QuestionnairesListingView.vue"),
     },
     {
