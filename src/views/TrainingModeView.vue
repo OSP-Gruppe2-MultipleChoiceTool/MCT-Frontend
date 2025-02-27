@@ -7,12 +7,12 @@
             </div>
         </div>
         <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded"
-        >
+        v-for="statement in statements" :key="statement.id">
             <div id="left" class="flex flex-col justify-between basis-3/5">
                 <div id="options">
                     <div v-for="n in 3" :key="n" class="flex gap-x-5 py-2">
                         <p>{{ n }}</p>
-                        <p>Vuejs ist ein Javascript framework</p>
+                        <p>{{statement.explaination}}</p>
                     </div>
                 </div>
             </div>
@@ -39,26 +39,57 @@
                 </div>
             </div>
         </article>
-        <explination-component border-color="border-4 border-green-500"/>
+        <explination-component border-color="border-4 border-green-500" />
         <div class="mt-20">
-            <PaginationComponent
-            :max-per-page="6"
-            :item-count="questionStore.getQuestions().length"
-            :start-index="startIndex" :end-index="endIndex"/>
+            <PaginationComponent :max-per-page="6" :item-count="questionStore.getQuestions().length"
+                :start-index="startIndex" :end-index="endIndex" />
         </div>
     </main>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
-import { useQuestionStore } from '@/stores/question';
+import { useQuestionStore } from '@/stores/question'
 import ExplinationComponent from '@/components/partial/ExplanationComponent.vue';
+import axios from 'axios'
 
 const questionStore = useQuestionStore();
 
 const startIndex = ref<number>(6);
 const endIndex = ref<number>(0);
+
+export type StatementType = {
+    id: string;
+    title: string;
+};
+
+export type Statement = {
+    id: string;
+    isCorrect: boolean;
+    statement: string;
+};
+
+export type StatementSetResponseDto = {
+    id: string;
+    explaination?: string;
+    statementImage?: string;
+    statementType?: StatementType;
+    statements: Statement[];
+};
+
+const statements = ref<StatementSetResponseDto[]>([]);
+
+const fetchStatements = async () => {
+    try {
+        const response = await axios.get<StatementSetResponseDto[]>("http://localhost:8080/api/questionaires/3fa85f64-5717-4562-b3fc-2c963f66afa6/statement-sets");
+        statements.value = response.data;
+    } catch(error) {
+        console.error("Fehler beim laden der Aussagen!",error);
+    }
+}
+
+onMounted(fetchStatements);
 
 </script>
