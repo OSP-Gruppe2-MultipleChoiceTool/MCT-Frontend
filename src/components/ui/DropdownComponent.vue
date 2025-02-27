@@ -29,7 +29,7 @@ const toggleDropdown = () => {
 
 const handleClickEvent = (element: string) => {
   currentValue.value = element;
-  emits('select', currentValue);
+  emits('select', element);
 }
 </script>
 
