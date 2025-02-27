@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.6",
+    "axios": "^1.8.1",
     "install": "^0.13.0",
     "npm": "^11.1.0",
     "pinia": "^2.3.1",

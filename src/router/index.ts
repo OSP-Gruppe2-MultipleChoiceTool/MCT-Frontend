@@ -6,17 +6,22 @@ const router = createRouter({
     {
       path: '/',
       name: '',
-      component: () => import("@/views/QuestionListingView.vue"),
+      component: () => import("@/views/QuestionnairesListingView.vue"),
+    },
+    {
+      path: '/question/:id',
+      name: 'statement-listing',
+      component: () => import("@/views/StatementListingView.vue"),
+    },
+    {
+      path: '/dev',
+      name: 'dev',
+      component: () => import("@/views/TrainingModeView.vue"),
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import("@/views/NotFoundView.vue"),
-    },
-    {
-      path: '/create-form',
-      name: '',
-      component: () => import('@/views/CreateQuestionView.vue'),
     }
   ],
 })
