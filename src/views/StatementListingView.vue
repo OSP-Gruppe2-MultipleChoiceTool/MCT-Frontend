@@ -5,7 +5,7 @@
         <input-text-field-component class="w-1/2 sm:w-4/6" v-model:value="currentTextFilter" />
         <dropdown-component
           class="w-1/2 text-sm sm:w-2/6 sm:text-base"
-          :elements="typeStore.getTypes().map(type => type.name)"
+          :elements="typeStore.getTypes().map(type => type.title)"
         />
       </div>
       <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">
@@ -49,8 +49,10 @@
       <statement-set-list-item-component
         class="my-2"
         v-for="statementSet in statementStore.getStatementSets().slice(startIndex, endIndex)"
-        :type="statementSet.statementTypeId"
-        :description="statementSet.explanation"
+        :id="statementSet.id"
+        :type="statementSet.statementType?.title ?? ''"
+        :description="statementSet.explaination"
+        :statementCount="statementSet.statements.length"
       />
     </div>
     <div v-else-if="!statementStore.isLoading && statementStore.getStatementSets().length === 0">
@@ -85,8 +87,7 @@ import { useStatementStore } from '@/stores/statements.ts'
 import { useTypeStore } from '@/stores/type.ts'
 import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 import { useRoute } from 'vue-router'
-import ModalCreateStatementSetComponent
-  from '@/components/ui/modal/ModalCreateStatementSetComponent.vue'
+import ModalCreateStatementSetComponent from '@/components/ui/modal/ModalCreateStatementSetComponent.vue'
 
 const route = useRoute();
 

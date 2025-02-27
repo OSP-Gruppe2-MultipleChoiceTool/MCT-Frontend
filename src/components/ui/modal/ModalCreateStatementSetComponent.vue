@@ -9,14 +9,14 @@
           <dropdown-component
             class="w-full"
             :elements="typeStore.getTypes().map(type => type.title)"
-            @select="handleTypeChange()" />
+            @select="handleTypeChange" />
         </div>
         <label for="explanation">Erklärung</label>
         <input-text-field-component
           class="h-50"
           :is-text-area="true"
           placeholder="Erklärung..."
-          v-model:value="createStatementSetData.explanation" />
+          v-model:value="updateStatementSetData.explaination" />
       </div>
       <div class="flex justify-between items-center gap-x-2">
         <icon-upload />
@@ -33,15 +33,22 @@
         <icon-trash-bin class="hover:text-main-orange cursor-pointer" />
       </div>
       <div class="flex flex-col gap-y-1">
-        <div v-for="n in 3" :key="n" class="flex items-center gap-x-2">
-          <input-checkbox-text-component :placeholder="'Antwort ' + n" />
-          <icon-trash-bin class="hover:text-main-orange cursor-pointer" />
+        <div v-for="(answer, index) in answers" :key="index" class="flex items-center gap-x-2">
+          <input-checkbox-text-component
+            :placeholder="'Antwort ' + <number>(index + 1)"
+            v-model:value="answer.statement"
+            v-model:checked="answer.isCorrect"
+          />
         </div>
       </div>
       <div class="flex gap-x-5">
-        <button class="flex gap-x-1 items-center hover:text-main-orange">
+        <button class="flex gap-x-1 items-center hover:text-main-orange" @click="increaseAnswer()">
           <icon-plus />
-          Option hinzufügen
+          Hinzufügen
+        </button>
+        <button class="flex gap-x-1 items-center hover:text-main-orange" @click="reduceAnswer()">
+          <icon-minus />
+          Entfernen
         </button>
         <button class="flex gap-x-1 items-center hover:text-main-orange">
           <icon-shuffle />
@@ -56,7 +63,7 @@
         </button>
         <button
           class="p-2 rounded-lg bg-main-blue hover:bg-main-orange text-gray-300 dark:bg-gray-300 dark:text-main-blue cursor-pointer"
-          @click="">
+          @click="storeStatementSet">
           Frage speichern
         </button>
       </div>
@@ -75,26 +82,43 @@ import IconShuffle from '@/components/icons/IconShuffle.vue'
 import InputCheckboxTextComponent from '@/components/ui/input/InputCheckboxTextComponent.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import { useTypeStore } from '@/stores/type.ts'
-import type { CreateStatementSet } from '@/types/Questionnaire.ts'
+import type { UpdateStatementSet, UpdateStatement } from '@/types/Questionnaire.ts'
+import IconMinus from '@/components/icons/IconMinus.vue'
+import { useStatementStore } from '@/stores/statements.ts'
 
+const statementStore = useStatementStore();
 const typeStore = useTypeStore()
 
-const emits = defineEmits(['close'])
-
-const fileName = ref<string | null>(null)
-
-const createStatementSetData = ref<CreateStatementSet>({
-  explanation: '',
+const emits = defineEmits(['close']);
+const updateStatementSetData = ref<UpdateStatementSet>({
+  explaination: '',
   statementImage: '',
   statementTypeId: undefined,
-})
+});
+
+const fileName = ref<string | null>(null)
+const answers = ref<UpdateStatement[]>([]);
 
 const handleTypeChange = (selectedTypeTitle: string): void => {
-  createStatementSetData.value.statementTypeId = typeStore.getTypeByTitle(selectedTypeTitle).id;
+  updateStatementSetData.value.statementTypeId = typeStore.getTypeByTitle(selectedTypeTitle).id;
+}
+
+const increaseAnswer = () => {
+  answers.value.push(<UpdateStatement>{});
+}
+
+const reduceAnswer = () => {
+  answers.value.pop();
 }
 
 const handleFileInputChange = (event: Event): void => {
   if (!event.target) return
-  fileName.value = event.target.files[0] ? event.target.files[0].name : null
+  fileName.value = event.target.files[0] ? event.target.files[0].name : null;
+
+  updateStatementSetData.value.statementImage = <string>fileName.value;
+}
+
+const storeStatementSet = () => {
+  statementStore.createStatementSet(updateStatementSetData.value, answers.value);
 }
 </script>

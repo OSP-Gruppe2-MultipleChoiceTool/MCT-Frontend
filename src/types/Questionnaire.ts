@@ -19,19 +19,32 @@ export interface CreateQuestionnaire {
 }
 
 export interface StatementSet {
-  explanation?: string;
+  explaination?: string;
   statementImage?: string;
   statementTypeId: string;
 }
 
-export interface CreateStatementSet {
-  explanation?: string;
+export type StatementSetResponse = {
+  id: string;
+  explaination?: string;
+  statementImage?: string;
+  statementType?: StatementType;
+  statements: Statement[];
+};
+
+export interface UpdateStatementSet {
+  explaination?: string;
   statementImage?: string;
   statementTypeId?: string;
 }
 
 export interface Statement {
   id: string;
+  isCorrect: boolean;
+  statement: string;
+}
+
+export interface UpdateStatement {
   isCorrect: boolean;
   statement: string;
 }
