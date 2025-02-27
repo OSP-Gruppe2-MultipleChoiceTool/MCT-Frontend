@@ -27,5 +27,9 @@ export const apiService = {
 
   async post<T>(url: string, data: any): Promise<ApiResponse<T>> {
     return handleRequest(axios.post(`${API_BASE_URL}${url}`, data));
+  },
+
+  async put<T>(url: string, data: any): Promise<ApiResponse<T>> {
+    return handleRequest(axios.put(`${API_BASE_URL}${url}`, data));
   }
 }
