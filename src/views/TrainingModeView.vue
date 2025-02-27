@@ -53,43 +53,9 @@ import InputTextFieldComponent from '@/components/ui/input/InputTextFieldCompone
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import { useQuestionStore } from '@/stores/question'
 import ExplinationComponent from '@/components/partial/ExplanationComponent.vue';
-import axios from 'axios'
 
 const questionStore = useQuestionStore();
 
 const startIndex = ref<number>(6);
 const endIndex = ref<number>(0);
-
-export type StatementType = {
-    id: string;
-    title: string;
-};
-
-export type Statement = {
-    id: string;
-    isCorrect: boolean;
-    statement: string;
-};
-
-export type StatementSetResponseDto = {
-    id: string;
-    explaination?: string;
-    statementImage?: string;
-    statementType?: StatementType;
-    statements: Statement[];
-};
-
-const statements = ref<StatementSetResponseDto[]>([]);
-
-const fetchStatements = async () => {
-    try {
-        const response = await axios.get<StatementSetResponseDto[]>("http://localhost:8080/api/questionaires/3fa85f64-5717-4562-b3fc-2c963f66afa6/statement-sets");
-        statements.value = response.data;
-    } catch(error) {
-        console.error("Fehler beim laden der Aussagen!",error);
-    }
-}
-
-onMounted(fetchStatements);
-
 </script>
