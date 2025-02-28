@@ -6,13 +6,12 @@
                     background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
             </div>
         </div>
-        <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded"
-        v-for="statement in statements" :key="statement.id">
+        <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded">
             <div id="left" class="flex flex-col justify-between basis-3/5">
                 <div id="options">
                     <div v-for="n in 3" :key="n" class="flex gap-x-5 py-2">
                         <p>{{ n }}</p>
-                        <p>{{statement.explaination}}</p>
+                        <p></p>
                     </div>
                 </div>
             </div>
