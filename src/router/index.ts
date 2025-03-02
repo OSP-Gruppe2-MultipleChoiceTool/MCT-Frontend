@@ -10,6 +10,21 @@ const router = createRouter({
     },
     {
       path: '/question/:id',
+      name: 'mode-select',
+      component: () => import("@/views/ModeSelectView.vue"),
+    },
+    {
+      path: '/question/:id/exam',
+      name: 'exam-mode',
+      component: () => import("@/views/ExamModeView.vue"),
+    },
+    {
+      path: '/question/:id/training',
+      name: 'training-mode',
+      component: () => import("@/views/TrainingModeView.vue"),
+    },
+    {
+      path: '/question/:id/edit',
       name: 'statement-listing',
       component: () => import("@/views/StatementListingView.vue"),
     },

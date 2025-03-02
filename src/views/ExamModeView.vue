@@ -20,7 +20,7 @@
         </div>
         <div id="right" class="basis-2/5 flex flex-col gap-y-5">
           <div class="max-h-96 w-auto flex justify-center xl:justify-end">
-            <img src="https://www.placecats.com/400/300" class="object-contain rounded" />
+            <img src="https://www.placecats.com/400/300" class="object-contain rounded"  alt="img"/>
           </div>
         </div>
 
