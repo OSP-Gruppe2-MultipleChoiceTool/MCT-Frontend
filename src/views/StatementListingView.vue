@@ -5,7 +5,7 @@
         <input-text-field-component class="w-1/2 sm:w-4/6" v-model:value="currentTextFilter" />
         <dropdown-component
           class="w-1/2 text-sm sm:w-2/6 sm:text-base"
-          :elements="typeStore.getTypes().map(type => type.name)"
+          :elements="typeStore.getTypes().map(type => type.title)"
         />
       </div>
       <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">

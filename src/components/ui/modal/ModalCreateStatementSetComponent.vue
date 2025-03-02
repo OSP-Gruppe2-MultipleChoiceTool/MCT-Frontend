@@ -9,7 +9,7 @@
           <dropdown-component
             class="w-full"
             :elements="typeStore.getTypes().map(type => type.title)"
-            @select="handleTypeChange()" />
+            @select="handleTypeChange" />
         </div>
         <label for="explanation">Erklärung</label>
         <input-text-field-component
@@ -94,7 +94,9 @@ const handleTypeChange = (selectedTypeTitle: string): void => {
 }
 
 const handleFileInputChange = (event: Event): void => {
-  if (!event.target) return
-  fileName.value = event.target.files[0] ? event.target.files[0].name : null
+  const target = event.target as HTMLInputElement
+  if (target?.files) {
+    fileName.value = target.files[0] ? target.files[0].name : null
+  }
 }
 </script>

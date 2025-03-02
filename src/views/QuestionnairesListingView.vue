@@ -79,7 +79,7 @@ const questionStore = useQuestionnairesStores();
 
 const showCreateModal = ref<boolean>(false);
 
-const currentTextFilter = ref<string|null>(null);
+const currentTextFilter = ref<string|undefined>(undefined);
 
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
