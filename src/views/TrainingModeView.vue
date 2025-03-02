@@ -6,7 +6,7 @@
                     background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
             </div>
         </div>
-        <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded"
+        <!-- <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded"
         v-for="statement in statements" :key="statement.id">
             <div id="left" class="flex flex-col justify-between basis-3/5">
                 <div id="options">
@@ -43,19 +43,19 @@
         <div class="mt-20">
             <PaginationComponent :max-per-page="6" :item-count="questionStore.getQuestions().length"
                 :start-index="startIndex" :end-index="endIndex" />
-        </div>
+        </div> -->
     </main>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
+// import { ref } from 'vue'
+// import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
-import { useQuestionStore } from '@/stores/question'
-import ExplinationComponent from '@/components/partial/ExplanationComponent.vue';
+// import { useQuestionStore } from '@/stores/question'
+// import ExplinationComponent from '@/components/partial/ExplanationComponent.vue';
 
-const questionStore = useQuestionStore();
+// const questionStore = useQuestionStore();
 
-const startIndex = ref<number>(6);
-const endIndex = ref<number>(0);
+// const startIndex = ref<number>(6);
+// const endIndex = ref<number>(0);
 </script>
