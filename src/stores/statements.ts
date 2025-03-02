@@ -56,8 +56,7 @@ export const useStatementStore = defineStore('statement', () => {
     });
 
     for (const item of data) {
-      const statementResponse = await apiService.put(statementRoute, item);
-      // TODO: TF IS GOING ON
+      await apiService.put(statementRoute, item);
     }
   }
 

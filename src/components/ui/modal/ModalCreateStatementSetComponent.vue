@@ -104,7 +104,9 @@ const handleTypeChange = (selectedTypeTitle: string): void => {
 }
 
 const increaseAnswer = () => {
-  answers.value.push(<UpdateStatement>{});
+  answers.value.push(<UpdateStatement>{
+    isCorrect: false
+  });
 }
 
 const reduceAnswer = () => {
