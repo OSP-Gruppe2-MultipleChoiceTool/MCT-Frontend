@@ -1,4 +1,4 @@
-name: Build and Test Vue.js App
+name: Build and Publish Vue.js App
 
 permissions:
   packages: write
