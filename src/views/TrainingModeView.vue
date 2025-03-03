@@ -2,8 +2,13 @@
     <main class="w-full overflow-y-auto pb-10">
       <div class="btns pb-5 flex justify-between">
         <div class="h-8">
-            <button-component custom-class="px-5"
-                background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
+            <button-component
+              custom-class="px-5"
+              background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange"
+              @click="router.push({ name: 'statement-listing', params: { id: <string>route.params.id } })"
+            >
+              Zurück
+            </button-component>
         </div>
       </div>
       <div class="flex flex-col gap-y-5">
