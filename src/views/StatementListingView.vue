@@ -12,9 +12,11 @@
         <div>
           <button-component
             background-color="bg-gray-300 hover:bg-gray-500"
-            text-color="hover:text-gray-300">
+            text-color="hover:text-gray-300"
+            @click="onHandleExport"
+          >
             <icon-edit-square />
-            <span class="hidden sm:inline">Export</span>
+            <span class="hidden sm:inline">Exportieren</span>
           </button-component>
         </div>
         <div>
@@ -82,6 +84,7 @@ import { useTypeStore } from '@/stores/type.ts'
 import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 import { useRoute } from 'vue-router'
 import ModalCreateStatementSetComponent from '@/components/ui/modal/ModalCreateStatementSetComponent.vue'
+import { writeToClipboard } from '@/composables/useClipboard.ts'
 
 const route = useRoute();
 
@@ -96,6 +99,14 @@ const currentTypeFilter = ref<number|null>(null);
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(elementsPerPage.value);
+
+const onHandleExport = async () => {
+  const exportString = await statementStore.getStatementsExportString();
+
+  if (exportString) {
+    await writeToClipboard(exportString);
+  }
+}
 
 const onHandleDelete = (guid: string) => {
   statementStore.deleteStatementSet(guid);
