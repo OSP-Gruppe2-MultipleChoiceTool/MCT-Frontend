@@ -16,7 +16,7 @@
           class="h-50"
           :is-text-area="true"
           placeholder="Erklärung..."
-          v-model:value="updateStatementSetData.explaination" />
+          v-model:value="explaination" />
       </div>
       <div class="flex justify-between items-center gap-x-2">
         <icon-upload />
@@ -42,11 +42,11 @@
         </div>
       </div>
       <div class="flex gap-x-5">
-        <button class="flex gap-x-1 items-center hover:text-main-orange" @click="increaseAnswer()">
+        <button class="flex gap-x-1 items-center hover:text-main-orange" @click="increaseAnswerCount()">
           <icon-plus />
           Hinzufügen
         </button>
-        <button class="flex gap-x-1 items-center hover:text-main-orange" @click="reduceAnswer()">
+        <button class="flex gap-x-1 items-center hover:text-main-orange" @click="reduceAnswerCount()">
           <icon-minus />
           Entfernen
         </button>
@@ -82,45 +82,57 @@ import IconShuffle from '@/components/icons/IconShuffle.vue'
 import InputCheckboxTextComponent from '@/components/ui/input/InputCheckboxTextComponent.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import { useTypeStore } from '@/stores/type.ts'
-import type { UpdateStatementSet, UpdateStatement } from '@/types/Questionnaire.ts'
+import type { UpdateStatement, UpdateStatementSet } from '@/types/Questionnaire.ts'
 import IconMinus from '@/components/icons/IconMinus.vue'
 import { useStatementStore } from '@/stores/statements.ts'
+import { isValidGuid } from '@/composables/useDataValidation.ts'
 
 const statementStore = useStatementStore();
 const typeStore = useTypeStore()
 
 const emits = defineEmits(['close']);
-const updateStatementSetData = ref<UpdateStatementSet>({
-  explaination: '',
-  statementImage: '',
-  statementTypeId: undefined,
-});
+
+const explaination = ref<string>('');
+const statementImage = ref<string>('');
+const statementTypeId = ref<string|null>(null);
 
 const fileName = ref<string | null>(null)
 const answers = ref<UpdateStatement[]>([]);
 
-const handleTypeChange = (selectedTypeTitle: string): void => {
-  updateStatementSetData.value.statementTypeId = typeStore.getTypeByTitle(selectedTypeTitle).id;
-}
-
-const increaseAnswer = () => {
+const increaseAnswerCount = () => {
   answers.value.push(<UpdateStatement>{
-    isCorrect: false
+    isCorrect: false,
+    statement: ''
   });
 }
 
-const reduceAnswer = () => {
+const reduceAnswerCount = () => {
   answers.value.pop();
 }
 
+const handleTypeChange = (selectedTypeTitle: string): void => {
+  statementTypeId.value = typeStore.getTypeByTitle(selectedTypeTitle).id;
+}
+
 const handleFileInputChange = (event: Event): void => {
-  if (!event.target) return
+  if (!(event.target instanceof HTMLInputElement) || !event.target.files) return;
   fileName.value = event.target.files[0] ? event.target.files[0].name : null;
 
-  updateStatementSetData.value.statementImage = <string>fileName.value;
+  statementImage.value = <string>fileName.value;
 }
 
 const storeStatementSet = async () => {
-  await statementStore.createStatementSet(updateStatementSetData.value, answers.value);
+  if (statementTypeId.value && !isValidGuid(statementTypeId.value)) {
+    // TODO: Invalid Guid given
+  }
+
+  const updateStatementSetData = <UpdateStatementSet>{
+    explaination: explaination.value,
+    statementImage: statementImage.value,
+    statementTypeId: statementTypeId.value,
+    statements: answers.value
+  };
+
+  await statementStore.createStatementSet(updateStatementSetData);
 }
 </script>

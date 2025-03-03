@@ -49,7 +49,8 @@
       <statement-set-list-item-component
         class="my-2"
         v-for="statementSet in statementStore.getStatementSets().slice(startIndex, endIndex)"
-        @on-delete="statementStore.deleteStatementSet(statementSet.id)"
+        :key="statementSet.id"
+        @on-delete="onHandleDelete(statementSet.id)"
         :id="statementSet.id"
         :type="statementSet.statementType?.title ?? ''"
         :description="statementSet.explaination"
@@ -77,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import DropdownComponent from '@/components/ui/DropdownComponent.vue'
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
@@ -103,6 +104,10 @@ const currentTypeFilter = ref<number|null>(null);
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(elementsPerPage.value);
+
+const onHandleDelete = (guid: string) => {
+  statementStore.deleteStatementSet(guid);
+}
 
 onMounted(async () => {
   statementStore.isLoading = true;

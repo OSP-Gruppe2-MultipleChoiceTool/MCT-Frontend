@@ -5,7 +5,6 @@ import { apiRoutes, buildApiUrl } from '@/config/apiRoutes.ts'
 import type {
   Questionnaire,
   StatementSetResponse,
-  UpdateStatement,
   UpdateStatementSet,
 } from '@/types/Questionnaire.ts'
 
@@ -33,7 +32,7 @@ export const useStatementStore = defineStore('statement', () => {
     return statementSets.value;
   }
 
-  const createStatementSet = async (setData: UpdateStatementSet, data: UpdateStatement[]): Promise<void> => {
+  const createStatementSet = async (updateStatementSetData: UpdateStatementSet): Promise<void> => {
     if (!questionnaire.value || !questionnaire.value.id) {
       console.error('Cant save statements without questionnaire id');
       return;
@@ -42,21 +41,12 @@ export const useStatementStore = defineStore('statement', () => {
     const statementSetRoute = buildApiUrl(apiRoutes.statementSets, { questionaireId: questionnaire.value.id });
     const statementSetResponse = await apiService.post<StatementSetResponse>(
       statementSetRoute,
-      setData
+      updateStatementSetData
     );
 
     if (!statementSetResponse.data) {
       console.error('error: ', statementSetResponse.error)
       return;
-    }
-
-    const statementRoute = buildApiUrl(apiRoutes.statements, {
-      questionaireId: questionnaire.value.id,
-      statementSetId: statementSetResponse.data.id
-    });
-
-    for (const item of data) {
-      await apiService.put(statementRoute, item);
     }
   }
 
@@ -66,25 +56,27 @@ export const useStatementStore = defineStore('statement', () => {
       return;
     }
 
-    isLoading.value = true;
-
     const deleteRoute = buildApiUrl(apiRoutes.statementSetById, {
       questionaireId: questionnaire.value.id,
       statementSetId: id
     });
     const deleteResponse = await apiService.delete(deleteRoute);
 
-    if (!deleteResponse.data) {
-      console.error('error: ', deleteResponse.error)
-      return;
-    }
+    // if (!deleteResponse.data) {
+    //   console.error('error: ', deleteResponse.error)
+    //   return; TODO: Reuse when Backend is returning success on deletion
+    // }
 
-    isLoading.value = false;
+    deleteLocallyInStore(id);
+  }
+
+  const deleteLocallyInStore = (idToDelete: string) => {
+    statementSets.value = statementSets.value.filter(
+      (statementSet) => statementSet.id !== idToDelete
+    );
   }
 
   const fillStatementSets = async (): Promise<void> => {
-    isLoading.value = true;
-
     statementSets.value = [];
 
     if (!questionnaire.value) {
@@ -102,8 +94,6 @@ export const useStatementStore = defineStore('statement', () => {
     response.data.forEach((statementSet: StatementSetResponse) => {
       statementSets.value.push(statementSet);
     });
-
-    isLoading.value = false;
   };
 
   return { isLoading, questionnaire, statementSets, setActiveQuestionnaireById, getStatementSets, createStatementSet, deleteStatementSet, fillStatementSets };

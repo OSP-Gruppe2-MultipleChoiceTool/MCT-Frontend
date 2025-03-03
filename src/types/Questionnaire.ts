@@ -21,7 +21,15 @@ export interface CreateQuestionnaire {
 export interface StatementSet {
   explaination?: string;
   statementImage?: string;
-  statementTypeId: string;
+  statementTypeId?: string;
+  statements: Statement[];
+}
+
+export type UpdateStatementSet = {
+  explaination?: string;
+  statementImage?: string;
+  statementTypeId?: string;
+  statements: UpdateStatement[];
 }
 
 export type StatementSetResponse = {
@@ -31,12 +39,6 @@ export type StatementSetResponse = {
   statementType?: StatementType;
   statements: Statement[];
 };
-
-export interface UpdateStatementSet {
-  explaination?: string;
-  statementImage?: string;
-  statementTypeId?: string;
-}
 
 export interface Statement {
   id: string;
