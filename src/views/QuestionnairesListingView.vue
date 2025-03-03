@@ -46,6 +46,7 @@
         class="my-2"
         v-for="question in questionStore.getQuestionnaires().slice(startIndex, endIndex)"
         :id="question.id" :title="question.title" :statement-sets="question.statementSets"
+        @on-delete="onHandleDelete(question.id)"
       />
     </div>
     <div v-else-if="!questionStore.isLoading && questionStore.getQuestionnaires().length === 0">
@@ -80,7 +81,6 @@ import PaginationComponent from '@/components/ui/PaginationComponent.vue'
 import { useQuestionnairesStore } from '@/stores/questionnaires.ts'
 import ModalCreateQuestionnaireComponent
   from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
-import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 
 const questionStore = useQuestionnairesStore();
 
@@ -91,6 +91,10 @@ const currentTextFilter = ref<string|null>(null);
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(elementsPerPage.value);
+
+const onHandleDelete = (guid: string) => {
+  questionStore.deleteQuestionnaire(guid);
+}
 
 onMounted(async () => {
   questionStore.isLoading = true;

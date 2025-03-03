@@ -35,6 +35,7 @@ import ModalDeleteConfirmationComponent from '@/components/ui/modal/ModalDeleteC
 import type { StatementSet } from '@/types/Questionnaire.ts'
 import router from '@/router'
 
+const emits = defineEmits(['onDelete']);
 const props = defineProps({
   id: {
     required: true,
@@ -55,8 +56,8 @@ const showDeleteModal = ref<boolean>(false);
 const showEditModal = ref<boolean>(false);
 
 const handleDeleteSubmit = (): void => {
+  emits('onDelete');
   showDeleteModal.value = false;
-  // TODO: Handle delete
 }
 </script>
 

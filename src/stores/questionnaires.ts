@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { apiService } from '@/services/apiService.ts'
 import { apiRoutes, buildApiUrl } from '@/config/apiRoutes.ts'
 import type { CreateQuestionnaire, Questionnaire } from '@/types/Questionnaire.ts'
-import { isValidGuid } from '@/composables/useDataValidation.ts'
 
 export const useQuestionnairesStore = defineStore('questionnaires', () => {
   const isLoading = ref<boolean>(false);
@@ -35,6 +34,26 @@ export const useQuestionnairesStore = defineStore('questionnaires', () => {
     }
   }
 
+  const deleteQuestionnaire = async (id: string): Promise<void> => {
+    const deleteRoute = buildApiUrl(apiRoutes.questionaireById, {
+      questionaireId: id,
+    });
+    const deleteResponse = await apiService.delete(deleteRoute);
+
+    // if (!deleteResponse.data) {
+    //   console.error('error: ', deleteResponse.error)
+    //   return; TODO: Reuse when Backend is returning success on deletion
+    // }
+
+    deleteLocallyInStore(id);
+  }
+
+  const deleteLocallyInStore = (idToDelete: string) => {
+    questionnaires.value = questionnaires.value.filter(
+      (questionnaire) => questionnaire.id !== idToDelete
+    );
+  }
+
   const fillQuestionnaires = async (): Promise<void> => {
     questionnaires.value = [];
 
@@ -54,6 +73,7 @@ export const useQuestionnairesStore = defineStore('questionnaires', () => {
     questionnaires,
     getQuestionnaireById,
     createQuestionnaire,
+    deleteQuestionnaire,
     getQuestionnaires,
     fillQuestionnaires
   };
