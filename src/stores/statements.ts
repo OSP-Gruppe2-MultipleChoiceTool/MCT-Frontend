@@ -62,10 +62,10 @@ export const useStatementStore = defineStore('statement', () => {
     });
     const deleteResponse = await apiService.delete(deleteRoute);
 
-    // if (!deleteResponse.data) {
-    //   console.error('error: ', deleteResponse.error)
-    //   return; TODO: Reuse when Backend is returning success on deletion
-    // }
+    if (!deleteResponse.status || deleteResponse.status !== 204) {
+      console.error('error: ', deleteResponse.error)
+      return;
+    }
 
     deleteLocallyInStore(id);
   }
