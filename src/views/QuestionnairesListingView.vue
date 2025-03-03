@@ -5,22 +5,6 @@
         <input-text-field-component class="w-1/2 sm:w-4/6" v-model:value="currentTextFilter" />
       </div>
       <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">
-        <div>
-          <button-component
-            background-color="bg-gray-300 hover:bg-gray-500"
-            text-color="hover:text-gray-300">
-            <icon-edit-square />
-            <span class="hidden sm:inline">Exportieren</span>
-          </button-component>
-        </div>
-        <div>
-          <button-component
-            background-color="bg-gray-300 hover:bg-gray-500"
-            text-color="hover:text-gray-300">
-            <icon-edit-square />
-            <span class="hidden sm:inline">Teilen</span>
-          </button-component>
-        </div>
         <div class="ml-auto">
           <button-component
             background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
@@ -73,12 +57,13 @@ import PaginationComponent from '@/components/ui/PaginationComponent.vue'
 import { useQuestionnairesStore } from '@/stores/questionnaires.ts'
 import ModalCreateQuestionnaireComponent
   from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
+import DropdownButtonListComponent from '@/components/ui/dropdown/DropdownButtonListComponent.vue'
 
 const questionStore = useQuestionnairesStore();
 
 const showCreateModal = ref<boolean>(false);
 
-const currentTextFilter = ref<string|null>(null);
+const currentTextFilter = ref<string>('');
 
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
