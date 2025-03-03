@@ -3,7 +3,7 @@
     <div id="left" class="flex flex-col justify-between basis-3/5">
       <div id="options">
         <div v-for="(statement, index) in props.statements" :key="statement.id" class="flex gap-x-5 py-2">
-          <p>{{ index }}</p>
+          <p>{{ index + 1 }}</p>
           <p>{{ statement.statement }}</p>
         </div>
       </div>
