@@ -120,7 +120,7 @@ const handleFileInputChange = (event: Event): void => {
   updateStatementSetData.value.statementImage = <string>fileName.value;
 }
 
-const storeStatementSet = () => {
-  statementStore.createStatementSet(updateStatementSetData.value, answers.value);
+const storeStatementSet = async () => {
+  await statementStore.createStatementSet(updateStatementSetData.value, answers.value);
 }
 </script>
