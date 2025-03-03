@@ -14,14 +14,6 @@
             background-color="bg-gray-300 hover:bg-gray-500"
             text-color="hover:text-gray-300">
             <icon-edit-square />
-            <span class="hidden sm:inline">Import CSV</span>
-          </button-component>
-        </div>
-        <div>
-          <button-component
-            background-color="bg-gray-300 hover:bg-gray-500"
-            text-color="hover:text-gray-300">
-            <icon-edit-square />
             <span class="hidden sm:inline">Export</span>
           </button-component>
         </div>
