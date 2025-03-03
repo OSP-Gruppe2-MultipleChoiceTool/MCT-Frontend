@@ -6,8 +6,6 @@ export const apiRoutes = {
   questionaireLinkById: '/api/questionaires/{questionaireId}/links/{linkId}',
   statementSets: '/api/questionaires/{questionaireId}/statement-sets',
   statementSetById: '/api/questionaires/{questionaireId}/statement-sets/{statementSetId}',
-  statements: '/api/questionaires/{questionaireId}/statement-sets/{statementSetId}/statements',
-  statementById: '/api/questionaires/{questionaireId}/statement-sets/{statementSetId}/statements/{statementId}',
   statementTypes: '/api/statement-types',
   statementTypeById: '/api/statement-types/{statementTypeId}',
   userAccess: '/api/statements',
