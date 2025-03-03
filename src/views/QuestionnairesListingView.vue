@@ -41,12 +41,18 @@
       </div>
     </div>
 
-    <div class="flex flex-col gap-y-2 pb-5">
+    <div class="flex flex-col gap-y-2 pb-5" v-if="!questionStore.isLoading && questionStore.getQuestionnaires().length > 0">
       <questionnaire-list-item-component
         class="my-2"
         v-for="question in questionStore.getQuestionnaires().slice(startIndex, endIndex)"
         :id="question.id" :title="question.title" :statement-sets="question.statementSets"
       />
+    </div>
+    <div v-else-if="!questionStore.isLoading && questionStore.getQuestionnaires().length === 0">
+      <p>No Statements found</p>
+    </div>
+    <div v-else>
+      <p>Loading...</p>
     </div>
 
     <pagination-component
@@ -71,11 +77,12 @@ import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import PaginationComponent from '@/components/ui/PaginationComponent.vue'
-import { useQuestionnairesStores } from '@/stores/questionnaires.ts'
+import { useQuestionnairesStore } from '@/stores/questionnaires.ts'
 import ModalCreateQuestionnaireComponent
   from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
+import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 
-const questionStore = useQuestionnairesStores();
+const questionStore = useQuestionnairesStore();
 
 const showCreateModal = ref<boolean>(false);
 
@@ -85,7 +92,11 @@ const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(elementsPerPage.value);
 
-onMounted(() => {
-  questionStore.fillQuestionnaires();
+onMounted(async () => {
+  questionStore.isLoading = true;
+
+  await questionStore.fillQuestionnaires();
+
+  questionStore.isLoading = false;
 })
 </script>
