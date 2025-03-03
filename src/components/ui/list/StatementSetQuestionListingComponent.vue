@@ -2,9 +2,9 @@
   <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded">
     <div id="left" class="flex flex-col justify-between basis-3/5">
       <div id="options">
-        <div v-for="n in 3" :key="n" class="flex gap-x-5 py-2">
-          <p>{{ n }}</p>
-          <p>VueJS is a JavaScript Framework</p>
+        <div v-for="(statement, index) in props.statements" :key="statement.id" class="flex gap-x-5 py-2">
+          <p>{{ index }}</p>
+          <p>{{ statement.statement }}</p>
         </div>
       </div>
     </div>
@@ -19,7 +19,10 @@
         <p>
           Antwort
         </p>
-        <input-text-field-component placeholder="Antwort..." />
+        <input-text-field-component
+          placeholder="Antwort..."
+          v-model:value="answer"
+        />
         <p>
           Mehrere Antworten mit Kommata trennen
         </p>
@@ -38,12 +41,15 @@
 <script setup lang="ts">
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
+import { type PropType, ref } from 'vue'
+import type { Statement } from '@/types/Questionnaire.ts'
 
 const props = defineProps({
-    borderColor: {
-        type: String,
-        required: false,
+    statements: {
+      type: Array as PropType<Statement[]>,
+      required: true,
     }
 });
 
+const answer = ref<string>('');
 </script>
