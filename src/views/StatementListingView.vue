@@ -111,5 +111,7 @@ onMounted(async () => {
 
   await statementStore.setActiveQuestionnaireById(<string>route.params.id);
   await statementStore.fillStatementSets();
+
+  statementStore.isLoading = false;
 })
 </script>
