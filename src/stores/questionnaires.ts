@@ -24,7 +24,7 @@ export const useQuestionnairesStore = defineStore('questionnaires', () => {
   }
 
   const createQuestionnaire = async (data: CreateQuestionnaire): Promise<void> => {
-    const response = await apiService.post<CreateQuestionnaire>(
+    const response = await apiService.post<Questionnaire>(
       apiRoutes.questionaires,
       data
     );
@@ -32,6 +32,8 @@ export const useQuestionnairesStore = defineStore('questionnaires', () => {
       console.error('error: ', response.error);
       return;
     }
+
+    questionnaires.value.push(response.data);
   }
 
   const deleteQuestionnaire = async (id: string): Promise<void> => {

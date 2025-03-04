@@ -4,7 +4,7 @@
       <div class="flex flex-col gap-y-2">
         <p class="text-xl font-bold pb-2 pt-3">Neuen Fragebogen hinzufügen</p>
         <label>Titel</label>
-        <input-text-field-component placeholder="Titel" v-model:value="createQuestionnaireData.title" />
+        <input-text-field-component placeholder="Titel" v-model:value="questionnaireTitle" />
       </div>
       <div class="mt-auto flex justify-end gap-x-4">
         <button
@@ -24,7 +24,7 @@
             dark:bg-gray-300 dark:text-main-blue
             cursor-pointer
           "
-          @click="emits('create', createQuestionnaireData)">
+          @click="onHandleCreate">
           Fragebogen erstellen
         </button>
       </div>
@@ -34,14 +34,19 @@
 
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import type { CreateQuestionnaire } from '@/types/Questionnaire.ts'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
-import type { CreateQuestionnaire } from '@/types/Questionnaire.ts'
-import { ref } from 'vue'
 
 const emits = defineEmits(['close', 'create']);
+const questionnaireTitle = ref<string>('');
 
-const createQuestionnaireData = ref<CreateQuestionnaire>({
-  title: undefined
-});
+const onHandleCreate = () => {
+  const createQuestionnaireData = {
+    title: questionnaireTitle.value
+  };
+
+  emits('create', createQuestionnaireData);
+}
 </script>

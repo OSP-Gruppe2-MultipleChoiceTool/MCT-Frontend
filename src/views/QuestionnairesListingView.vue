@@ -21,6 +21,7 @@
       <questionnaire-list-item-component
         class="my-2"
         v-for="question in questionStore.getQuestionnaires().slice(startIndex, endIndex)"
+        :key="question.id"
         :id="question.id" :title="question.title" :statement-sets="question.statementSets"
         @on-delete="onHandleDelete(question.id)"
       />
@@ -41,7 +42,7 @@
     <modal-create-questionnaire-component
       v-show="showCreateModal"
       @close="showCreateModal = false"
-      @create="questionStore.createQuestionnaire"
+      @create="onHandleCreate"
     />
   </main>
 </template>
@@ -50,14 +51,13 @@
 import { onMounted, ref } from 'vue'
 import QuestionnaireListItemComponent from '@/components/ui/list/QuestionnaireListItemComponent.vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
-import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import PaginationComponent from '@/components/ui/PaginationComponent.vue'
 import { useQuestionnairesStore } from '@/stores/questionnaires.ts'
 import ModalCreateQuestionnaireComponent
   from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
-import DropdownButtonListComponent from '@/components/ui/dropdown/DropdownButtonListComponent.vue'
+import type { CreateQuestionnaire } from '@/types/Questionnaire.ts'
 
 const questionStore = useQuestionnairesStore();
 
@@ -68,6 +68,11 @@ const currentTextFilter = ref<string>('');
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(elementsPerPage.value);
+
+const onHandleCreate = async (data: CreateQuestionnaire) => {
+  await questionStore.createQuestionnaire(data);
+  showCreateModal.value = false;
+}
 
 const onHandleDelete = (guid: string) => {
   questionStore.deleteQuestionnaire(guid);
