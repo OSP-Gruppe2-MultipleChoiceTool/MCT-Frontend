@@ -20,7 +20,7 @@
     <div class="flex flex-col gap-y-2 pb-5" v-if="!questionStore.isLoading && questionStore.getQuestionnaires().length > 0">
       <questionnaire-list-item-component
         class="my-2"
-        v-for="question in questionStore.getQuestionnaires().slice(startIndex, endIndex)"
+        v-for="question in filteredQuestionnaires"
         :key="question.id"
         :id="question.id" :title="question.title" :statement-sets="question.statementSets"
         @on-delete="onHandleDelete(question.id)"
@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import QuestionnaireListItemComponent from '@/components/ui/list/QuestionnaireListItemComponent.vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
@@ -61,9 +61,15 @@ import type { CreateQuestionnaire } from '@/types/Questionnaire.ts'
 
 const questionStore = useQuestionnairesStore();
 
-const showCreateModal = ref<boolean>(false);
-
 const currentTextFilter = ref<string>('');
+
+const filteredQuestionnaires = computed(() => {
+  return questionStore.getQuestionnaires().filter(questionnaire =>
+    questionnaire.title?.toLowerCase().includes(currentTextFilter.value.toLowerCase())
+  ).slice(startIndex.value, endIndex.value);
+});
+
+const showCreateModal = ref<boolean>(false);
 
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
