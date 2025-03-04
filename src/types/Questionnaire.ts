@@ -7,11 +7,23 @@ export interface UpdateQuestionnaireLink {
   expirationDate?: string;
 }
 
+export interface UserAccess {
+  linkId: string;
+  isExam: boolean;
+}
+
 export interface Questionnaire {
   id: string;
   title?: string;
   links: QuestionnaireLink[];
   statementSets: StatementSet[];
+}
+
+export interface QuestionnaireResponse {
+  id: string;
+  title?: string;
+  links: QuestionnaireLink[];
+  statementSets: StatementSetResponse[];
 }
 
 export interface CreateQuestionnaire {

@@ -1,6 +1,6 @@
 <template>
     <main class="w-full overflow-y-auto pb-10">
-      <div class="btns pb-5 flex justify-between">
+      <div class="pb-5 flex justify-between">
         <div class="h-8">
             <button-component
               custom-class="px-5"
@@ -12,10 +12,15 @@
         </div>
       </div>
       <div class="flex flex-col gap-y-5">
-        <statement-set-question-listing-component
+        <div
+          class="flex flex-col space-y-5"
           v-for="statementSet in statementStore.getStatementSets().slice(startIndex, endIndex)"
-          :id="statementSet.id" :statements="statementSet.statements"
-        />
+          :key="statementSet.id"
+        >
+          <statement-set-question-listing-component
+            :statement-set="statementSet"
+          />
+        </div>
       </div>
       <div class="mt-20">
         <Pagination-component
@@ -35,34 +40,17 @@ import StatementSetQuestionListingComponent from '@/components/ui/list/Statement
 import { useStatementStore } from '@/stores/statements.ts'
 import router from '@/router'
 import { useRoute } from 'vue-router'
-import { getQuestionnaireById } from '@/composables/useDataValidation.ts'
 
 const route = useRoute();
 const statementStore = useStatementStore();
 
+const linkId = <string>route.params.id;
+
+onMounted(async () => {
+  await statementStore.fillStatementsByLinkIdAndMode(linkId, false);
+})
+
 const elementsPerPage = ref<number>(1);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(elementsPerPage.value);
-
-onMounted(async () => {
-  const id = route.params.id;
-  if (typeof id !== 'string') {
-    console.error('ID is not valid');
-    await router.push({ name: 'home' });
-
-    return;
-  }
-
-  const idValid = await getQuestionnaireById(<string>id);
-  if (!idValid) {
-    console.error('ID not found');
-    await router.push({ name: 'home' });
-  }
-
-  // Set Active ID for Statements
-  await statementStore.setActiveQuestionnaireById(<string>id);
-
-  // Get all statements
-  await statementStore.fillStatementSets();
-})
 </script>

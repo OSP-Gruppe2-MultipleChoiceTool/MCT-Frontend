@@ -3,9 +3,9 @@ import { ref } from 'vue'
 import { apiService } from '@/services/apiService.ts'
 import { apiRoutes, buildApiUrl } from '@/config/apiRoutes.ts'
 import type {
-  Questionnaire, QuestionnaireLink,
+  Questionnaire, QuestionnaireLink, QuestionnaireResponse, StatementSet,
   StatementSetResponse, UpdateQuestionnaireLink,
-  UpdateStatementSet,
+  UpdateStatementSet, UserAccess,
 } from '@/types/Questionnaire.ts'
 
 export const useStatementStore = defineStore('statement', () => {
@@ -173,6 +173,35 @@ export const useStatementStore = defineStore('statement', () => {
     return response.data;
   }
 
+  const fillStatementsByLinkIdAndMode = async (
+    linkId: string,
+    isExam: boolean
+  ): Promise<void> => {
+    const response = await apiService.get<QuestionnaireResponse>(
+      apiRoutes.userAccess,
+      <UserAccess>{ linkId: linkId, isExam: isExam, }
+    );
+
+    if (!response.data || !response.status || response.status !== 200) {
+      console.error('error: ', response.error);
+      return;
+    }
+
+    statementSets.value = response.data.statementSets;
+  }
+
+  const getCorrectAnswerStringByStatementSets = (statementSet: StatementSet): String => {
+    const correctList: string[] = [];
+
+    statementSet.statements.forEach((statementSet, index) => {
+      if (statementSet.isCorrect) {
+        correctList.push(String(index + 1));
+      }
+    })
+
+    return correctList.join(',');
+  }
+
   return {
     isLoading,
     questionnaire,
@@ -184,6 +213,8 @@ export const useStatementStore = defineStore('statement', () => {
     editStatementSet,
     deleteStatementSet,
     fillStatementSets,
-    createLinkForCurrentQuestionnaire
+    createLinkForCurrentQuestionnaire,
+    fillStatementsByLinkIdAndMode,
+    getCorrectAnswerStringByStatementSets
   }
 })

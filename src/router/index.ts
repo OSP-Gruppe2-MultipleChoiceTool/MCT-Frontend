@@ -9,11 +9,6 @@ const router = createRouter({
       component: () => import("@/views/QuestionnairesListingView.vue"),
     },
     {
-      path: '/:id',
-      name: 'mode-select',
-      component: () => import("@/views/ModeSelectView.vue"),
-    },
-    {
       path: '/:id/exam',
       name: 'exam-mode',
       component: () => import("@/views/ExamModeView.vue"),
@@ -22,6 +17,11 @@ const router = createRouter({
       path: '/:id/training',
       name: 'training-mode',
       component: () => import("@/views/TrainingModeView.vue"),
+    },
+    {
+      path: '/:id',
+      name: 'mode-select',
+      component: () => import("@/views/ModeSelectView.vue"),
     },
     {
       path: '/question/:id',
