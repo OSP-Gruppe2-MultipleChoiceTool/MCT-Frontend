@@ -36,6 +36,24 @@ export const useQuestionnairesStore = defineStore('questionnaires', () => {
     questionnaires.value.push(response.data);
   }
 
+  const editQuestionnaire = async (id: string, data: CreateQuestionnaire): Promise<void> => {
+    const response = await apiService.patch(
+      buildApiUrl(apiRoutes.questionaireById, { questionaireId: id }),
+      data
+    );
+    if (!response.status || response.status !== 200) {
+      console.error('error: ', response.error);
+      return;
+    }
+
+    const localIndex = questionnaires.value.findIndex(
+      (question) => question.id === id
+    );
+    if (localIndex !== -1) {
+      questionnaires.value[localIndex] = <Questionnaire>response.data;
+    }
+  }
+
   const deleteQuestionnaire = async (id: string): Promise<void> => {
     const deleteRoute = buildApiUrl(apiRoutes.questionaireById, {
       questionaireId: id,
@@ -75,6 +93,7 @@ export const useQuestionnairesStore = defineStore('questionnaires', () => {
     questionnaires,
     getQuestionnaireById,
     createQuestionnaire,
+    editQuestionnaire,
     deleteQuestionnaire,
     getQuestionnaires,
     fillQuestionnaires

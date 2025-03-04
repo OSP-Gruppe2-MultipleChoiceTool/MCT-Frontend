@@ -37,4 +37,8 @@ export const apiService = {
   async delete<T>(url: string, params?: Record<string, any>): Promise<ApiResponse<T>> {
     return handleRequest(axios.delete(`${API_BASE_URL}${url}`, { params }));
   },
+
+  async patch<T>(url: string, data: any, params?: Record<string, any>): Promise<ApiResponse<T>> {
+    return handleRequest(axios.patch(`${API_BASE_URL}${url}`, data, { params }));
+  },
 }

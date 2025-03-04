@@ -35,12 +35,19 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { CreateQuestionnaire } from '@/types/Questionnaire.ts'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 
 const emits = defineEmits(['close', 'create']);
-const questionnaireTitle = ref<string>('');
+const props = defineProps({
+  title: {
+    type: String,
+    required: false,
+    default: ''
+  }
+});
+
+const questionnaireTitle = ref<string>(props.title);
 
 const onHandleCreate = () => {
   const createQuestionnaireData = {

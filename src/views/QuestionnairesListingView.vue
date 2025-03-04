@@ -23,6 +23,7 @@
         v-for="question in filteredQuestionnaires"
         :key="question.id"
         :id="question.id" :title="question.title" :statement-sets="question.statementSets"
+        @on-edit="(editData) => onHandleEdit(question.id, editData)"
         @on-delete="onHandleDelete(question.id)"
       />
     </div>
@@ -78,6 +79,10 @@ const endIndex = ref<number>(elementsPerPage.value);
 const onHandleCreate = async (data: CreateQuestionnaire) => {
   await questionStore.createQuestionnaire(data);
   showCreateModal.value = false;
+}
+
+const onHandleEdit = async (id: string, data: CreateQuestionnaire) => {
+  await questionStore.editQuestionnaire(id, data);
 }
 
 const onHandleDelete = (guid: string) => {

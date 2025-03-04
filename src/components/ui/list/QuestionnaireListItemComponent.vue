@@ -1,7 +1,10 @@
 <template>
   <article class="w-full h-full bg-gray-100 dark:bg-gray-300 rounded px-3 py-1 flex flex-col justify-around relative">
     <div class="absolute top-2 right-2 flex text-3xl">
-      <icon-edit-square class="hover:text-main-orange cursor-pointer" />
+      <icon-edit-square
+        class="hover:text-main-orange cursor-pointer"
+        @click="showEditModal = !showEditModal"
+      />
       <icon-trash-bin
         class="hover:text-main-orange cursor-pointer"
         @click="showDeleteModal = !showDeleteModal"
@@ -20,6 +23,12 @@
     </div>
   </article>
 
+  <modal-create-questionnaire-component
+    v-show="showEditModal"
+    :title="props.title"
+    @close="showEditModal = false"
+    @create="onHandleEdit"
+  />
   <modal-delete-confirmation-component
     v-show="showDeleteModal"
     @close="showDeleteModal = false"
@@ -32,10 +41,12 @@ import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
 import { type PropType, ref } from 'vue'
 import ModalDeleteConfirmationComponent from '@/components/ui/modal/ModalDeleteConfirmationComponent.vue'
-import type { StatementSet } from '@/types/Questionnaire.ts'
+import type { CreateQuestionnaire, StatementSet } from '@/types/Questionnaire.ts'
 import router from '@/router'
+import ModalCreateQuestionnaireComponent
+  from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
 
-const emits = defineEmits(['onDelete']);
+const emits = defineEmits(['onDelete', 'onEdit']);
 const props = defineProps({
   id: {
     required: true,
@@ -52,8 +63,13 @@ const props = defineProps({
   }
 });
 
-const showDeleteModal = ref<boolean>(false);
 const showEditModal = ref<boolean>(false);
+const showDeleteModal = ref<boolean>(false);
+
+const onHandleEdit = (data: CreateQuestionnaire): void => {
+  emits('onEdit', data);
+  showEditModal.value = false;
+}
 
 const handleDeleteSubmit = (): void => {
   emits('onDelete');
