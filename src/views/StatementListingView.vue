@@ -88,6 +88,7 @@ import { useRoute } from 'vue-router'
 import ModalCreateStatementSetComponent from '@/components/ui/modal/statement-sets/ModalCreateStatementSetComponent.vue'
 import { writeToClipboard } from '@/composables/useClipboard.ts'
 import type { UpdateStatementSet } from '@/types/Questionnaire.ts'
+import { push } from 'notivue'
 
 const route = useRoute();
 
@@ -129,6 +130,13 @@ const onHandleTypeFilterChange = (typeTitle: string) => {
 }
 
 const onHandleExport = async () => {
+  if (window.location.protocol !== 'https:') {
+    console.error('no secure context');
+    push.error('Exportieren funktioniert aktuell nur in einem sicheren Kontext (HTTPS)');
+
+    return;
+  }
+
   const exportString = await statementStore.getStatementsExportString();
 
   if (exportString) {

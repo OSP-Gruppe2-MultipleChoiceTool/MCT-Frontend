@@ -1,7 +1,12 @@
 export const writeToClipboard = async (content: string): Promise<void> => {
   try {
-    await navigator.clipboard.writeText(content);
+    const rtfBlob = new Blob([content], { type: 'text/rtf' });
+    const clipboardItem = new ClipboardItem({
+      'text/rtf': rtfBlob,
+    });
+
+    await navigator.clipboard.write([clipboardItem]);
   } catch (error: unknown) {
-    console.error('Content could not be writting into Clipboard');
+    console.error('Content could not be writting into Clipboard', error);
   }
 }
