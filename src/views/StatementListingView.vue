@@ -5,7 +5,10 @@
         <input-text-field-component class="w-1/2 sm:w-4/6" v-model:value="currentTextFilter" />
         <dropdown-component
           class="w-1/2 text-sm sm:w-2/6 sm:text-base"
+          :reset-element="'Auswahl entfernen'"
           :elements="typeStore.getTypes().map(type => type.title)"
+          @on-select="onHandleTypeFilterChange"
+          @on-reset="currentTypeFilter = null"
         />
       </div>
       <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">
@@ -24,7 +27,7 @@
             background-color="bg-gray-300 hover:bg-gray-500"
             text-color="hover:text-gray-300">
             <icon-edit-square />
-            <span class="hidden sm:inline">Share</span>
+            <span class="hidden sm:inline">Teilen</span>
           </button-component>
         </div>
         <div class="ml-auto">
@@ -42,7 +45,7 @@
     <div class="flex flex-col gap-y-2 pb-5" v-if="!statementStore.isLoading && statementStore.getStatementSets().length > 0">
       <statement-set-list-item-component
         class="my-2"
-        v-for="statementSet in statementStore.getStatementSets().slice(startIndex, endIndex)"
+        v-for="statementSet in filteredStatementSets.slice(startIndex, endIndex)"
         :key="statementSet.id"
         @on-delete="onHandleDelete(statementSet.id)"
         :id="statementSet.id"
@@ -60,7 +63,7 @@
 
     <pagination-component
       :max-per-page="elementsPerPage"
-      :item-count="statementStore.getStatementSets().length"
+      :item-count="filteredStatementSets.length"
       v-model:start-index="startIndex" v-model:end-index="endIndex"
     />
 
@@ -72,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import DropdownComponent from '@/components/ui/dropdown/DropdownComponent.vue'
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
@@ -94,11 +97,36 @@ const typeStore = useTypeStore();
 const showCreateModal = ref<boolean>(false);
 
 const currentTextFilter = ref<string>('');
-const currentTypeFilter = ref<number|null>(null);
+const currentTypeFilter = ref<string|null>(null);
 
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(elementsPerPage.value);
+
+const filteredStatementSets = computed(() => {
+  const textFilter = statementStore.getStatementSets().filter(statementSet =>
+    statementSet.explaination?.toLowerCase().includes(currentTextFilter.value.toLowerCase())
+  );
+
+  if (currentTypeFilter.value !== null) {
+    return textFilter.filter(statementSet =>
+      statementSet.statementType?.id === currentTypeFilter.value
+    );
+  }
+
+  return textFilter;
+});
+
+const onHandleTypeFilterChange = (typeTitle: string) => {
+  const typeByTitle = typeStore.getTypeByTitle(typeTitle);
+
+  if (typeof typeByTitle === 'undefined') {
+    currentTypeFilter.value = null;
+    return;
+  }
+
+  currentTypeFilter.value = typeByTitle.id;
+}
 
 const onHandleExport = async () => {
   const exportString = await statementStore.getStatementsExportString();

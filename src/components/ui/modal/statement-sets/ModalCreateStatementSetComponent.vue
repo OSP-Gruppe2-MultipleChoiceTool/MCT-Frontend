@@ -9,7 +9,8 @@
           <dropdown-input-component
             class="w-full"
             :elements="typeStore.getTypes().map(type => type.title)"
-            @on-input-change="handleTypeChange" />
+            @on-input-change="handleTypeChange"
+          />
         </div>
         <label for="explanation">Erklärung</label>
         <input-text-field-component
@@ -161,6 +162,19 @@ const storeStatementSet = async () => {
   };
 
   await statementStore.createStatementSet(updateStatementSetData);
+
+  resetModalData();
   emits('close');
+}
+
+const resetModalData = () => {
+  explaination.value = '';
+  statementImage.value = '';
+
+  statementTypeId.value = null;
+  statementTypeValue.value = '';
+
+  fileName.value = null;
+  answers.value = [];
 }
 </script>

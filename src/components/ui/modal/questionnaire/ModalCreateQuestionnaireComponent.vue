@@ -55,5 +55,6 @@ const onHandleCreate = () => {
   };
 
   emits('create', createQuestionnaireData);
+  questionnaireTitle.value = props.title;
 }
 </script>

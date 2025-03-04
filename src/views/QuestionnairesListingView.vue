@@ -20,7 +20,7 @@
     <div class="flex flex-col gap-y-2 pb-5" v-if="!questionStore.isLoading && questionStore.getQuestionnaires().length > 0">
       <questionnaire-list-item-component
         class="my-2"
-        v-for="question in filteredQuestionnaires"
+        v-for="question in filteredQuestionnaires.slice(startIndex, endIndex)"
         :key="question.id"
         :id="question.id" :title="question.title" :statement-sets="question.statementSets"
         @on-edit="(editData) => onHandleEdit(question.id, editData)"
@@ -67,7 +67,7 @@ const currentTextFilter = ref<string>('');
 const filteredQuestionnaires = computed(() => {
   return questionStore.getQuestionnaires().filter(questionnaire =>
     questionnaire.title?.toLowerCase().includes(currentTextFilter.value.toLowerCase())
-  ).slice(startIndex.value, endIndex.value);
+  );
 });
 
 const showCreateModal = ref<boolean>(false);
