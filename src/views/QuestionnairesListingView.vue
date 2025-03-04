@@ -36,7 +36,7 @@
 
     <pagination-component
       :max-per-page="elementsPerPage"
-      :item-count="questionStore.getQuestionnaires().length"
+      :item-count="filteredQuestionnaires.length"
       v-model:start-index="startIndex" v-model:end-index="endIndex"
     />
 
