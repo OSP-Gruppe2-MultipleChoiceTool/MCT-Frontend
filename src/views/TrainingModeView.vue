@@ -5,7 +5,7 @@
             <button-component
               custom-class="px-5"
               background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange"
-              @click="router.push({ name: 'statement-listing', params: { id: <string>route.params.id } })"
+              @click="router.push({ name: 'mode-select', params: { id: <string>route.params.id } })"
             >
               Zurück
             </button-component>
@@ -42,9 +42,9 @@ import router from '@/router'
 import { useRoute } from 'vue-router'
 
 const route = useRoute();
-const statementStore = useStatementStore();
-
 const linkId = <string>route.params.id;
+
+const statementStore = useStatementStore();
 
 onMounted(async () => {
   await statementStore.fillStatementsByLinkIdAndMode(linkId, false);
