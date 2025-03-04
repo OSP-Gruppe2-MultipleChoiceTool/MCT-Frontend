@@ -59,7 +59,3 @@ export interface StatementType {
 export interface CreateStatementType {
   title: string;
 }
-
-export interface UpdateStatementType {
-  title?: string;
-}

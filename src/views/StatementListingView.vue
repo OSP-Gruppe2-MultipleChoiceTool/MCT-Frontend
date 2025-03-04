@@ -72,9 +72,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
-import DropdownComponent from '@/components/ui/DropdownComponent.vue'
+import DropdownComponent from '@/components/ui/dropdown/DropdownComponent.vue'
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'

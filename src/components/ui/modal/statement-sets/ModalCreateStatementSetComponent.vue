@@ -6,10 +6,10 @@
         <p class="text-xl font-bold pb-2 pt-3">Neue Frage hinzufügen</p>
         <div class="flex flex-col gap-y-2">
           <span>Kategorie</span>
-          <dropdown-component
+          <dropdown-input-component
             class="w-full"
             :elements="typeStore.getTypes().map(type => type.title)"
-            @select="handleTypeChange" />
+            @on-input-change="handleTypeChange" />
         </div>
         <label for="explanation">Erklärung</label>
         <input-text-field-component
@@ -74,7 +74,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import IconUpload from '@/components/icons/IconUpload.vue'
-import DropdownComponent from '@/components/ui/DropdownComponent.vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
@@ -82,10 +81,15 @@ import IconShuffle from '@/components/icons/IconShuffle.vue'
 import InputCheckboxTextComponent from '@/components/ui/input/InputCheckboxTextComponent.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import { useTypeStore } from '@/stores/type.ts'
-import type { UpdateStatement, UpdateStatementSet } from '@/types/Questionnaire.ts'
+import type {
+  CreateStatementType,
+  UpdateStatement,
+  UpdateStatementSet,
+} from '@/types/Questionnaire.ts'
 import IconMinus from '@/components/icons/IconMinus.vue'
 import { useStatementStore } from '@/stores/statements.ts'
 import { isValidGuid } from '@/composables/useDataValidation.ts'
+import DropdownInputComponent from '@/components/ui/dropdown/DropdownInputComponent.vue'
 
 const statementStore = useStatementStore();
 const typeStore = useTypeStore()
@@ -94,7 +98,9 @@ const emits = defineEmits(['close']);
 
 const explaination = ref<string>('');
 const statementImage = ref<string>('');
+
 const statementTypeId = ref<string|null>(null);
+const statementTypeValue = ref<string>('');
 
 const fileName = ref<string | null>(null)
 const answers = ref<UpdateStatement[]>([]);
@@ -111,7 +117,14 @@ const reduceAnswerCount = () => {
 }
 
 const handleTypeChange = (selectedTypeTitle: string): void => {
-  statementTypeId.value = typeStore.getTypeByTitle(selectedTypeTitle).id;
+  const localTitle = typeStore.getTypeByTitle(selectedTypeTitle);
+
+  if (typeof localTitle !== 'undefined') {
+    statementTypeId.value = localTitle.id;
+    return;
+  }
+
+  statementTypeValue.value = selectedTypeTitle;
 }
 
 const handleFileInputChange = (event: Event): void => {
@@ -122,8 +135,19 @@ const handleFileInputChange = (event: Event): void => {
 }
 
 const storeStatementSet = async () => {
-  if (statementTypeId.value && !isValidGuid(statementTypeId.value)) {
-    // TODO: Invalid Guid given
+  if (statementTypeId.value === null && (statementTypeValue.value.trim()) !== '') {
+    const createStatementType = <CreateStatementType>{
+      title: statementTypeValue.value
+    };
+
+    const statementType = await typeStore.createType(createStatementType);
+    if (statementType !== null) {
+      statementTypeId.value = statementType.id;
+    }
+  }
+
+  if (statementTypeId.value !== null && !isValidGuid(statementTypeId.value)) {
+    // TODO: Toast Notification
   }
 
   const updateStatementSetData = <UpdateStatementSet>{
@@ -134,5 +158,6 @@ const storeStatementSet = async () => {
   };
 
   await statementStore.createStatementSet(updateStatementSetData);
+  emits('close');
 }
 </script>

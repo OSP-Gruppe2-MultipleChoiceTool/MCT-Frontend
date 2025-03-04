@@ -65,15 +65,17 @@ export const useStatementStore = defineStore('statement', () => {
     const statementSetRoute = buildApiUrl(apiRoutes.statementSets, {
       questionaireId: questionnaire.value.id,
     })
-    const statementSetResponse = await apiService.post<StatementSetResponse>(
+    const response = await apiService.post<StatementSetResponse>(
       statementSetRoute,
       updateStatementSetData,
     )
 
-    if (!statementSetResponse.data) {
-      console.error('error: ', statementSetResponse.error)
+    if (!response.data || !response.status || response.status !== 200) {
+      console.error('error: ', response.error)
       return
     }
+
+    statementSets.value.push(response.data);
   }
 
   const deleteStatementSet = async (id: string): Promise<void> => {
