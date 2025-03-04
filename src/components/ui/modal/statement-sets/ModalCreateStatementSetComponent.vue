@@ -90,6 +90,7 @@ import IconMinus from '@/components/icons/IconMinus.vue'
 import { useStatementStore } from '@/stores/statements.ts'
 import { isValidGuid } from '@/composables/useDataValidation.ts'
 import DropdownInputComponent from '@/components/ui/dropdown/DropdownInputComponent.vue'
+import { push } from 'notivue'
 
 const statementStore = useStatementStore();
 const typeStore = useTypeStore()
@@ -147,7 +148,9 @@ const storeStatementSet = async () => {
   }
 
   if (statementTypeId.value !== null && !isValidGuid(statementTypeId.value)) {
-    // TODO: Toast Notification
+    push.error('Es Problem mit der Kategorie ist aufgetreten!');
+
+    statementTypeId.value = null;
   }
 
   const updateStatementSetData = <UpdateStatementSet>{
