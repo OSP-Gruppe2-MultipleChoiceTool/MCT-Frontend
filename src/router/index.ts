@@ -9,22 +9,22 @@ const router = createRouter({
       component: () => import("@/views/QuestionnairesListingView.vue"),
     },
     {
-      path: '/question/:id',
+      path: '/:id',
       name: 'mode-select',
       component: () => import("@/views/ModeSelectView.vue"),
     },
     {
-      path: '/question/:id/exam',
+      path: '/:id/exam',
       name: 'exam-mode',
       component: () => import("@/views/ExamModeView.vue"),
     },
     {
-      path: '/question/:id/training',
+      path: '/:id/training',
       name: 'training-mode',
       component: () => import("@/views/TrainingModeView.vue"),
     },
     {
-      path: '/question/:id/edit',
+      path: '/question/:id',
       name: 'statement-listing',
       component: () => import("@/views/StatementListingView.vue"),
     },

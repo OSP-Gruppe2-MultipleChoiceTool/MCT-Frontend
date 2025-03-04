@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { apiService } from '@/services/apiService.ts'
 import { apiRoutes, buildApiUrl } from '@/config/apiRoutes.ts'
 import type {
-  Questionnaire,
-  StatementSetResponse,
+  Questionnaire, QuestionnaireLink,
+  StatementSetResponse, UpdateQuestionnaireLink,
   UpdateStatementSet,
 } from '@/types/Questionnaire.ts'
 
@@ -150,6 +150,29 @@ export const useStatementStore = defineStore('statement', () => {
     })
   }
 
+  const createLinkForCurrentQuestionnaire = async (data: UpdateQuestionnaireLink): Promise<QuestionnaireLink|null> => {
+    if (!questionnaire.value) {
+      console.error('Cant create QuestionnaireLink without QuestionnaireId');
+      return null;
+    }
+
+    const route = buildApiUrl(apiRoutes.questionaireLinks, {
+      questionaireId: questionnaire.value.id
+    });
+    const response = await apiService.post<QuestionnaireLink>(
+      route,
+      data
+    );
+
+    if (!response.data || !response.status || response.status !== 200) {
+      console.error('error: ', response.error);
+      return null;
+    }
+
+    questionnaire.value.links.push(response.data);
+    return response.data;
+  }
+
   return {
     isLoading,
     questionnaire,
@@ -161,5 +184,6 @@ export const useStatementStore = defineStore('statement', () => {
     editStatementSet,
     deleteStatementSet,
     fillStatementSets,
+    createLinkForCurrentQuestionnaire
   }
 })

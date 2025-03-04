@@ -25,7 +25,9 @@
         <div>
           <button-component
             background-color="bg-gray-300 hover:bg-gray-500"
-            text-color="hover:text-gray-300">
+            text-color="hover:text-gray-300"
+            @click="showShareModal = true"
+          >
             <icon-edit-square />
             <span class="hidden sm:inline">Teilen</span>
           </button-component>
@@ -70,6 +72,11 @@
       @on-close="showCreateModal = false"
       @on-create="onHandleCreate"
     />
+    <modal-create-questionnaire-link-component
+      v-show="showShareModal"
+      @on-close="showShareModal = false"
+      @on-create="onHandleQuestionnaireLinkCreation"
+    />
   </main>
 </template>
 
@@ -86,9 +93,12 @@ import { useTypeStore } from '@/stores/type.ts'
 import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 import { useRoute } from 'vue-router'
 import ModalCreateStatementSetComponent from '@/components/ui/modal/statement-sets/ModalCreateStatementSetComponent.vue'
-import { writeToClipboard } from '@/composables/useClipboard.ts'
-import type { UpdateStatementSet } from '@/types/Questionnaire.ts'
+import { writeToClipboard, writeToClipboardRtf } from '@/composables/useClipboard.ts'
+import type { UpdateQuestionnaireLink, UpdateStatementSet } from '@/types/Questionnaire.ts'
 import { push } from 'notivue'
+import ModalCreateQuestionnaireLinkComponent
+  from '@/components/ui/modal/questionnaire/ModalCreateQuestionnaireLinkComponent.vue'
+import router from '@/router'
 
 const route = useRoute();
 
@@ -96,6 +106,7 @@ const statementStore = useStatementStore();
 const typeStore = useTypeStore();
 
 const showCreateModal = ref<boolean>(false);
+const showShareModal = ref<boolean>(false);
 
 const currentTextFilter = ref<string>('');
 const currentTypeFilter = ref<string|null>(null);
@@ -140,7 +151,32 @@ const onHandleExport = async () => {
   const exportString = await statementStore.getStatementsExportString();
 
   if (exportString) {
-    await writeToClipboard(exportString);
+    await writeToClipboardRtf(exportString);
+  }
+}
+
+const onHandleQuestionnaireLinkCreation = async (data: UpdateQuestionnaireLink) => {
+  showShareModal.value = false;
+
+  const questionnaireLink = await statementStore.createLinkForCurrentQuestionnaire(data);
+  if (questionnaireLink === null) {
+    push.error('Ein Problem während der Erstellung vom Link ist aufgetreten');
+    return;
+  }
+
+  const linkHref = router.resolve({
+    name: 'mode-select',
+    params: { id: questionnaireLink.id }
+  }).href;
+
+  const writeContent = window.location.origin + linkHref;
+  const writeSuccessful = await writeToClipboard(writeContent);
+
+  if (writeSuccessful) {
+    push.success('Der Link wurde in die Zwischenablage gespeichert');
+  } else {
+    push.error('Leider hat das nicht geklappt. Stattdessen kann der Link aus dem Fenster kopiert werden.');
+    alert(writeContent);
   }
 }
 
