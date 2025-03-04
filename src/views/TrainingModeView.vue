@@ -17,7 +17,7 @@
           v-for="statementSet in statementStore.getStatementSets().slice(startIndex, endIndex)"
           :key="statementSet.id"
         >
-          <statement-set-question-listing-component
+          <statement-set-question-listing-training-component
             :statement-set="statementSet"
           />
         </div>
@@ -36,7 +36,7 @@
 import { onMounted, ref } from 'vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import PaginationComponent from '@/components/ui/PaginationComponent.vue'
-import StatementSetQuestionListingComponent from '@/components/ui/list/StatementSetQuestionListingComponent.vue'
+import StatementSetQuestionListingTrainingComponent from '@/components/ui/list/StatementSetQuestionListingTrainingComponent.vue'
 import { useStatementStore } from '@/stores/statements.ts'
 import router from '@/router'
 import { useRoute } from 'vue-router'

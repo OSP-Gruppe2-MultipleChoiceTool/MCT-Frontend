@@ -1,56 +1,63 @@
 <template>
   <main class="w-full overflow-y-auto">
-    <div id="top-button-row" class="pb-5 flex justify-between">
+    <div class="pb-5 flex justify-between">
       <div class="h-8">
-        <button-component custom-class="px-5" background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
+        <button-component
+          custom-class="px-5"
+          background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange"
+          @click="router.push({ name: 'mode-select', params: { id: <string>route.params.id } })"
+        >
+          Zurück
+        </button-component>
       </div>
       <div class="h-11">
-        <button-component custom-class="px-5 py-3" background-color="bg-main-orange dark:bg-gray-300 hover:bg-gray-300 text-main-blue dark:text-main-orange">Abgeben</button-component>
+        <button-component
+          custom-class="px-5 py-3"
+          background-color="bg-main-orange dark:bg-gray-300 hover:bg-gray-300 text-main-blue dark:text-main-orange"
+          @click="turnIn"
+        >
+          Abgeben
+        </button-component>
       </div>
+    </div>
+    <div class="flex flex-col gap-y-5 mb-20">
+      <div
+        class="flex flex-col space-y-5"
+        v-for="statementSet in statementStore.getStatementSets()"
+        :key="statementSet.id"
+      >
+        <statement-set-question-listing-exam-component
+          :turned-in="turnedIn"
+          :statement-set="statementSet"
+        />
       </div>
-    <div class="flex flex-col gap-y-5">
-      <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded" v-for="y in 3" :key="y">
-        <div id="left" class="flex flex-col justify-between basis-3/5">
-          <div id="options">
-            <div v-for="n in 3" :key="n" class="flex gap-x-5 py-2">
-              <p>{{ n }}</p>
-              <p>VueJS is a JavaScript Framework</p>
-            </div>
-          </div>
-        </div>
-        <div id="right" class="basis-2/5 flex flex-col gap-y-5">
-          <div class="max-h-96 w-auto flex justify-center xl:justify-end">
-            <img src="https://www.placecats.com/400/300" class="object-contain rounded"  alt="img"/>
-          </div>
-        </div>
-
-        <div id="bottom-button-row" class="w-full flex flex-col space-y-5 pt-10 justify-between items-center">
-          <div class="text-center flex flex-col mx-auto">
-            <p>
-              Antwort
-            </p>
-            <input-text-field-component placeholder="Antwort..." />
-            <p>
-              Mehrere Antworten mit Kommata trennen
-            </p>
-          </div>
-          <div class="w-fit">
-            <button-component
-              background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-              text-color="text-gray-300 hover:text-main-blue px-10">
-              Beantworten
-            </button-component>
-          </div>
-        </div>
-      </article>
-
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
+import { useRoute } from 'vue-router'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
+import { onMounted, ref } from 'vue'
+import { useStatementStore } from '@/stores/statements.ts'
+import StatementSetQuestionListingExamComponent
+  from '@/components/ui/list/StatementSetQuestionListingExamComponent.vue'
+import router from '@/router'
+
+const route = useRoute();
+const linkId = <string>route.params.id;
+
+const statementStore = useStatementStore();
+
+const turnedIn = ref<boolean>(false);
+
+const turnIn = () => {
+  turnedIn.value = true;
+}
+
+onMounted(async () => {
+  await statementStore.fillStatementsByLinkIdAndMode(linkId, true);
+})
 </script>
 
 <style scoped>

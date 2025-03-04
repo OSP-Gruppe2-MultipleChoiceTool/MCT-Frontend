@@ -30,7 +30,7 @@ export const useStatementStore = defineStore('statement', () => {
     questionnaire.value = response.data
   }
 
-  const getStatementSets = () => {
+  const getStatementSets = (): StatementSetResponse[] => {
     return statementSets.value
   }
 
