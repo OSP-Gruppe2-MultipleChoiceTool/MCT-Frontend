@@ -57,7 +57,7 @@ import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import PaginationComponent from '@/components/ui/PaginationComponent.vue'
 import { useQuestionnairesStore } from '@/stores/questionnaires.ts'
 import ModalCreateQuestionnaireComponent
-  from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
+  from '@/components/ui/modal/questionnaire/ModalCreateQuestionnaireComponent.vue'
 import type { CreateQuestionnaire } from '@/types/Questionnaire.ts'
 
 const questionStore = useQuestionnairesStore();

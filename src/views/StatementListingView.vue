@@ -83,7 +83,7 @@ import { useStatementStore } from '@/stores/statements.ts'
 import { useTypeStore } from '@/stores/type.ts'
 import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 import { useRoute } from 'vue-router'
-import ModalCreateStatementSetComponent from '@/components/ui/modal/ModalCreateStatementSetComponent.vue'
+import ModalCreateStatementSetComponent from '@/components/ui/modal/statement-sets/ModalCreateStatementSetComponent.vue'
 import { writeToClipboard } from '@/composables/useClipboard.ts'
 
 const route = useRoute();

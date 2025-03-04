@@ -23,11 +23,11 @@
     </div>
   </article>
 
-  <modal-create-questionnaire-component
+  <modal-edit-questionnaire-component
     v-show="showEditModal"
     :title="props.title"
-    @close="showEditModal = false"
-    @create="onHandleEdit"
+    @on-close="showEditModal = false"
+    @on-edit="onHandleEdit"
   />
   <modal-delete-confirmation-component
     v-show="showDeleteModal"
@@ -43,8 +43,8 @@ import { type PropType, ref } from 'vue'
 import ModalDeleteConfirmationComponent from '@/components/ui/modal/ModalDeleteConfirmationComponent.vue'
 import type { CreateQuestionnaire, StatementSet } from '@/types/Questionnaire.ts'
 import router from '@/router'
-import ModalCreateQuestionnaireComponent
-  from '@/components/ui/modal/ModalCreateQuestionnaireComponent.vue'
+import ModalEditQuestionnaireComponent
+  from '@/components/ui/modal/questionnaire/ModalEditQuestionnaireComponent.vue'
 
 const emits = defineEmits(['onDelete', 'onEdit']);
 const props = defineProps({
