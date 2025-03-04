@@ -3,12 +3,13 @@
     <div
       class="w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-8 sm:px-16 overflow-y-auto dark:text-gray-300 text-main-blue">
       <div class="flex flex-col gap-y-2">
-        <p class="text-xl font-bold pb-2 pt-3">Neue Frage hinzufügen</p>
+        <p class="text-xl font-bold pb-2 pt-3">Frage editieren</p>
         <div class="flex flex-col gap-y-2">
           <span>Kategorie</span>
           <dropdown-input-component
             class="w-full"
             :elements="typeStore.getTypes().map(type => type.title)"
+            :current-value="statementTypeValue"
             @on-input-change="handleTypeChange"
           />
         </div>
@@ -65,7 +66,7 @@
         <button
           class="p-2 rounded-lg bg-main-blue hover:bg-main-orange text-gray-300 dark:bg-gray-300 dark:text-main-blue cursor-pointer"
           @click="storeStatementSet">
-          Frage speichern
+          Speichern
         </button>
       </div>
     </div>
@@ -73,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { type PropType, ref } from 'vue'
 import IconUpload from '@/components/icons/IconUpload.vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
@@ -83,29 +84,48 @@ import InputCheckboxTextComponent from '@/components/ui/input/InputCheckboxTextC
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import { useTypeStore } from '@/stores/type.ts'
 import type {
-  CreateStatementType,
+  CreateStatementType, Statement,
   UpdateStatement,
   UpdateStatementSet,
 } from '@/types/Questionnaire.ts'
 import IconMinus from '@/components/icons/IconMinus.vue'
-import { useStatementStore } from '@/stores/statements.ts'
-import { isValidGuid } from '@/composables/useDataValidation.ts'
 import DropdownInputComponent from '@/components/ui/dropdown/DropdownInputComponent.vue'
 import { push } from 'notivue'
+import { isValidGuid } from '@/composables/useDataValidation.ts'
 
-const statementStore = useStatementStore();
 const typeStore = useTypeStore()
 
-const emits = defineEmits(['onClose', 'onCreate']);
+const emits = defineEmits(['onClose', 'onEdit']);
+const props = defineProps({
+  explaination: {
+    type: String,
+    required: false,
+    default: ''
+  },
+  statementImage: {
+    type: String,
+    required: false,
+    default: ''
+  },
+  statementTypeValue: {
+    type: String,
+    required: false,
+    default: ''
+  },
+  answers: {
+    type: Array as PropType<Statement[]>,
+    required: true
+  }
+});
 
-const explaination = ref<string>('');
-const statementImage = ref<string>('');
+const explaination = ref<string>(props.explaination);
+const statementImage = ref<string>(props.statementImage);
 
 const statementTypeId = ref<string|null>(null);
-const statementTypeValue = ref<string>('');
+const statementTypeValue = ref<string>(props.statementTypeValue);
 
 const fileName = ref<string | null>(null)
-const answers = ref<UpdateStatement[]>([]);
+const answers = ref<UpdateStatement[]>(props.answers);
 
 const increaseAnswerCount = () => {
   answers.value.push(<UpdateStatement>{
@@ -161,18 +181,6 @@ const storeStatementSet = async () => {
     statements: answers.value
   };
 
-  emits('onCreate', updateStatementSetData)
-  resetModalData();
-}
-
-const resetModalData = () => {
-  explaination.value = '';
-  statementImage.value = '';
-
-  statementTypeId.value = null;
-  statementTypeValue.value = '';
-
-  fileName.value = null;
-  answers.value = [];
+  emits('onEdit', updateStatementSetData)
 }
 </script>

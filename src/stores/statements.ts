@@ -78,6 +78,30 @@ export const useStatementStore = defineStore('statement', () => {
     statementSets.value.push(response.data);
   }
 
+  const editStatementSet = async (id: string, data: UpdateStatementSet): Promise<void> => {
+    if (!questionnaire.value || !questionnaire.value.id) {
+      console.error('Cant edit StatementSet without questionnaire id');
+      return;
+    }
+
+    const route = buildApiUrl(apiRoutes.statementSetById, {
+      questionaireId: questionnaire.value?.id,
+      statementSetId: id
+    })
+    const response = await apiService.patch<StatementSetResponse>(route, data);
+    if (!response.status || response.status !== 200) {
+      console.error('error: ', response.error);
+      return;
+    }
+
+    const localIndex = statementSets.value.findIndex(
+      (statementSet) => statementSet.id === id
+    );
+    if (localIndex !== -1) {
+      statementSets.value[localIndex] = <StatementSetResponse>response.data;
+    }
+  }
+
   const deleteStatementSet = async (id: string): Promise<void> => {
     if (!questionnaire.value || !questionnaire.value.id) {
       console.error('Cant save statements without questionnaire id')
@@ -134,6 +158,7 @@ export const useStatementStore = defineStore('statement', () => {
     getStatementSets,
     getStatementsExportString,
     createStatementSet,
+    editStatementSet,
     deleteStatementSet,
     fillStatementSets,
   }

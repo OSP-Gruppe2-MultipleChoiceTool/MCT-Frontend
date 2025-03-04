@@ -22,11 +22,16 @@ const props = defineProps({
   elements: {
     required: true,
     type: Array as PropType<string[]>
+  },
+  currentValue: {
+    required: false,
+    type: String,
+    default: ''
   }
 });
 
 const dropdownOpen = ref(false);
-const currentValue = ref<string>('');
+const currentValue = ref<string>(props.currentValue);
 
 const filteredElements = computed(() => {
   if (!currentValue.value) {

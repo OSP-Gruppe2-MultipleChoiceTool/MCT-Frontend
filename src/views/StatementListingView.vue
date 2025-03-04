@@ -47,11 +47,9 @@
         class="my-2"
         v-for="statementSet in filteredStatementSets.slice(startIndex, endIndex)"
         :key="statementSet.id"
+        :statement-set="statementSet"
+        @on-edit="(editData) => onHandleEdit(statementSet.id, editData)"
         @on-delete="onHandleDelete(statementSet.id)"
-        :id="statementSet.id"
-        :type="statementSet.statementType?.title ?? ''"
-        :description="statementSet.explaination"
-        :statementCount="statementSet.statements.length"
       />
     </div>
     <div v-else-if="!statementStore.isLoading && statementStore.getStatementSets().length === 0">
@@ -69,7 +67,8 @@
 
     <modal-create-statement-set-component
       v-show="showCreateModal"
-      @close="showCreateModal = false"
+      @on-close="showCreateModal = false"
+      @on-create="onHandleCreate"
     />
   </main>
 </template>
@@ -88,6 +87,7 @@ import StatementSetListItemComponent from '@/components/ui/list/StatementSetList
 import { useRoute } from 'vue-router'
 import ModalCreateStatementSetComponent from '@/components/ui/modal/statement-sets/ModalCreateStatementSetComponent.vue'
 import { writeToClipboard } from '@/composables/useClipboard.ts'
+import type { UpdateStatementSet } from '@/types/Questionnaire.ts'
 
 const route = useRoute();
 
@@ -134,6 +134,15 @@ const onHandleExport = async () => {
   if (exportString) {
     await writeToClipboard(exportString);
   }
+}
+
+const onHandleCreate = async (data: UpdateStatementSet) => {
+  await statementStore.createStatementSet(data);
+  showCreateModal.value = false;
+}
+
+const onHandleEdit = async (statementSetId: string, data: UpdateStatementSet) => {
+  await statementStore.editStatementSet(statementSetId, data);
 }
 
 const onHandleDelete = (guid: string) => {

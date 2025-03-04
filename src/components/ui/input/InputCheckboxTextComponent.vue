@@ -38,7 +38,7 @@ watch(isChecked, (newValue) => {
   emits('update:checked', newValue);
 });
 
-const textValue = ref<string>('');
+const textValue = ref<string>(props.value);
 watch(textValue, (newValue) => {
   emits('update:value', newValue);
 });
