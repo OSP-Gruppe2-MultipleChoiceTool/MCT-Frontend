@@ -22,13 +22,16 @@
       <div class="flex justify-between items-center gap-x-2">
         <icon-upload />
         <input
+          :id="'fileInput-' + identifier"
           type="file"
-          id="fileInput"
+          accept="image/*"
           class="hidden"
-          @change="handleFileInputChange" />
+          @change="handleFileInputChange"
+        />
         <label
-          for="fileInput"
-          class="w-full cursor-pointer inline-flex items-center bg-gray-300 text-slate-900 py-2 px-4 rounded-lg">
+          :for="'fileInput-' + identifier"
+          class="w-full cursor-pointer inline-flex items-center bg-gray-300 text-slate-900 py-2 px-4 rounded-lg"
+        >
           {{ fileName ?? 'Bild hochladen...' }}
         </label>
         <icon-trash-bin class="hover:text-main-orange cursor-pointer" />
@@ -88,18 +91,17 @@ import type {
   UpdateStatementSet,
 } from '@/types/Questionnaire.ts'
 import IconMinus from '@/components/icons/IconMinus.vue'
-import { useStatementStore } from '@/stores/statements.ts'
 import { isValidGuid } from '@/composables/useDataValidation.ts'
 import DropdownInputComponent from '@/components/ui/dropdown/DropdownInputComponent.vue'
 import { push } from 'notivue'
 
-const statementStore = useStatementStore();
-const typeStore = useTypeStore()
-
 const emits = defineEmits(['onClose', 'onCreate']);
 
+const typeStore = useTypeStore()
+const identifier = Math.floor(Math.random() * 10000);
+
 const explaination = ref<string>('');
-const statementImage = ref<string>('');
+const base64Image = ref<string | null>(null);
 
 const statementTypeId = ref<string|null>(null);
 const statementTypeValue = ref<string>('');
@@ -131,9 +133,20 @@ const handleTypeChange = (selectedTypeTitle: string): void => {
 
 const handleFileInputChange = (event: Event): void => {
   if (!(event.target instanceof HTMLInputElement) || !event.target.files) return;
-  fileName.value = event.target.files[0] ? event.target.files[0].name : null;
 
-  statementImage.value = <string>fileName.value;
+  fileName.value = event.target.files[0] ? event.target.files[0].name : null;
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      base64Image.value = reader.result as string;
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    base64Image.value = null;
+  }
 }
 
 const storeStatementSet = async () => {
@@ -154,9 +167,11 @@ const storeStatementSet = async () => {
     statementTypeId.value = null;
   }
 
+  console.log(base64Image);
+
   const updateStatementSetData = <UpdateStatementSet>{
     explaination: explaination.value,
-    statementImage: statementImage.value,
+    statementImage: base64Image.value,
     statementTypeId: statementTypeId.value,
     statements: answers.value
   };
@@ -167,7 +182,7 @@ const storeStatementSet = async () => {
 
 const resetModalData = () => {
   explaination.value = '';
-  statementImage.value = '';
+  base64Image.value = '';
 
   statementTypeId.value = null;
   statementTypeValue.value = '';

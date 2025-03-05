@@ -15,9 +15,10 @@
     <div id="right" class="basis-2/5 flex flex-col gap-y-5">
       <div class="max-h-96 w-auto flex justify-center xl:justify-end">
         <img
-          src="https://www.placecats.com/400/300"
+          v-if="props.statementSet.statementImage"
+          :src="props.statementSet.statementImage"
           class="object-contain rounded"
-          alt="img" />
+          alt="Uploaded Image" />
       </div>
     </div>
 

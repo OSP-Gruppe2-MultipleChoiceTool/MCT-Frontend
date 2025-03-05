@@ -15,9 +15,10 @@
     <div id="right" class="basis-2/5 flex flex-col gap-y-5">
       <div class="max-h-96 w-auto flex justify-center xl:justify-end">
         <img
-          src="https://www.placecats.com/400/300"
+          v-if="props.statementSet.statementImage"
+          :src="props.statementSet.statementImage"
           class="object-contain rounded"
-          alt="img" />
+          alt="Uploaded Image" />
       </div>
     </div>
 
@@ -35,8 +36,7 @@
         <button-component
           background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
           text-color="text-gray-300 hover:text-main-blue px-10"
-          @click="turnIn"
-        >
+          @click="turnIn">
           Beantworten
         </button-component>
       </div>
@@ -63,18 +63,20 @@ const props = defineProps({
   statementSet: {
     type: Object as PropType<StatementSet>,
     required: true,
-  }
+  },
 })
 
-const turnedIn = ref<boolean>(false);
+const turnedIn = ref<boolean>(false)
 
 const answer = ref<string>('')
-const correct = ref<boolean>(false);
+const correct = ref<boolean>(false)
 
 const turnIn = () => {
-  const correctString = statementStore.getCorrectAnswerStringByStatementSets(props.statementSet);
+  const correctString = statementStore.getCorrectAnswerStringByStatementSets(
+    props.statementSet,
+  )
 
-  turnedIn.value = true;
-  correct.value = (answer.value === correctString);
+  turnedIn.value = true
+  correct.value = answer.value === correctString
 }
 </script>
