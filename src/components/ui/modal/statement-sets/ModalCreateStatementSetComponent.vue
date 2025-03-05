@@ -1,6 +1,7 @@
 <template>
   <modal-wrapper>
-    <div
+    <form
+      @submit.prevent="storeStatementSet"
       class="w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-8 sm:px-16 overflow-y-auto dark:text-gray-300 text-main-blue">
       <div class="flex flex-col gap-y-2">
         <p class="text-xl font-bold pb-2 pt-3">Neue Frage hinzufügen</p>
@@ -41,30 +42,32 @@
             :placeholder="'Antwort ' + <number>(index + 1)"
             v-model:value="answer.data.statement"
             v-model:checked="answer.data.isCorrect"
+            required
           />
           <icon-trash-bin class="hover:text-main-orange cursor-pointer text-3xl"
             @click="() => removeAnswer(index)" />
         </div>
       </div>
       <div class="flex gap-x-5">
-        <button class="flex gap-x-1 items-center hover:text-main-orange" @click="increaseAnswerCount()">
+        <button type="button" class="flex gap-x-1 items-center hover:text-main-orange" @click="increaseAnswerCount()">
           <icon-plus />
           Hinzufügen
         </button>
       </div>
       <div class="mt-auto sm:-mr-10 flex justify-end gap-x-4">
         <button
+          type="button"
           class="p-2 rounded-lg bg-gray-300 hover:bg-main-orange text-main-blue dark:bg-gray-900 dark:text-gray-300 cursor-pointer"
           @click="emits('onClose')">
           Abbrechen
         </button>
         <button
-          class="p-2 rounded-lg bg-main-blue hover:bg-main-orange text-gray-300 dark:bg-gray-300 dark:text-main-blue cursor-pointer"
-          @click="storeStatementSet">
+          type="submit"
+          class="p-2 rounded-lg bg-main-blue hover:bg-main-orange text-gray-300 dark:bg-gray-300 dark:text-main-blue cursor-pointer">
           Frage speichern
         </button>
       </div>
-    </div>
+    </form>
   </modal-wrapper>
 </template>
 
@@ -158,8 +161,6 @@ const storeStatementSet = async () => {
 
     statementTypeId.value = null;
   }
-
-  console.log(base64Image);
 
   const updateStatementSetData = <UpdateStatementSet>{
     explaination: explaination.value,

@@ -1,6 +1,6 @@
 <template>
   <label class="inline-flex items-center" @click="isChecked != !isChecked">
-    <input type="checkbox" name="answer" class="hidden" v-model="isChecked">
+    <input type="checkbox" name="answer" class="hidden" v-model="isChecked" />
     <span class="w-4 h-4 bg-white text-[#FF6A3D] border border-gray-300 rounded-full transition-all duration-200">
       <icon-check :class="{ 'hidden': !isChecked }" />
     </span>
@@ -8,6 +8,7 @@
   <input-text-field-component
     :placeholder="props.placeholder"
     v-model:value="textValue"
+    :required="props.required"
   />
 </template>
 
@@ -30,6 +31,11 @@ const props = defineProps({
   value: {
     type: String,
     required: true
+  },
+  required: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 });
 
