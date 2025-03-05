@@ -35,22 +35,20 @@
         <icon-trash-bin class="hover:text-main-orange cursor-pointer" />
       </div>
       <div class="flex flex-col gap-y-1">
-        <div v-for="(answer, index) in answers" :key="index" class="flex items-center gap-x-2">
+        <div v-for="(answer, index) in answers" :key="answer.id" class="flex items-center gap-x-2">
           <input-checkbox-text-component
             :placeholder="'Antwort ' + <number>(index + 1)"
-            v-model:value="answer.statement"
-            v-model:checked="answer.isCorrect"
+            v-model:value="answer.data.statement"
+            v-model:checked="answer.data.isCorrect"
           />
+          <icon-trash-bin class="hover:text-main-orange cursor-pointer text-3xl"
+            @click="() => removeAnswer(index)" />
         </div>
       </div>
       <div class="flex gap-x-5">
         <button class="flex gap-x-1 items-center hover:text-main-orange" @click="increaseAnswerCount()">
           <icon-plus />
           Hinzufügen
-        </button>
-        <button class="flex gap-x-1 items-center hover:text-main-orange" @click="reduceAnswerCount()">
-          <icon-minus />
-          Entfernen
         </button>
       </div>
       <div class="mt-auto sm:-mr-10 flex justify-end gap-x-4">
@@ -83,10 +81,10 @@ import type {
   UpdateStatement,
   UpdateStatementSet,
 } from '@/types/Questionnaire.ts'
-import IconMinus from '@/components/icons/IconMinus.vue'
 import DropdownInputComponent from '@/components/ui/dropdown/DropdownInputComponent.vue'
 import { push } from 'notivue'
 import { isValidGuid } from '@/composables/useDataValidation.ts'
+import { IdentifiableData } from '@/composables/identifiableData'
 
 const typeStore = useTypeStore()
 
@@ -120,17 +118,19 @@ const statementTypeId = ref<string|null>(null);
 const statementTypeValue = ref<string>(props.statementTypeValue);
 
 const fileName = ref<string | null>(null)
-const answers = ref<UpdateStatement[]>(props.answers);
+const answers = ref<IdentifiableData<UpdateStatement>[]>(
+  props.answers.map(answer => new IdentifiableData<UpdateStatement>(answer))
+);
 
 const increaseAnswerCount = () => {
-  answers.value.push(<UpdateStatement>{
+  answers.value.push(new IdentifiableData<UpdateStatement>({
     isCorrect: false,
     statement: ''
-  });
+  }));
 }
 
-const reduceAnswerCount = () => {
-  answers.value.pop();
+const removeAnswer = (index: number) => {
+  answers.value.splice(index, 1);
 }
 
 const handleTypeChange = (selectedTypeTitle: string): void => {
@@ -173,7 +173,7 @@ const storeStatementSet = async () => {
     explaination: explaination.value,
     statementImage: statementImage.value,
     statementTypeId: statementTypeId.value,
-    statements: answers.value
+    statements: answers.value.map(answer => answer.data)
   };
 
   emits('onEdit', updateStatementSetData)
