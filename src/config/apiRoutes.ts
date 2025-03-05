@@ -1,5 +1,6 @@
 export const apiRoutes = {
   questionaires: '/api/questionaires',
+  questionaireByTypeId: '/api/questionaires?statementTypeId={statementTypeId}',
   questionaireById: '/api/questionaires/{questionaireId}',
   questionaireExport: '/api/questionaires/{questionaireId}/export',
   questionaireLinks: '/api/questionaires/{questionaireId}/links',
