@@ -1,7 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
 
-const API_BASE_URL = 'http://localhost:5278';
-
 interface ApiResponse<T> {
   data: T | null;
   error: string | null;
@@ -23,22 +21,22 @@ const handleRequest = async <T>(request: Promise<AxiosResponse<T>>): Promise<Api
 
 export const apiService = {
   async get<T>(url: string, params?: Record<string, any>): Promise<ApiResponse<T>> {
-    return handleRequest(axios.get(`${API_BASE_URL}${url}`, { params }));
+    return handleRequest(axios.get(`${url}`, { params }));
   },
 
   async post<T>(url: string, data: any): Promise<ApiResponse<T>> {
-    return handleRequest(axios.post(`${API_BASE_URL}${url}`, data));
+    return handleRequest(axios.post(`${url}`, data));
   },
 
   async put<T>(url: string, data: any): Promise<ApiResponse<T>> {
-    return handleRequest(axios.put(`${API_BASE_URL}${url}`, data));
+    return handleRequest(axios.put(`${url}`, data));
   },
 
   async delete<T>(url: string, params?: Record<string, any>): Promise<ApiResponse<T>> {
-    return handleRequest(axios.delete(`${API_BASE_URL}${url}`, { params }));
+    return handleRequest(axios.delete(`${url}`, { params }));
   },
 
   async patch<T>(url: string, data: any, params?: Record<string, any>): Promise<ApiResponse<T>> {
-    return handleRequest(axios.patch(`${API_BASE_URL}${url}`, data, { params }));
+    return handleRequest(axios.patch(`${url}`, data, { params }));
   },
 }
