@@ -1,61 +1,56 @@
 <template>
     <main class="w-full overflow-y-auto pb-10">
-        <div class="btns pb-5 flex justify-between">
-            <div class="h-8">
-                <button-component custom-class="px-5"
-                    background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange">Zurück</button-component>
-            </div>
+      <div class="pb-5 flex justify-between">
+        <div class="h-8">
+            <button-component
+              custom-class="px-5"
+              background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange"
+              @click="router.push({ name: 'mode-select', params: { id: <string>route.params.id } })"
+            >
+              Zurück
+            </button-component>
         </div>
-        <!-- <article class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded"
-        v-for="statement in statements" :key="statement.id">
-            <div id="left" class="flex flex-col justify-between basis-3/5">
-                <div id="options">
-                    <div v-for="n in 3" :key="n" class="flex gap-x-5 py-2">
-                        <p>{{ n }}</p>
-                        <p>{{statement.explaination}}</p>
-                    </div>
-                </div>
-            </div>
-            <div id="right" class="basis-2/5 flex flex-col gap-y-5">
-                <div class="max-h-96 w-auto flex justify-center xl:justify-end">
-                    <img src="https://www.placecats.com/400/300" class="object-contain rounded" />
-                </div>
-            </div>
-            <div id="bottom-button-row" class="w-full flex flex-col space-y-5 pt-10 justify-between items-center">
-                <div class="text-center flex flex-col mx-auto">
-                    <p>
-                        Antwort
-                    </p>
-                    <input-text-field-component placeholder="Antwort..." />
-                    <p>
-                        Mehrere Antworten mit Kommata trennen
-                    </p>
-                </div>
-                <div class="w-fit">
-                    <button-component background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-                        text-color="text-gray-300 hover:text-main-blue px-10">
-                        Beantworten
-                    </button-component>
-                </div>
-            </div>
-        </article>
-        <explination-component border-color="border-4 border-green-500" />
-        <div class="mt-20">
-            <PaginationComponent :max-per-page="6" :item-count="questionStore.getQuestions().length"
-                :start-index="startIndex" :end-index="endIndex" />
-        </div> -->
+      </div>
+      <div class="flex flex-col gap-y-5">
+        <div
+          class="flex flex-col space-y-5"
+          v-for="statementSet in statementStore.getStatementSets().slice(startIndex, endIndex)"
+          :key="statementSet.id"
+        >
+          <statement-set-question-listing-training-component
+            :statement-set="statementSet"
+          />
+        </div>
+      </div>
+      <div class="mt-20">
+        <Pagination-component
+          :max-per-page="elementsPerPage"
+          :item-count="statementStore.getStatementSets().length"
+          v-model:start-index="startIndex" v-model:end-index="endIndex"
+        />
+      </div>
     </main>
 </template>
 
 <script setup lang="ts">
-// import { ref } from 'vue'
-// import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
+import { onMounted, ref } from 'vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
-// import { useQuestionStore } from '@/stores/question'
-// import ExplinationComponent from '@/components/partial/ExplanationComponent.vue';
+import PaginationComponent from '@/components/ui/PaginationComponent.vue'
+import StatementSetQuestionListingTrainingComponent from '@/components/ui/list/StatementSetQuestionListingTrainingComponent.vue'
+import { useStatementStore } from '@/stores/statements.ts'
+import router from '@/router'
+import { useRoute } from 'vue-router'
 
-// const questionStore = useQuestionStore();
+const route = useRoute();
+const linkId = <string>route.params.id;
 
-// const startIndex = ref<number>(6);
-// const endIndex = ref<number>(0);
+const statementStore = useStatementStore();
+
+onMounted(async () => {
+  await statementStore.fillStatementsByLinkIdAndMode(linkId, false);
+})
+
+const elementsPerPage = ref<number>(1);
+const startIndex = ref<number>(0);
+const endIndex = ref<number>(elementsPerPage.value);
 </script>

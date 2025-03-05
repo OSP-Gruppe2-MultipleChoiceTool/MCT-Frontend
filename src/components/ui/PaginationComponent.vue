@@ -91,14 +91,20 @@ const getEndIndex = (): number => {
 }
 
 const getVisibleDataCount = (): string => {
-  const startIndex = getStartIndex();
+  let startIndex = getStartIndex();
   const endIndex = getEndIndex();
 
-  return startIndex + 1 + '-' + endIndex;
+  if (props.itemCount <= 0) {
+    startIndex = 0;
+  } else {
+    startIndex = startIndex + 1;
+  }
+
+  return startIndex + '-' + endIndex;
 }
 
 const getLastPage = (): void => {
-  alert('to be implemented'); // TODO
+  currentPageNumber.value = Math.ceil(props.itemCount / props.maxPerPage);
 }
 </script>
 

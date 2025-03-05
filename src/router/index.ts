@@ -5,18 +5,28 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: '',
+      name: 'home',
       component: () => import("@/views/QuestionnairesListingView.vue"),
+    },
+    {
+      path: '/:id/exam',
+      name: 'exam-mode',
+      component: () => import("@/views/ExamModeView.vue"),
+    },
+    {
+      path: '/:id/training',
+      name: 'training-mode',
+      component: () => import("@/views/TrainingModeView.vue"),
+    },
+    {
+      path: '/:id',
+      name: 'mode-select',
+      component: () => import("@/views/ModeSelectView.vue"),
     },
     {
       path: '/question/:id',
       name: 'statement-listing',
       component: () => import("@/views/StatementListingView.vue"),
-    },
-    {
-      path: '/dev',
-      name: 'dev',
-      component: () => import("@/views/TrainingModeView.vue"),
     },
     {
       path: '/:pathMatch(.*)*',

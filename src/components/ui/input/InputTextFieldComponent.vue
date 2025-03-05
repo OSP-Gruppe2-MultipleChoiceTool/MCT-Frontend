@@ -39,7 +39,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:value']);
-
 const updateValue = (event: Event) => {
   emit('update:value', (event.target as HTMLInputElement | HTMLTextAreaElement).value);
 };

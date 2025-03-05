@@ -5,22 +5,43 @@
       <icon-check :class="{ 'hidden': !isChecked }" />
     </span>
   </label>
-  <input-text-field-component :placeholder="props.placeholder" />
+  <input-text-field-component
+    :placeholder="props.placeholder"
+    v-model:value="textValue"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 
+const emits = defineEmits(['update:checked', 'update:value']);
 const props = defineProps({
   placeholder: {
+    type: String,
+    required: true
+  },
+  checked: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  value: {
     type: String,
     required: true
   }
 });
 
-const isChecked = ref<boolean>(false);
+const isChecked = ref<boolean>(props.checked ?? false);
+watch(isChecked, (newValue) => {
+  emits('update:checked', newValue);
+});
+
+const textValue = ref<string>(props.value);
+watch(textValue, (newValue) => {
+  emits('update:value', newValue);
+});
 </script>
 
 <style scoped>
