@@ -54,10 +54,6 @@
           <icon-minus />
           Entfernen
         </button>
-        <button class="flex gap-x-1 items-center hover:text-main-orange">
-          <icon-shuffle />
-          Mischen
-        </button>
       </div>
       <div class="mt-auto sm:-mr-10 flex justify-end gap-x-4">
         <button
@@ -81,7 +77,6 @@ import IconUpload from '@/components/icons/IconUpload.vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
-import IconShuffle from '@/components/icons/IconShuffle.vue'
 import InputCheckboxTextComponent from '@/components/ui/input/InputCheckboxTextComponent.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import { useTypeStore } from '@/stores/type.ts'
