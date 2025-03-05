@@ -24,33 +24,18 @@ export const useQuestionnairesStore = defineStore('questionnaires', () => {
   }
 
   const createQuestionnaire = async (data: CreateQuestionnaire): Promise<void> => {
-    const response = await apiService.post<Questionnaire>(
-      apiRoutes.questionaires,
-      data
-    );
+    const url = data.statementTypeId
+      ? buildApiUrl(apiRoutes.questionaireByTypeId, { statementTypeId: data.statementTypeId })
+      : apiRoutes.questionaires;
+
+    const response = await apiService.post<Questionnaire>(url, data);
+
     if (!response.data) {
       console.error('error: ', response.error);
       return;
     }
 
     questionnaires.value.push(response.data);
-  }
-
-  const createQuestionnaireByTypeId = async (typeId: string): Promise<null|string> => {
-    const route = buildApiUrl(apiRoutes.questionaireByTypeId, { statementTypeId: typeId });
-    const response = await apiService.post<Questionnaire>(
-      route,
-      {
-        title: typeId
-      }
-    );
-
-    if (!response.data || !response.status || response.status !== 200) {
-      console.error('error: ', response.error);
-      return null;
-    }
-
-    return response.data.id;
   }
 
   const editQuestionnaire = async (id: string, data: CreateQuestionnaire): Promise<void> => {
@@ -110,7 +95,6 @@ export const useQuestionnairesStore = defineStore('questionnaires', () => {
     questionnaires,
     getQuestionnaireById,
     createQuestionnaire,
-    createQuestionnaireByTypeId,
     editQuestionnaire,
     deleteQuestionnaire,
     getQuestionnaires,

@@ -32,6 +32,9 @@
           v-model:value="answer" />
         <p>Mehrere Antworten in Reihenfolge mit Kommata trennen</p>
       </div>
+      <div class="flex gap-2 items-center text-xs">
+        <p>ID: {{ props.statementSet.id }}</p>
+      </div>
     </div>
   </article>
 

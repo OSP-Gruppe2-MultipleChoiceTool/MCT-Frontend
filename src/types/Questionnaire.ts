@@ -28,9 +28,11 @@ export interface QuestionnaireResponse {
 
 export interface CreateQuestionnaire {
   title?: string;
+  statementTypeId?: string;
 }
 
 export interface StatementSet {
+  id: string;
   explaination?: string;
   statementImage?: string;
   statementTypeId?: string;

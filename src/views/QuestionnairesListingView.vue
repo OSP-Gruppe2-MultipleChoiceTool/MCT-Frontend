@@ -58,7 +58,6 @@
       v-show="showCreateByTypeModal"
       @close="showCreateByTypeModal = false"
       @create="onHandleCreateByType"
-      :type-elements="typeStore.getTypes().map(type => type.title)"
     />
   </main>
 </template>
@@ -77,8 +76,6 @@ import type { CreateQuestionnaire } from '@/types/Questionnaire.ts'
 import ModalCreateQuestionnaireByTypeComponent
   from '@/components/ui/modal/questionnaire/ModalCreateQuestionnaireByTypeComponent.vue'
 import { useTypeStore } from '@/stores/type.ts'
-import { push } from 'notivue'
-import router from '@/router'
 
 const questionStore = useQuestionnairesStore();
 const typeStore = useTypeStore();
@@ -103,18 +100,9 @@ const onHandleCreate = async (data: CreateQuestionnaire) => {
   showCreateModal.value = false;
 }
 
-const onHandleCreateByType = async (typeTitle: string) => {
-  const typeByTitle = typeStore.getTypeByTitle(typeTitle);
-
-  if (typeof typeByTitle === 'undefined') {
-    push.error('Fragebogen konnte nicht erstellt werden');
-    return;
-  }
-
-  const typeId = await questionStore.createQuestionnaireByTypeId(typeByTitle.id);
+const onHandleCreateByType = async (questionaire: CreateQuestionnaire) => {
+  await questionStore.createQuestionnaire(questionaire);
   showCreateByTypeModal.value = false;
-
-  await router.push({ name: 'statement-listing', params: { id: typeId } });
 }
 
 const onHandleEdit = async (id: string, data: CreateQuestionnaire) => {

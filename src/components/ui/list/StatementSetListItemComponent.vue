@@ -11,7 +11,10 @@
       />
     </div>
     <div class="flex gap-2 items-center text-xs">
-      <p class="bg-gray-200 px-3 py-1 rounded-full">{{ props.statementSet.statementType?.title }}</p>
+      <p class="bg-gray-200 px-3 py-1 rounded-full"
+        v-if="props.statementSet.statementType">
+        {{ props.statementSet.statementType?.title }}
+      </p>
       <p>ID: {{ props.statementSet.id }}</p>
     </div>
     <p class="my-2">
