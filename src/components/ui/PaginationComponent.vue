@@ -104,7 +104,7 @@ const getVisibleDataCount = (): string => {
 }
 
 const getLastPage = (): void => {
-  alert('to be implemented'); // TODO
+  currentPageNumber.value = Math.ceil(props.itemCount / props.maxPerPage);
 }
 </script>
 
