@@ -31,6 +31,7 @@ export interface CreateQuestionnaire {
 }
 
 export interface StatementSet {
+  id: string;
   explaination?: string;
   statementImage?: string;
   statementTypeId?: string;
