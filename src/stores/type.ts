@@ -16,7 +16,7 @@ export const useTypeStore = defineStore('type', () => {
     return <StatementType>types.value.find(type => type.id === id);
   }
 
-  const getTypeByTitle = (title: string): StatementType => {
+  const getTypeByTitle = (title: string): StatementType|undefined => {
     return <StatementType>types.value.find(type => type.title === title);
   }
 
