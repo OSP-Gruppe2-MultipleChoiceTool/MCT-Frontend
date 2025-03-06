@@ -4,7 +4,7 @@
       @submit.prevent="storeStatementSet"
       class="w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-8 sm:px-16 overflow-y-auto dark:text-gray-300 text-main-blue">
       <div class="flex flex-col gap-y-2">
-        <p class="text-xl font-bold pb-2 pt-3">Frage editieren</p>
+        <p class="text-xl font-bold pb-2 pt-3">Aussage editieren</p>
         <div class="flex flex-col gap-y-2">
           <span>Kategorie</span>
           <dropdown-input-component

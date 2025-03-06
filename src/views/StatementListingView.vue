@@ -38,7 +38,7 @@
             text-color="text-gray-300 hover:text-main-blue"
             @click="showCreateModal = true">
             <icon-plus />
-            <span class="hidden sm:inline">Neue Frage</span>
+            <span class="hidden sm:inline">Neue Aussage</span>
           </button-component>
         </div>
       </div>
