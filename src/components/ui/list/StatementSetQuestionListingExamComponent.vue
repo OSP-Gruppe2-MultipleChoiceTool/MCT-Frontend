@@ -1,13 +1,15 @@
 <template>
   <article
-    class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded">
+    :class="
+      'w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded border-2 '
+      + (turnedIn ? (correct ? 'border-green-500' : 'border-red-500') : '')">
     <div id="left" class="flex flex-col justify-between basis-3/5">
       <div id="options">
         <div
           v-for="(statement, index) in props.statementSet.statements"
           :key="statement.id"
           class="flex gap-x-5 py-2">
-          <p>{{ index + 1 }}</p>
+          <p><strong>{{ index + 1 }}:</strong></p>
           <p>{{ statement.statement }}</p>
         </div>
       </div>
@@ -26,11 +28,12 @@
       id="bottom-button-row"
       class="w-full flex flex-col space-y-5 pt-10 justify-between items-center">
       <div class="text-center flex flex-col mx-auto">
-        <p>Antwort</p>
+        <p class="font-semibold">Antwort</p>
         <input-text-field-component
           placeholder="Antwort..."
           v-model:value="answer" />
-        <p>Mehrere Antworten in Reihenfolge mit Kommata trennen</p>
+        <p class="text-sm text-gray-500">Trennen Sie die Nummern der richtigen Aussagen mit Kommas.</p>
+        <p class="text-sm text-gray-500">Lassen Sie das Feld leer, wenn keine Aussage richtig ist.</p>
       </div>
       <div class="flex gap-2 items-center text-xs">
         <p>ID: {{ props.statementSet.id }}</p>
@@ -50,6 +53,7 @@ import { type PropType, ref, watch } from 'vue'
 import type { StatementSet } from '@/types/Questionnaire.ts'
 import StatementSetExplainationComponent from '@/components/ui/list/StatementSetExplainationComponent.vue'
 import { useStatementStore } from '@/stores/statements.ts'
+import { isAnswerCorrect } from '@/services/statementService'
 
 const statementStore = useStatementStore()
 
@@ -78,9 +82,7 @@ watch(
 );
 
 const turnIn = () => {
-  const correctString = statementStore.getCorrectAnswerStringByStatementSets(props.statementSet);
-
+  correct.value = isAnswerCorrect(props.statementSet, answer.value);
   turnedIn.value = true;
-  correct.value = (answer.value === correctString);
 }
 </script>
