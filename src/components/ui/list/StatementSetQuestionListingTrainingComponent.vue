@@ -1,5 +1,6 @@
 <template>
-  <article
+  <form
+    @submit.prevent="turnIn"
     :class="
       'w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded border-2 '
       + (turnedIn ? (correct ? 'border-green-500' : 'border-red-500') : '')">
@@ -37,9 +38,9 @@
       </div>
       <div class="w-fit">
         <button-component
+          type="submit"
           background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-          text-color="text-gray-300 hover:text-main-blue px-10"
-          @click="turnIn">
+          text-color="text-gray-300 hover:text-main-blue px-10">
           Beantworten
         </button-component>
       </div>
@@ -47,7 +48,7 @@
         <p>ID: {{ props.statementSet.id }}</p>
       </div>
     </div>
-  </article>
+  </form>
 
   <statement-set-explaination-component
     v-if="turnedIn && props.statementSet.explaination"
