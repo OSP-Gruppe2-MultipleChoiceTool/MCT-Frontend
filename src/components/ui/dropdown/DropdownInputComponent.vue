@@ -1,12 +1,13 @@
 <template>
-  <div class="h-10 w-full relative bg-gray-100 dark:bg-gray-300 rounded-lg flex items-center px-2 cursor-pointer select-none dark:text-main-blue" @click="toggleDropdown">
+  <div class="h-10 w-full relative bg-gray-100 dark:bg-gray-300 rounded-lg flex items-center px-2 cursor-pointer select-none dark:text-main-blue">
     <input
       v-model="internalValue"
-      @input="handleInputEvent"
+      @click="openDropdown"
+      @change="handleInputEvent"
       placeholder="Suchen oder erstellen..."
       class="w-full border-none bg-transparent focus:outline-none"
     />
-    <icon-chevron-down class="absolute right-2 bg-gray-100 dark:bg-gray-300"/>
+    <icon-chevron-down class="absolute right-2 bg-gray-100 dark:bg-gray-300" @click="toggleDropdown" />
     <div v-if="dropdownOpen && filteredElements.length > 0" class="absolute top-full left-0 w-full bg-gray-100 dark:bg-gray-300 border border-main-blue dark:border-gray-400 rounded-lg mt-1 z-10">
       <p class="px-4 py-2 hover:bg-gray-400 cursor-pointer" v-for="(element, index) in filteredElements" @click="handleSelectEvent(element)">{{ element }}</p>
     </div>
@@ -49,6 +50,10 @@ const filteredElements = computed(() => {
   );
 });
 
+const openDropdown = () => {
+  dropdownOpen.value = true
+}
+
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value
 }
@@ -56,6 +61,7 @@ const toggleDropdown = () => {
 const handleSelectEvent = (element: string) => {
   internalValue.value = element;
   emits('update:modelValue', internalValue.value)
+  dropdownOpen.value = false
 }
 
 const handleInputEvent = () => {

@@ -52,10 +52,7 @@ import InputTextFieldComponent from '@/components/ui/input/InputTextFieldCompone
 import { type PropType, ref, watch } from 'vue'
 import type { StatementSet } from '@/types/Questionnaire.ts'
 import StatementSetExplainationComponent from '@/components/ui/list/StatementSetExplainationComponent.vue'
-import { useStatementStore } from '@/stores/statements.ts'
-import { isAnswerCorrect } from '@/services/statementService'
-
-const statementStore = useStatementStore()
+import { isAnswerCorrect } from '@/composables/useStatement'
 
 const props = defineProps({
   statementSet: {

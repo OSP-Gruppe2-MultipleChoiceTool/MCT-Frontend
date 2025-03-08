@@ -61,7 +61,7 @@ import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import { type PropType, ref } from 'vue'
 import type { StatementSet } from '@/types/Questionnaire.ts'
 import StatementSetExplainationComponent from '@/components/ui/list/StatementSetExplainationComponent.vue'
-import { isAnswerCorrect } from '@/services/statementService'
+import { isAnswerCorrect } from '@/composables/useStatement'
 
 const props = defineProps({
   statementSet: {

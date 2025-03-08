@@ -168,7 +168,6 @@ const submitModal = async () => {
     statements: answers.value.map(answer => answer.data)
   };
 
-  console.log(updateStatementSetData);
   emits('onUpdate', updateStatementSetData)
   closeModal();
 }
