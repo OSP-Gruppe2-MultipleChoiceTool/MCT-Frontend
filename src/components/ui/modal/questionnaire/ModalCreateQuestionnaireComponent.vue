@@ -10,6 +10,7 @@
       </div>
       <div class="mt-auto flex justify-end gap-x-4">
         <button
+          type="button"
           class="
             p-2 rounded-lg
             bg-gray-300 hover:bg-main-orange text-main-blue

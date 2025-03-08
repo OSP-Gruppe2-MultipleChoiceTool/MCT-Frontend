@@ -51,6 +51,7 @@ const toggleDropdown = () => {
 
 const handleSelectEvent = (element: string) => {
   currentValue.value = element;
+  emits('onInputChange', currentValue.value)
 }
 
 const handleInputEvent = () => {
