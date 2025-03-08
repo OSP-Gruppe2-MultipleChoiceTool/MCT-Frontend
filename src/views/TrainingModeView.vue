@@ -7,7 +7,7 @@
               background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange"
               @click="router.push({ name: 'mode-select', params: { id: <string>route.params.id } })"
             >
-              Zurück
+              Zurück zur Modusauswahl
             </button-component>
         </div>
       </div>
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="mt-20">
-        <Pagination-component
+        <pagination-component
           :max-per-page="elementsPerPage"
           :item-count="statementStore.getStatementSets().length"
           v-model:start-index="startIndex" v-model:end-index="endIndex"

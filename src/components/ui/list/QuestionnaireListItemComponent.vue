@@ -1,5 +1,5 @@
 <template>
-  <article class="w-full h-full bg-gray-100 dark:bg-gray-300 rounded px-3 py-1 flex flex-col justify-around relative">
+  <article :class="[$attrs.class, 'w-full h-full bg-gray-100 dark:bg-gray-300 rounded px-3 py-1 flex flex-col justify-around relative']">
     <div class="absolute top-2 right-2 flex text-3xl">
       <icon-edit-square
         class="hover:text-main-orange cursor-pointer"

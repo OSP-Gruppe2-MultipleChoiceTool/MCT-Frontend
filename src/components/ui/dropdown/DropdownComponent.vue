@@ -1,6 +1,6 @@
 <template>
   <div class="h-10 w-full relative bg-gray-100 dark:bg-gray-300 rounded-lg flex items-center px-2 cursor-pointer select-none dark:text-main-blue" @click="toggleDropdown">
-    <p>{{ currentValue ?? 'Bitte auswählen...' }}</p>
+    <p>{{ modelValue ?? 'Bitte auswählen...' }}</p>
     <icon-chevron-down class="absolute right-2 bg-gray-100 dark:bg-gray-300"/>
     <div v-if="dropdownOpen" class="absolute top-full left-0 w-full bg-gray-100 dark:bg-gray-300 border border-main-blue dark:border-gray-400 rounded-lg mt-1 z-10">
       <p class="px-4 py-2 hover:bg-gray-400 bg-gray-200 cursor-pointer" v-if="hasResetElement" @click="handleReset">{{ props.resetElement }}</p>
@@ -13,8 +13,12 @@
 import IconChevronDown from '@/components/icons/IconChevronDown.vue'
 import { computed, type PropType, ref } from 'vue'
 
-const emits = defineEmits(['onSelect', 'onReset']);
+const emits = defineEmits(['update:modelValue']);
 const props = defineProps({
+  modelValue: {
+    required: false,
+    type: String
+  },
   resetElement: {
     required: false,
     type: String
@@ -26,7 +30,6 @@ const props = defineProps({
 });
 
 const dropdownOpen = ref(false);
-const currentValue = ref<string|null>(null);
 
 const hasResetElement = computed(() => props.resetElement !== undefined);
 
@@ -35,13 +38,11 @@ const toggleDropdown = () => {
 }
 
 const handleClickEvent = (element: string) => {
-  currentValue.value = element;
-  emits('onSelect', element);
+  emits('update:modelValue', element);
 }
 
 const handleReset = () => {
-  currentValue.value = null;
-  emits('onReset');
+  emits('update:modelValue', undefined);
 }
 </script>
 
