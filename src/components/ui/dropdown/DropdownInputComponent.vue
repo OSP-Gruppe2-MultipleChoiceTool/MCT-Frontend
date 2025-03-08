@@ -1,7 +1,7 @@
 <template>
   <div class="h-10 w-full relative bg-gray-100 dark:bg-gray-300 rounded-lg flex items-center px-2 cursor-pointer select-none dark:text-main-blue" @click="toggleDropdown">
     <input
-      v-model="currentValue"
+      v-model="internalValue"
       @input="handleInputEvent"
       placeholder="Suchen oder erstellen..."
       class="w-full border-none bg-transparent focus:outline-none"
@@ -15,15 +15,15 @@
 
 <script setup lang="ts">
 import IconChevronDown from '@/components/icons/IconChevronDown.vue'
-import { computed, type PropType, ref } from 'vue'
+import { computed, type PropType, ref, watch } from 'vue'
 
-const emits = defineEmits(['onInputChange']);
+const emits = defineEmits(['update:modelValue']);
 const props = defineProps({
   elements: {
     required: true,
     type: Array as PropType<string[]>
   },
-  currentValue: {
+  modelValue: {
     required: false,
     type: String,
     default: ''
@@ -31,14 +31,18 @@ const props = defineProps({
 });
 
 const dropdownOpen = ref(false);
-const currentValue = ref<string>(props.currentValue);
+const internalValue = ref<string>(props.modelValue);
+
+watch(() => props.modelValue, (newValue) => {
+  internalValue.value = newValue;
+});
 
 const filteredElements = computed(() => {
-  if (!currentValue.value) {
+  if (!internalValue.value) {
     return props.elements;
   }
 
-  const searchTerm = currentValue.value.toLowerCase();
+  const searchTerm = internalValue.value.toLowerCase();
 
   return props.elements.filter((element) =>
     element.toLowerCase().includes(searchTerm)
@@ -50,12 +54,12 @@ const toggleDropdown = () => {
 }
 
 const handleSelectEvent = (element: string) => {
-  currentValue.value = element;
-  emits('onInputChange', currentValue.value)
+  internalValue.value = element;
+  emits('update:modelValue', internalValue.value)
 }
 
 const handleInputEvent = () => {
-  emits('onInputChange', currentValue.value)
+  emits('update:modelValue', internalValue.value)
 }
 </script>
 

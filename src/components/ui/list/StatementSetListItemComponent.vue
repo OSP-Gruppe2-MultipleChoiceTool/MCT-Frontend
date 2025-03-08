@@ -1,5 +1,5 @@
 <template>
-  <article class="w-full h-full bg-gray-100 dark:bg-gray-300 rounded px-3 py-1 flex flex-col justify-around relative">
+  <article :class="[$attrs.class, 'w-full h-full bg-gray-100 dark:bg-gray-300 rounded px-3 py-1 flex flex-col justify-around relative']">
     <div class="absolute top-2 right-2 flex text-3xl">
       <icon-edit-square
         class="hover:text-main-orange cursor-pointer"
@@ -25,14 +25,11 @@
     </div>
   </article>
 
-  <modal-edit-statement-set-component
+  <modal-statement-set-component
     v-show="showEditModal"
+    :initial-value="props.statementSet"
     @on-close="showEditModal = false"
-    @on-edit="handleStatementEdit"
-    :explaination="props.statementSet.explaination"
-    :statement-image="props.statementSet.statementImage"
-    :statement-type-value="props.statementSet.statementType?.title"
-    :answers="props.statementSet.statements"
+    @on-update="handleStatementEdit"
   />
   <modal-delete-confirmation-component
     v-show="showDeleteModal"
@@ -45,10 +42,8 @@
 import IconEditSquare from '@/components/icons/IconEditSquare.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
 import { type PropType, ref } from 'vue'
-import ModalDeleteConfirmationComponent
-  from '@/components/ui/modal/ModalDeleteConfirmationComponent.vue'
-import ModalEditStatementSetComponent
-  from '@/components/ui/modal/statement-sets/ModalEditStatementSetComponent.vue'
+import ModalDeleteConfirmationComponent from '@/components/ui/modal/ModalDeleteConfirmationComponent.vue'
+import ModalStatementSetComponent from '@/components/ui/modal/ModalStatementSetComponent.vue'
 import type { StatementSetResponse, UpdateStatementSet } from '@/types/Questionnaire.ts'
 
 const emits = defineEmits(['onDelete', 'onEdit']);

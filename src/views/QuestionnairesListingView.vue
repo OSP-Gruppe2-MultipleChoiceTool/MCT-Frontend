@@ -2,7 +2,7 @@
   <main class="w-full py-4 overflow-y-auto">
     <div class="flex flex-col gap-y-3 pb-3">
       <div class="w-full pb-5">
-        <input-text-field-component class="w-1/2 sm:w-4/6" v-model:value="currentTextFilter" />
+        <input-text-field-component v-model:value="currentTextFilter" />
       </div>
       <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">
         <div>

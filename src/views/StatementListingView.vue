@@ -67,10 +67,11 @@
       v-model:start-index="startIndex" v-model:end-index="endIndex"
     />
 
-    <modal-create-statement-set-component
+    <modal-statement-set-component
       v-show="showCreateModal"
       @on-close="showCreateModal = false"
-      @on-create="onHandleCreate"
+      @on-update="onHandleCreate"
+      clear-on-close
     />
     <modal-create-questionnaire-link-component
       v-show="showShareModal"
@@ -92,7 +93,7 @@ import { useStatementStore } from '@/stores/statements.ts'
 import { useTypeStore } from '@/stores/type.ts'
 import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 import { useRoute } from 'vue-router'
-import ModalCreateStatementSetComponent from '@/components/ui/modal/statement-sets/ModalCreateStatementSetComponent.vue'
+import ModalStatementSetComponent from '@/components/ui/modal/ModalStatementSetComponent.vue'
 import { writeToClipboard, writeToClipboardRtf } from '@/composables/useClipboard.ts'
 import type { UpdateQuestionnaireLink, UpdateStatementSet } from '@/types/Questionnaire.ts'
 import { push } from 'notivue'

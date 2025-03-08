@@ -1,7 +1,7 @@
 <template>
   <modal-wrapper>
     <form
-      @submit.prevent="storeStatementSet"
+      @submit.prevent="submitModal"
       class="w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-8 sm:px-16 overflow-y-auto dark:text-gray-300 text-main-blue">
       <div class="flex flex-col gap-y-2">
         <p class="text-xl font-bold pb-2 pt-3">Neue Ausagen hinzufügen</p>
@@ -9,8 +9,8 @@
           <span>Kategorie</span>
           <dropdown-input-component
             class="w-full"
+            v-model="statementTypeValue"
             :elements="typeStore.getTypes().map(type => type.title)"
-            @on-input-change="handleTypeChange"
           />
         </div>
         <label for="explanation">Erklärung</label>
@@ -58,7 +58,7 @@
         <button
           type="button"
           class="p-2 rounded-lg bg-gray-300 hover:bg-main-orange text-main-blue dark:bg-gray-900 dark:text-gray-300 cursor-pointer"
-          @click="emits('onClose')">
+          @click="closeModal">
           Abbrechen
         </button>
         <button
@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type PropType } from 'vue'
 import IconUpload from '@/components/icons/IconUpload.vue'
 import InputTextFieldComponent from '@/components/ui/input/InputTextFieldComponent.vue'
 import IconTrashBin from '@/components/icons/IconTrashBin.vue'
@@ -82,6 +82,7 @@ import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import { useTypeStore } from '@/stores/type.ts'
 import type {
   CreateStatementType,
+  StatementSetResponse,
   UpdateStatement,
   UpdateStatementSet,
 } from '@/types/Questionnaire.ts'
@@ -90,19 +91,36 @@ import DropdownInputComponent from '@/components/ui/dropdown/DropdownInputCompon
 import { push } from 'notivue'
 import { IdentifiableData } from '@/composables/identifiableData'
 
-const emits = defineEmits(['onClose', 'onCreate']);
+const props = defineProps({
+  initialValue: {
+    type: Object as PropType<StatementSetResponse>,
+    required: false,
+    default: <StatementSetResponse>{
+      id: '',
+      statements: []
+    }
+  },
+  clearOnClose: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
+})
+
+const emits = defineEmits(['onClose', 'onUpdate']);
 
 const typeStore = useTypeStore()
 const identifier = Math.floor(Math.random() * 10000);
 
-const explaination = ref<string>('');
-const base64Image = ref<string | null>(null);
+const explaination = ref<string>(props.initialValue.explaination ?? '');
+const base64Image = ref<string | null>(props.initialValue.statementImage ?? null);
 
-const statementTypeId = ref<string|null>(null);
-const statementTypeValue = ref<string>('');
+const statementTypeValue = ref<string>(props.initialValue.statementType?.title ?? '');
 
-const fileName = ref<string | null>(null)
-const answers = ref<IdentifiableData<UpdateStatement>[]>([]);
+const fileName = ref<string | null>(props.initialValue.statementImage ? 'image.jpeg' : null);
+const answers = ref<IdentifiableData<UpdateStatement>[]>(
+  props.initialValue.statements.map(statement => new IdentifiableData<UpdateStatement>(statement))
+);
 
 const increaseAnswerCount = () => {
   answers.value.push(new IdentifiableData<UpdateStatement>({
@@ -113,17 +131,6 @@ const increaseAnswerCount = () => {
 
 const removeAnswer = (index: number) => {
   answers.value.splice(index, 1);
-}
-
-const handleTypeChange = (selectedTypeTitle: string): void => {
-  const localTitle = typeStore.getTypeByTitle(selectedTypeTitle);
-
-  if (typeof localTitle !== 'undefined') {
-    statementTypeId.value = localTitle.id;
-    return;
-  }
-
-  statementTypeValue.value = selectedTypeTitle;
 }
 
 const handleFileInputChange = (event: Event): void => {
@@ -144,43 +151,39 @@ const handleFileInputChange = (event: Event): void => {
   }
 }
 
-const storeStatementSet = async () => {
-  if (statementTypeId.value === null && (statementTypeValue.value.trim()) !== '') {
+const submitModal = async () => {
+  let statementTypeId: string | undefined = undefined;
+  if (statementTypeValue.value.trim() !== '') {
     const createStatementType = <CreateStatementType>{
       title: statementTypeValue.value
     };
 
-    const statementType = await typeStore.createType(createStatementType);
-    if (statementType !== null) {
-      statementTypeId.value = statementType.id;
-    }
-  }
-
-  if (statementTypeId.value !== null && !isValidGuid(statementTypeId.value)) {
-    push.error('Es Problem mit der Kategorie ist aufgetreten!');
-
-    statementTypeId.value = null;
+    const statementType = typeStore.getTypeByTitle(statementTypeValue.value)
+      ?? await typeStore.createType(createStatementType);
+    statementTypeId = statementType?.id;
   }
 
   const updateStatementSetData = <UpdateStatementSet>{
     explaination: explaination.value,
     statementImage: base64Image.value,
-    statementTypeId: statementTypeId.value,
+    statementTypeId: statementTypeId,
     statements: answers.value.map(answer => answer.data)
   };
 
-  emits('onCreate', updateStatementSetData)
-  resetModalData();
+  console.log(updateStatementSetData);
+  emits('onUpdate', updateStatementSetData)
+  closeModal();
 }
 
-const resetModalData = () => {
-  explaination.value = '';
-  base64Image.value = '';
+const closeModal = () => {
+  if (props.clearOnClose) {
+    explaination.value = '';
+    base64Image.value = null;
+    statementTypeValue.value = '';
+    fileName.value = null;
+    answers.value = [];
+  }
 
-  statementTypeId.value = null;
-  statementTypeValue.value = '';
-
-  fileName.value = null;
-  answers.value = [];
+  emits('onClose');
 }
 </script>
