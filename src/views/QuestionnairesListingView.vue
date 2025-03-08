@@ -5,15 +5,6 @@
         <input-text-field-component v-model:value="currentTextFilter" />
       </div>
       <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">
-        <div>
-          <button-component
-            background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-            text-color="text-gray-300 hover:text-main-blue"
-            @click="showCreateByTypeModal = true">
-            <icon-plus />
-            <span class="hidden sm:inline">Kategorie bündeln</span>
-          </button-component>
-        </div>
         <div class="ml-auto">
           <button-component
             background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
@@ -53,11 +44,7 @@
       v-show="showCreateModal"
       @close="showCreateModal = false"
       @create="onHandleCreate"
-    />
-    <modal-create-questionnaire-by-type-component
-      v-show="showCreateByTypeModal"
-      @close="showCreateByTypeModal = false"
-      @create="onHandleCreateByType"
+      clear-on-close
     />
   </main>
 </template>
@@ -73,8 +60,6 @@ import { useQuestionnairesStore } from '@/stores/questionnaires.ts'
 import ModalCreateQuestionnaireComponent
   from '@/components/ui/modal/questionnaire/ModalCreateQuestionnaireComponent.vue'
 import type { CreateQuestionnaire } from '@/types/Questionnaire.ts'
-import ModalCreateQuestionnaireByTypeComponent
-  from '@/components/ui/modal/questionnaire/ModalCreateQuestionnaireByTypeComponent.vue'
 import { useTypeStore } from '@/stores/type.ts'
 
 const questionStore = useQuestionnairesStore();
@@ -89,7 +74,6 @@ const filteredQuestionnaires = computed(() => {
 });
 
 const showCreateModal = ref<boolean>(false);
-const showCreateByTypeModal = ref<boolean>(false);
 
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
@@ -98,11 +82,6 @@ const endIndex = ref<number>(elementsPerPage.value);
 const onHandleCreate = async (data: CreateQuestionnaire) => {
   await questionStore.createQuestionnaire(data);
   showCreateModal.value = false;
-}
-
-const onHandleCreateByType = async (questionaire: CreateQuestionnaire) => {
-  await questionStore.createQuestionnaire(questionaire);
-  showCreateByTypeModal.value = false;
 }
 
 const onHandleEdit = async (id: string, data: CreateQuestionnaire) => {

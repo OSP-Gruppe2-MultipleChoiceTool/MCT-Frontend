@@ -1,7 +1,7 @@
 <template>
   <modal-wrapper>
     <div
-      class="w-3/4 md:w-1/2 lg:w-1/3 h-auto flex flex-col p-4 items-center justify-center bg-gray-200 dark:bg-main-blue border border-gray-800 shadow-lg rounded-2xl text-main-blue mx-auto mt-10"
+      class="w-3/4 md:w-1/2 lg:w-1/3 h-auto flex flex-col p-4 items-center justify-center bg-gray-200 dark:bg-main-blue border border-gray-800 shadow-lg rounded-2xl dark:text-gray-300 text-main-blue mx-auto mt-10"
     >
       <div class="flex flex-col">
         <div class="text-center p-3 flex-auto justify-center">
@@ -17,9 +17,9 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-            <h2 class="text-xl font-bold py-4 text-gray-800 dark:text-white">Bist du dir sicher?</h2>
-            <p class="text-sm px-2 text-gray-600 dark:text-gray-300">
-            Die Aktion kann nicht rückgängig gemacht werden
+            <h2 class="text-xl font-bold py-4">Bist du dir sicher?</h2>
+            <p class="text-sm px-2">
+              Die Aktion kann nicht rückgängig gemacht werden
             </p>
         </div>
         <div class="flex justify-around p-2 mt-2 text-center gap-x-2">

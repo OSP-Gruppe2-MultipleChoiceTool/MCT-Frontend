@@ -7,8 +7,7 @@
           class="w-1/2 text-sm sm:w-2/6 sm:text-base"
           :reset-element="'Auswahl entfernen'"
           :elements="typeStore.getTypes().map(type => type.title)"
-          @on-select="onHandleTypeFilterChange"
-          @on-reset="currentTypeFilter = null"
+          v-model="currentTypeFilter"
         />
       </div>
       <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">
@@ -110,7 +109,7 @@ const showCreateModal = ref<boolean>(false);
 const showShareModal = ref<boolean>(false);
 
 const currentTextFilter = ref<string>('');
-const currentTypeFilter = ref<string|null>(null);
+const currentTypeFilter = ref<string | undefined>(undefined);
 
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
@@ -121,25 +120,14 @@ const filteredStatementSets = computed(() => {
     statementSet.explaination?.toLowerCase().includes(currentTextFilter.value.toLowerCase())
   );
 
-  if (currentTypeFilter.value !== null) {
+  if (currentTypeFilter.value) {
     return textFilter.filter(statementSet =>
-      statementSet.statementType?.id === currentTypeFilter.value
+      statementSet.statementType?.title === currentTypeFilter.value
     );
   }
 
   return textFilter;
 });
-
-const onHandleTypeFilterChange = (typeTitle: string) => {
-  const typeByTitle = typeStore.getTypeByTitle(typeTitle);
-
-  if (typeof typeByTitle === 'undefined') {
-    currentTypeFilter.value = null;
-    return;
-  }
-
-  currentTypeFilter.value = typeByTitle.id;
-}
 
 const onHandleExport = async () => {
   if (window.location.protocol !== 'https:') {
