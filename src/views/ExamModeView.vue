@@ -7,7 +7,7 @@
           background-color="bg-gray-300 dark:bg-gray-600 hover:bg-main-orange"
           @click="router.push({ name: 'mode-select', params: { id: <string>route.params.id } })"
         >
-          Zurück
+          Zurück zur Modusauswahl
         </button-component>
       </div>
       <div class="h-11">

@@ -1,6 +1,7 @@
 <template>
   <main class="w-full py-4 overflow-y-auto">
-    <div class="flex flex-col gap-y-3 pb-3">
+    <h1 class="text-gray-300 text-3xl">{{ statementStore.questionnaire?.title }}</h1>
+    <div class="flex flex-col gap-y-3 pb-3 mt-5">
       <div class="w-full flex items-center pb-5 pt-2 gap-x-2 max-h-10">
         <input-text-field-component class="w-1/2 sm:w-4/6" v-model:value="currentTextFilter" />
         <dropdown-component

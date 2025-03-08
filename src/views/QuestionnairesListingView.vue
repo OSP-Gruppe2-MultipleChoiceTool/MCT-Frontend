@@ -1,6 +1,7 @@
 <template>
   <main class="w-full py-4 overflow-y-auto">
-    <div class="flex flex-col gap-y-3 pb-3">
+    <h1 class="text-gray-300 text-3xl">Fragebögen</h1>
+    <div class="flex flex-col gap-y-3 pb-3 mt-5">
       <div class="w-full pb-5">
         <input-text-field-component v-model:value="currentTextFilter" />
       </div>

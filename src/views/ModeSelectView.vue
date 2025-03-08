@@ -5,7 +5,7 @@
           @click="router.push({ name: 'training-mode', params: { id: <string>route.params.id } })"
         >
             <IconDumbbell class="text-3xl" />
-            <p class="font-bold">Übung</p>
+            <p class="font-bold">Üben</p>
         </div>
         <div
           class="bg-gray-50 text-lg w-70 h-30 flex flex-col justify-center items-center rounded-sm border hover:bg-main-blue hover:text-white cursor-pointer"

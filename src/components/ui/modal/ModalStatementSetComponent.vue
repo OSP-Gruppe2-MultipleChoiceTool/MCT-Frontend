@@ -4,7 +4,7 @@
       @submit.prevent="submitModal"
       class="w-full h-full flex flex-col gap-y-3 py-4 bg-gray-200 dark:bg-main-blue border border-gray-600 shadow-lg rounded-lg px-8 sm:px-16 overflow-y-auto dark:text-gray-300 text-main-blue">
       <div class="flex flex-col gap-y-2">
-        <p class="text-xl font-bold pb-2 pt-3">Neue Ausagen hinzufügen</p>
+        <p class="text-xl font-bold pb-2 pt-3">Aussagen bearbeiten</p>
         <div class="flex flex-col gap-y-2">
           <span>Kategorie</span>
           <dropdown-input-component
@@ -54,7 +54,7 @@
           Hinzufügen
         </button>
       </div>
-      <div class="mt-auto sm:-mr-10 flex justify-end gap-x-4">
+      <div class="mt-auto sm:-mr-10 flex flex-col sm:flex-row justify-end gap-4">
         <button
           type="button"
           class="p-2 rounded-lg bg-gray-300 hover:bg-main-orange text-main-blue dark:bg-gray-900 dark:text-gray-300 cursor-pointer"
@@ -86,9 +86,7 @@ import type {
   UpdateStatement,
   UpdateStatementSet,
 } from '@/types/Questionnaire.ts'
-import { isValidGuid } from '@/composables/useDataValidation.ts'
 import DropdownInputComponent from '@/components/ui/dropdown/DropdownInputComponent.vue'
-import { push } from 'notivue'
 import { IdentifiableData } from '@/composables/identifiableData'
 
 const props = defineProps({
