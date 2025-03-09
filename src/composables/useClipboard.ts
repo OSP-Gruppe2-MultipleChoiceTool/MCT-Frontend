@@ -8,15 +8,11 @@ export const writeToClipboard = async (content: string): Promise<boolean> => {
   }
 }
 
-export const writeToClipboardRtf = async (content: string): Promise<void> => {
-  try {
-    const rtfBlob = new Blob([content], { type: 'text/rtf' });
-    const clipboardItem = new ClipboardItem({
-      'text/rtf': rtfBlob,
-    });
+export const writeToClipboardHtml = async (content: string): Promise<void> => {
+  const rtfBlob = new Blob([content], { type: 'text/html' });
+  const clipboardItem = new ClipboardItem({
+    'text/html': rtfBlob,
+  });
 
-    await navigator.clipboard.write([clipboardItem]);
-  } catch (error: unknown) {
-    console.error('Content could not be writting into Clipboard', error);
-  }
+  await navigator.clipboard.write([clipboardItem]);
 }

@@ -94,7 +94,7 @@ import { useTypeStore } from '@/stores/type.ts'
 import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 import { useRoute } from 'vue-router'
 import ModalStatementSetComponent from '@/components/ui/modal/ModalStatementSetComponent.vue'
-import { writeToClipboard, writeToClipboardRtf } from '@/composables/useClipboard.ts'
+import { writeToClipboard, writeToClipboardHtml } from '@/composables/useClipboard.ts'
 import type { UpdateQuestionnaireLink, UpdateStatementSet } from '@/types/Questionnaire.ts'
 import { push } from 'notivue'
 import ModalCreateQuestionnaireLinkComponent
@@ -131,17 +131,15 @@ const filteredStatementSets = computed(() => {
 });
 
 const onHandleExport = async () => {
-  if (window.location.protocol !== 'https:') {
-    console.error('no secure context');
-    push.error('Exportieren funktioniert aktuell nur in einem sicheren Kontext (HTTPS)');
-
+  const exportString = await statementStore.getStatementsExportString();
+  if (!exportString) {
+    push.error('Exportieren hat leider nicht funktioniert, siehe Konsole für mehr Informationen.');
     return;
   }
 
-  const exportString = await statementStore.getStatementsExportString();
-
   if (exportString) {
-    await writeToClipboardRtf(exportString);
+    await writeToClipboardHtml(exportString);
+    push.success('Export erfolgreich! Der Inhalt wurde in die Zwischenablage kopiert.');
   }
 }
 
