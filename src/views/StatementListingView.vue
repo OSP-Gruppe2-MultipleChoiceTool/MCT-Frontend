@@ -1,14 +1,14 @@
 <template>
   <main class="w-full py-4 overflow-y-auto">
-    <div class="flex flex-col gap-y-3 pb-3">
+    <h1 class="text-gray-300 text-3xl">{{ statementStore.questionnaire?.title }}</h1>
+    <div class="flex flex-col gap-y-3 pb-3 mt-5">
       <div class="w-full flex items-center pb-5 pt-2 gap-x-2 max-h-10">
         <input-text-field-component class="w-1/2 sm:w-4/6" v-model:value="currentTextFilter" />
         <dropdown-component
           class="w-1/2 text-sm sm:w-2/6 sm:text-base"
           :reset-element="'Auswahl entfernen'"
           :elements="typeStore.getTypes().map(type => type.title)"
-          @on-select="onHandleTypeFilterChange"
-          @on-reset="currentTypeFilter = null"
+          v-model="currentTypeFilter"
         />
       </div>
       <div class="flex gap-x-2 flex-wrap text-3xl sm:text-lg md:text-sm">
@@ -67,10 +67,11 @@
       v-model:start-index="startIndex" v-model:end-index="endIndex"
     />
 
-    <modal-create-statement-set-component
+    <modal-statement-set-component
       v-show="showCreateModal"
       @on-close="showCreateModal = false"
-      @on-create="onHandleCreate"
+      @on-update="onHandleCreate"
+      clear-on-close
     />
     <modal-create-questionnaire-link-component
       v-show="showShareModal"
@@ -92,8 +93,8 @@ import { useStatementStore } from '@/stores/statements.ts'
 import { useTypeStore } from '@/stores/type.ts'
 import StatementSetListItemComponent from '@/components/ui/list/StatementSetListItemComponent.vue'
 import { useRoute } from 'vue-router'
-import ModalCreateStatementSetComponent from '@/components/ui/modal/statement-sets/ModalCreateStatementSetComponent.vue'
-import { writeToClipboard, writeToClipboardRtf } from '@/composables/useClipboard.ts'
+import ModalStatementSetComponent from '@/components/ui/modal/ModalStatementSetComponent.vue'
+import { writeToClipboard, writeToClipboardHtml } from '@/composables/useClipboard.ts'
 import type { UpdateQuestionnaireLink, UpdateStatementSet } from '@/types/Questionnaire.ts'
 import { push } from 'notivue'
 import ModalCreateQuestionnaireLinkComponent
@@ -109,7 +110,7 @@ const showCreateModal = ref<boolean>(false);
 const showShareModal = ref<boolean>(false);
 
 const currentTextFilter = ref<string>('');
-const currentTypeFilter = ref<string|null>(null);
+const currentTypeFilter = ref<string | undefined>(undefined);
 
 const elementsPerPage = ref<number>(6);
 const startIndex = ref<number>(0);
@@ -120,38 +121,25 @@ const filteredStatementSets = computed(() => {
     statementSet.explaination?.toLowerCase().includes(currentTextFilter.value.toLowerCase())
   );
 
-  if (currentTypeFilter.value !== null) {
+  if (currentTypeFilter.value) {
     return textFilter.filter(statementSet =>
-      statementSet.statementType?.id === currentTypeFilter.value
+      statementSet.statementType?.title === currentTypeFilter.value
     );
   }
 
   return textFilter;
 });
 
-const onHandleTypeFilterChange = (typeTitle: string) => {
-  const typeByTitle = typeStore.getTypeByTitle(typeTitle);
-
-  if (typeof typeByTitle === 'undefined') {
-    currentTypeFilter.value = null;
-    return;
-  }
-
-  currentTypeFilter.value = typeByTitle.id;
-}
-
 const onHandleExport = async () => {
-  if (window.location.protocol !== 'https:') {
-    console.error('no secure context');
-    push.error('Exportieren funktioniert aktuell nur in einem sicheren Kontext (HTTPS)');
-
+  const exportString = await statementStore.getStatementsExportString();
+  if (!exportString) {
+    push.error('Exportieren hat leider nicht funktioniert, siehe Konsole für mehr Informationen.');
     return;
   }
-
-  const exportString = await statementStore.getStatementsExportString();
 
   if (exportString) {
-    await writeToClipboardRtf(exportString);
+    await writeToClipboardHtml(exportString);
+    push.success('Export erfolgreich! Der Inhalt wurde in die Zwischenablage kopiert.');
   }
 }
 

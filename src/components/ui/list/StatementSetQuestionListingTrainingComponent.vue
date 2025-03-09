@@ -1,13 +1,16 @@
 <template>
-  <article
-    class="w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded">
+  <form
+    @submit.prevent="turnIn"
+    :class="
+      'w-full bg-white flex flex-col xl:flex-row xl:flex-wrap gap-y-5 px-5 md:px-16 py-7 rounded border-2 '
+      + (turnedIn ? (correct ? 'border-green-500' : 'border-red-500') : '')">
     <div id="left" class="flex flex-col justify-between basis-3/5">
-      <div id="options">
+      <div>
         <div
           v-for="(statement, index) in props.statementSet.statements"
           :key="statement.id"
           class="flex gap-x-5 py-2">
-          <p>{{ index + 1 }}</p>
+          <p><strong>{{ index + 1 }}:</strong></p>
           <p>{{ statement.statement }}</p>
         </div>
       </div>
@@ -26,17 +29,18 @@
       id="bottom-button-row"
       class="w-full flex flex-col space-y-5 pt-10 justify-between items-center">
       <div class="text-center flex flex-col mx-auto">
-        <p>Antwort</p>
+        <p class="font-semibold">Antwort</p>
         <input-text-field-component
           placeholder="Antwort..."
           v-model:value="answer" />
-        <p>Mehrere Antworten in Reihenfolge mit Kommata trennen</p>
+        <p class="text-sm text-gray-500">Trennen Sie die Nummern der richtigen Aussagen mit Kommas.</p>
+        <p class="text-sm text-gray-500">Lassen Sie das Feld leer, wenn keine Aussage richtig ist.</p>
       </div>
       <div class="w-fit">
         <button-component
+          type="submit"
           background-color="bg-main-blue dark:bg-gray-600 hover:bg-main-orange"
-          text-color="text-gray-300 hover:text-main-blue px-10"
-          @click="turnIn">
+          text-color="text-gray-300 hover:text-main-blue px-10">
           Beantworten
         </button-component>
       </div>
@@ -44,7 +48,7 @@
         <p>ID: {{ props.statementSet.id }}</p>
       </div>
     </div>
-  </article>
+  </form>
 
   <statement-set-explaination-component
     v-if="turnedIn && props.statementSet.explaination"
@@ -58,9 +62,7 @@ import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import { type PropType, ref } from 'vue'
 import type { StatementSet } from '@/types/Questionnaire.ts'
 import StatementSetExplainationComponent from '@/components/ui/list/StatementSetExplainationComponent.vue'
-import { useStatementStore } from '@/stores/statements.ts'
-
-const statementStore = useStatementStore()
+import { isAnswerCorrect } from '@/composables/useStatement'
 
 const props = defineProps({
   statementSet: {
@@ -75,11 +77,7 @@ const answer = ref<string>('')
 const correct = ref<boolean>(false)
 
 const turnIn = () => {
-  const correctString = statementStore.getCorrectAnswerStringByStatementSets(
-    props.statementSet,
-  )
-
+  correct.value = isAnswerCorrect(props.statementSet, answer.value)
   turnedIn.value = true
-  correct.value = answer.value === correctString
 }
 </script>

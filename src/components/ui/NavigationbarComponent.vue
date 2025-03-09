@@ -3,14 +3,14 @@
     <div class="h-full flex items-center pl-1 cursor-pointer" @click="router.push({ name: 'home'})">
       <icon-quiz-maker />
 
-      <p id="logo-text" class="pl-2 text-main-orange">QuizMaker</p>
+      <p id="logo-text" class="pl-2 text-main-orange">Multiple Choice Tool</p>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import router from '@/router'
-import IconQuizMaker from "@/components/icons/IconQuizMaker.vue";
+import IconQuizMaker from "@/components/icons/IconMultipleChoiceTool.vue";
 </script>
 
 <style scoped>

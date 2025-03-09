@@ -190,18 +190,6 @@ export const useStatementStore = defineStore('statement', () => {
     statementSets.value = response.data.statementSets;
   }
 
-  const getCorrectAnswerStringByStatementSets = (statementSet: StatementSet): String => {
-    const correctList: string[] = [];
-
-    statementSet.statements.forEach((statementSet, index) => {
-      if (statementSet.isCorrect) {
-        correctList.push(String(index + 1));
-      }
-    })
-
-    return correctList.join(',');
-  }
-
   return {
     isLoading,
     questionnaire,
@@ -214,7 +202,6 @@ export const useStatementStore = defineStore('statement', () => {
     deleteStatementSet,
     fillStatementSets,
     createLinkForCurrentQuestionnaire,
-    fillStatementsByLinkIdAndMode,
-    getCorrectAnswerStringByStatementSets
+    fillStatementsByLinkIdAndMode
   }
 })
