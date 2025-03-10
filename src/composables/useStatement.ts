@@ -6,8 +6,8 @@ export const isAnswerCorrect = (statementSet: StatementSet, answer: string): boo
     .filter(number => number !== "");
 
   const systemCorrectStatementNumbers = statementSet.statements
-    .filter(statement => statement.isCorrect)
-    .map((_, index) => (index + 1).toString());
+    .map((statement, index) => statement.isCorrect ? (index + 1).toString() : "")
+    .filter(number => number !== "");
 
   return isArrayEqualIgnoreOrder(userCorrectStatementNumbers, systemCorrectStatementNumbers);
 }
